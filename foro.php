@@ -7,7 +7,8 @@ $eventosTemas = new es\ucm\fdi\aw\eventosTemas();
 $tituloPagina = 'Foro';
 
 $contenidoPrincipal=<<<EOS
-	<h1>Eventos</h1>
+	<h1>Foro</h1>
+	<h3>Eventos</h3>
 	<div class="row-top">
 		<div class="col" id="col-4-1">
 			<p>Nombre</p>
@@ -26,7 +27,7 @@ EOS;
 $contenidoPrincipal .= $eventosTemas->listaEventos();
 
 $contenidoPrincipal.=<<<EOS
-	<h1>Temas</h1>
+	<h3>Temas</h3>
 	<div class="row-top">
 		<div class="col" id="col-3-1">
 			<p>Nombre</p>

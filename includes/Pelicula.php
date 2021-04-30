@@ -71,6 +71,29 @@ class Pelicula
 
 		return $result;
 	}
+	
+	public static function peliculasOrdenAlfabetico($limit=NULL)
+	{
+		$result = [];
+
+        $app = Aplicacion::getSingleton();
+        $conn = $app->conexionBd();
+		$query = "SELECT * FROM peliculas ORDER BY title ASC";
+		if($limit) {
+		  $query = $query . ' LIMIT %d';
+		  $query = sprintf($query, $limit);
+		}
+
+		$rs = $conn->query($query);
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			$result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating']);
+		  }
+		  $rs->free();
+		}
+
+		return $result;
+	}
 
     private $id;
 

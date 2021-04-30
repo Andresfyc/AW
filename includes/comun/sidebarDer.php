@@ -1,14 +1,9 @@
 <?php
 function mostrarSaludo() {
 	if (isset($_SESSION["login"]) && ($_SESSION["login"]===true)) {
-		if ($_SESSION["imagen"] != NULL) {
-			echo "<img id=\"prof_pic\" src=\"img/{$_SESSION["imagen"]}\" alt=\"imagen\" width=\"75\" height=\"75\"><p>Bienvenido, " . $_SESSION['nombre'] . "</p><a href='logout.php'>Salir</a>";
-		} else {
-			echo "<img id=\"prof_pic\" src=\"img/user_logged.png\" alt=\"imagen\" width=\"75\" height=\"75\"><p>Bienvenido, " . $_SESSION['nombre'] . "</p><a href='logout.php'>Salir</a>";
-		}
-		
+		echo "<img id=\"prof_pic\" src=\"img/{$_SESSION["imagen"]}\" alt=\"imagen\" width=\"50\" height=\"50\"><p>Bienvenido, " . $_SESSION['nombre'] . "</p><a href='logout.php'>Salir</a>";
 	} else {
-		echo "<img id=\"prof_pic\" src=\"img/user_no_logged.png\" alt=\"imagen\" width=\"75\" height=\"75\"><p> Usuario desconocido </p><a href='login.php'>Login</a> <a href='registro.php'>Registro</a>";
+		echo "<img id=\"prof_pic\" src=\"img/user_no_logged.png\" alt=\"imagen\" width=\"50\" height=\"50\"><p> Usuario desconocido </p><a href='login.php'>Login</a> <a href='registro.php'>Registro</a>";
 	}
 }
 
