@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-04-2021 a las 23:44:34
+-- Tiempo de generación: 30-04-2021 a las 17:26:14
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.4.15
 
@@ -156,7 +156,7 @@ CREATE TABLE `notificaciones` (
 CREATE TABLE `peliculas` (
   `id` int(11) NOT NULL,
   `title` varchar(45) NOT NULL,
-  `image` varchar(45) DEFAULT NULL,
+  `image` varchar(45) NOT NULL DEFAULT 'film_default.jpg',
   `date_released` date NOT NULL,
   `duration` int(11) NOT NULL,
   `country` varchar(45) DEFAULT NULL,
@@ -217,7 +217,7 @@ CREATE TABLE `usuarios` (
   `user` varchar(25) NOT NULL,
   `password` varchar(255) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
-  `image` varchar(45) DEFAULT NULL,
+  `image` varchar(45) NOT NULL DEFAULT 'img/user_logged.png',
   `date_joined` date NOT NULL,
   `watching` int(11) DEFAULT NULL,
   `admin` tinyint(4) NOT NULL DEFAULT 0,

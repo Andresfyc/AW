@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-04-2021 a las 01:08:43
+-- Tiempo de generación: 30-04-2021 a las 17:26:53
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.4.15
 
@@ -74,11 +74,11 @@ INSERT INTO `foro_mensajes` (`id`, `evento_tema`, `user`, `text`, `time_created`
 --
 
 INSERT INTO `peliculas` (`id`, `title`, `image`, `date_released`, `duration`, `country`, `plot`, `rating`) VALUES
-(1, 'peli1', NULL, '2013-05-21', 120, 'country1', 'peli1 plot', '1.00'),
-(2, 'peli2', NULL, '2013-05-21', 120, 'country2', 'peli2 plot', '3.33'),
-(3, 'peli3', NULL, '2013-05-21', 120, 'country3', 'peli3 plot', '4.00'),
-(4, 'peli4', NULL, '2013-05-21', 120, 'country4', 'peli4 plot', '0.00'),
-(5, 'peli5', NULL, '2013-05-21', 120, 'country5', 'peli5 plot', '0.00');
+(1, 'peli1', 'peli-1.jpg', '2013-05-21', 120, 'country1', 'peli1 plot', '1.00'),
+(2, 'peli2', 'peli-2.jpg', '2013-05-21', 120, 'country2', 'peli2 plot', '3.33'),
+(3, 'peli3', 'peli-3.jpg', '2013-05-21', 120, 'country3', 'peli3 plot', '4.00'),
+(4, 'peli4', 'film_default.jpg', '2013-05-21', 120, 'country4', 'peli4 plot', '0.00'),
+(5, 'peli5', 'film_default.jpg', '2013-05-21', 120, 'country5', 'peli5 plot', '0.00');
 
 --
 -- Volcado de datos para la tabla `peliculas_actores_directores`
@@ -108,11 +108,11 @@ INSERT INTO `reviews` (`id`, `user`, `film_id`, `review`, `stars`, `time_created
 --
 
 INSERT INTO `usuarios` (`user`, `password`, `name`, `image`, `date_joined`, `watching`, `admin`, `content_manager`, `moderator`) VALUES
-('prueb', '$2y$10$dA0PS/iNcrlua.37OmeATuZUSbjzyKNTbsm36u9VMTXDJpldPoaY2', 'prueba', NULL, '2021-04-28', NULL, 0, 0, 0),
-('prueba14', '$2y$10$0JmiC7x6KE7BWsSzKsSfAu71YOiHe/yceSmH2MJRm/tgmxdKXoQWK', 'prueba14 name', NULL, '2021-04-28', NULL, 0, 0, 0),
+('prueb', '$2y$10$dA0PS/iNcrlua.37OmeATuZUSbjzyKNTbsm36u9VMTXDJpldPoaY2', 'prueba', 'user_logged.png', '2021-04-28', NULL, 0, 0, 0),
+('prueba14', '$2y$10$0JmiC7x6KE7BWsSzKsSfAu71YOiHe/yceSmH2MJRm/tgmxdKXoQWK', 'prueba14 name', 'user_logged.png', '2021-04-28', NULL, 0, 0, 0),
 ('user1', '$2y$10$nkhPkXCRh7CURO0s2eQAkeHx5s3vSJiviDgbhi/FwqWzc3YZ37Ayy', 'user1 name', 'andresimage.jpg', '2021-04-12', 1, 0, 0, 0),
-('usuario', '$2y$10$yAw3n1GYdGCRnCbOOkl.geXkst4m07Bmhhf5YGSfMKOyLxRNHqNCS', 'usuario user', NULL, '2021-04-28', 2, 0, 0, 0),
-('usuario2', '$2y$10$BiHz6rkbwoOfPcw4Pmg/zekJJBodBAdw22f2F8eBymX9WknIjuj4i', 'usuario2', NULL, '2021-04-28', NULL, 0, 0, 0);
+('usuario', '$2y$10$yAw3n1GYdGCRnCbOOkl.geXkst4m07Bmhhf5YGSfMKOyLxRNHqNCS', 'usuario user', 'user_logged.png', '2021-04-28', 2, 0, 0, 0),
+('usuario2', '$2y$10$BiHz6rkbwoOfPcw4Pmg/zekJJBodBAdw22f2F8eBymX9WknIjuj4i', 'usuario2', 'user_logged.png', '2021-04-28', NULL, 0, 0, 0);
 
 --
 -- Volcado de datos para la tabla `usuarios_actores_directores`
