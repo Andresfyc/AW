@@ -12,12 +12,14 @@ class FormularioNuevoEventoTema extends Form
     {
         $name = $datos['name'] ?? '';
         $description = $datos['description'] ?? '';
+        $date = $datos['date'] ?? '';
         $time = $datos['time'] ?? '';
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
         $errorName = self::createMensajeError($errores, 'name', 'span', array('class' => 'error'));
         $errorDescription= self::createMensajeError($errores, 'description', 'span', array('class' => 'error'));
+        $errorDate = self::createMensajeError($errores, 'date', 'span', array('class' => 'error'));
         $errorTime = self::createMensajeError($errores, 'time', 'span', array('class' => 'error'));
 
 
@@ -31,7 +33,10 @@ class FormularioNuevoEventoTema extends Form
                     <label>Descripción:</label> <input class="control" type="text" name="description" value="$description" />$errorDescription
                 </div>
                 <div class="grupo-control">
-                    <label>Fecha y hora (Si es evento):</label> <input class="control" type="datetime" name="time" value="$time" />$errorTime
+                    <label>Fecha (Si es evento):</label> <input class="control" type="date" name="date" value="$date" />$errorDate
+                </div>
+                <div class="grupo-control">
+                    <label>Hora (Si es evento):</label> <input class="control" type="time" name="time" value="$time" />$errorTime
                 </div>
                 <div class="grupo-control"><button type="submit" name="nueva">Añadir</button></div>
             </fieldset>
@@ -54,10 +59,12 @@ class FormularioNuevoEventoTema extends Form
             $result['description'] = "La descripción no puede quedar vacía.";
         }
 
+        $date = $datos['date'] ?? null;
         $time = $datos['time'] ?? null;
 
         if (count($result) === 0) {
-            $eventoTema = EventoTema::crea($name, $description, $time);
+            $dateTime = !empty($date) && emtpty($time) ? $date . ' 00:00:00' : $date . ' ' . $time;
+            $eventoTema = EventoTema::crea($name, $description, $dateTime);
             if ( ! $eventoTema ) {
                 $result[] = "El evento/tema ya existe";
             } //TODO Añadir una redirección a la página de la película

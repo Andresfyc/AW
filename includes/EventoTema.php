@@ -38,17 +38,15 @@ class EventoTema
         $app = Aplicacion::getSingleton();
         $conn = $app->conexionBd();
 
-        if (empty($eventoTema->time)) {
+        if (empty($eventoTema->time) || $eventoTema->time == ' ') {
             $query=sprintf("INSERT INTO foro_eventos_temas(name, description, time_created) VALUES('%s', '%s', CURRENT_TIMESTAMP())"
                 , $conn->real_escape_string($eventoTema->name)
                 , $conn->real_escape_string($eventoTema->description));
-            echo $query;
         } else {
             $query=sprintf("INSERT INTO foro_eventos_temas(name, description, time, time_created) VALUES('%s', '%s', '%s', CURRENT_TIMESTAMP())"
                 , $conn->real_escape_string($eventoTema->name)
                 , $conn->real_escape_string($eventoTema->description)
                 , $conn->real_escape_string($eventoTema->time));
-            echo $query;
         }
         
         if ( $conn->query($query) ) {
@@ -64,13 +62,15 @@ class EventoTema
     public static function editar($id, $name, $description, $time)
     {
         $eventoTema = new EventoTema($id, $name, $description, $time, null, null);
-        
+        echo "HOLA";
         return self::guarda($eventoTema);
     }
 
     public static function guarda($eventoTema)
     {
+        echo "HOLA2";
         if ($eventoTema->id !== null) {
+            echo "HOLA3";
             return self::actualiza($eventoTema);
         }
         return self::inserta($eventoTema);
@@ -80,12 +80,21 @@ class EventoTema
     {
         $app = Aplicacion::getSingleton();
         $conn = $app->conexionBd();
-        $query=sprintf("UPDATE foro_eventos_temas SET name='%s', description='%s', time='%s' WHERE id=%d"
-        , $conn->real_escape_string($eventoTema->name)
-        , $conn->real_escape_string($eventoTema->description)
-        , $conn->real_escape_string($eventoTema->time)
-            , $eventoTema->id);
+        
+        if (empty($eventoTema->time) || $eventoTema->time == ' ') {
+            $query=sprintf("UPDATE foro_eventos_temas SET name='%s', description='%s', time=null WHERE id=%d"
+            , $conn->real_escape_string($eventoTema->name)
+            , $conn->real_escape_string($eventoTema->description)
+                , $eventoTema->id);
+        } else {
+            $query=sprintf("UPDATE foro_eventos_temas SET name='%s', description='%s', time='%s' WHERE id=%d"
+            , $conn->real_escape_string($eventoTema->name)
+            , $conn->real_escape_string($eventoTema->description)
+            , $conn->real_escape_string($eventoTema->time)
+                , $eventoTema->id);
+        }
         echo $query;
+
 
         if ( $conn->query($query) ) {
             if ( $conn->affected_rows != 1) {
@@ -194,6 +203,16 @@ class EventoTema
     public function time()
     {
         return $this->time;
+    }
+
+    public function timeTime()
+    {
+        return substr($this->time, 11, 19);
+    }
+
+    public function timeDate()
+    {
+        return substr($this->time, 0, 10);
     }
 
     public function time_created()

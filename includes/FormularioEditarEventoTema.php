@@ -13,16 +13,19 @@ class FormularioEditarEventoTema extends Form
 
     protected function generaCamposFormulario($datos, $errores = array())
     {
+        //echo substr($this->eventoTema->time(), 0, 10);
         $id = $datos['id'] ?? $this->eventoTema->id();
         $name = $datos['name'] ?? $this->eventoTema->name();
         $description = $datos['description'] ?? $this->eventoTema->description();
-        $time = $datos['time'] ?? $this->eventoTema->time();
+        $date = $datos['date'] ?? $this->eventoTema->timeDate();
+        $time = $datos['time'] ?? $this->eventoTema->timeTime();
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
-        $errorName = self::createMensajeError($errores, 'title', 'span', array('class' => 'error'));
-        $errorDescription= self::createMensajeError($errores, 'date_released', 'span', array('class' => 'error'));
-        $errorTime = self::createMensajeError($errores, 'duration', 'span', array('class' => 'error'));
+        $errorName = self::createMensajeError($errores, 'name', 'span', array('class' => 'error'));
+        $errorDescription= self::createMensajeError($errores, 'description', 'span', array('class' => 'error'));
+        $errorDate = self::createMensajeError($errores, 'date', 'span', array('class' => 'error'));
+        $errorTime = self::createMensajeError($errores, 'time', 'span', array('class' => 'error'));
 
 
         //TODO Añadir lo de la imagen
@@ -37,7 +40,10 @@ class FormularioEditarEventoTema extends Form
                     <label>Descripción:</label> <input class="control" type="text" name="description" value="$description" />$errorDescription
                 </div>
                 <div class="grupo-control">
-                    <label>Fecha y hora:</label> <input class="control" type="datetime" name="time" value="$time" />$errorTime
+                    <label>Fecha y hora:</label> <input class="control" type="date" name="date" value="$date" />$errorDate
+                </div>
+                <div class="grupo-control">
+                    <label>Fecha y hora:</label> <input class="control" type="time" name="time" value="$time" />$errorTime
                 </div>
                 <div class="grupo-control"><button type="submit" name="editar">Confirmar</button></div>
             </fieldset>
@@ -62,14 +68,13 @@ class FormularioEditarEventoTema extends Form
             $result['description'] = "La descripción no puede quedar vacía.";
         }
 
+        $date = $datos['date'] ?? null;
         $time = $datos['time'] ?? null;
-        if ( empty($time) ) {
-            $result['time'] = "La fecha y hora no pueden quedar vacíos.";
-        }
 
         if (count($result) === 0) {
             //TODO Añadir lo de la imagen
-            $eventoTema = EventoTema::editar($id, $name, $description, $time);
+            $dateTime = (!empty($date) && empty($time)) ? $date . ' 00:00:00' : $date . ' ' . $time;
+            $eventoTema = EventoTema::editar($id, $name, $description, $dateTime);
             if ( ! $eventoTema ) {
                 $result[] = "El evento/tema ya existe";
             } //TODO Añadir una redirección a la página de la película

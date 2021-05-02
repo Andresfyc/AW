@@ -27,8 +27,8 @@ class FormularioEditarPelicula extends Form
         $errorImage = self::createMensajeError($errores, 'image', 'span', array('class' => 'error'));
         $errorDate_released= self::createMensajeError($errores, 'date_released', 'span', array('class' => 'error'));
         $errorDuration = self::createMensajeError($errores, 'duration', 'span', array('class' => 'error'));
-        $errorCountry = self::createMensajeError($errores, 'duration', 'span', array('class' => 'error'));
-        $errorPlot = self::createMensajeError($errores, 'duration', 'span', array('class' => 'error'));
+        $errorCountry = self::createMensajeError($errores, 'country', 'span', array('class' => 'error'));
+        $errorPlot = self::createMensajeError($errores, 'plot', 'span', array('class' => 'error'));
 
 
         //TODO Añadir lo de la imagen
