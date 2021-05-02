@@ -22,6 +22,4 @@ if (!isset($_SESSION["login"])) {
 	EOS;
 }	
 
-
-
 require __DIR__ . '/includes/plantillas/plantilla.php';
