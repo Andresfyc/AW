@@ -41,6 +41,7 @@ class Pelicula
     {
         $app = Aplicacion::getSingleton();
         $conn = $app->conexionBd();
+
         $query=sprintf("INSERT INTO Peliculas(title, image, date_released, duration,country,plot) VALUES('%s', '%s','%s', '%s', '%s','%s')"
             , $conn->real_escape_string($pelicula->title)
             , $conn->real_escape_string($pelicula->image)
@@ -48,6 +49,9 @@ class Pelicula
             , $conn->real_escape_string($pelicula->duration)
             , $conn->real_escape_string($pelicula->country)
             , $conn->real_escape_string($pelicula->plot));
+        
+        echo $query;
+        
         if ( $conn->query($query) ) {
             $pelicula->id = $conn->insert_id;
             $pelicula->rating = $conn->insert_rating;
@@ -55,6 +59,7 @@ class Pelicula
             echo "Error al insertar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
             exit();
         }
+
         return $pelicula;
     }
     
@@ -93,9 +98,12 @@ class Pelicula
 
     public static function guarda($pelicula)
     {
+        echo "HOLA".$pelicula->id;
         if ($pelicula->id !== null) {
-            return self::actualiza($pelicula);
+            echo "HOLA2";
+            //return self::actualiza($pelicula);
         }
+        echo "HOLA3";
         return self::inserta($pelicula);
     }
 

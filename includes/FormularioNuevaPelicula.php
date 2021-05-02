@@ -10,7 +10,7 @@ class FormularioNuevaPelicula extends Form
     protected function generaCamposFormulario($datos, $errores = array())
     {
         $title = $datos['title'] ?? '';
-        //$image = $datos['image'] ?? '';
+        $image = $datos['image'] ?? '';
         $date_released = $datos['date_released'] ?? '';
         $duration = $datos['duration'] ?? '';
         $country = $datos['country'] ?? '';
@@ -19,6 +19,7 @@ class FormularioNuevaPelicula extends Form
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
         $errorTitle = self::createMensajeError($errores, 'title', 'span', array('class' => 'error'));
+        $errorImage= self::createMensajeError($errores, 'image', 'span', array('class' => 'error'));
         $errorDate_released= self::createMensajeError($errores, 'date_released', 'span', array('class' => 'error'));
         $errorDuration = self::createMensajeError($errores, 'duration', 'span', array('class' => 'error'));
         $errorCountry = self::createMensajeError($errores, 'country', 'span', array('class' => 'error'));
@@ -31,6 +32,9 @@ class FormularioNuevaPelicula extends Form
                 $htmlErroresGlobales
                 <div class="grupo-control">
                     <label>Nombre de la película:</label> <input class="control" type="text" name="title" value="$title" />$errorTitle
+                </div>
+                <div class="grupo-control">
+                    <label>Imagen:</label> <input class="control" type="file" name="image" value="$image" />$errorImage
                 </div>
                 <div class="grupo-control">
                     <label>Fecha publicación:</label> <input class="control" type="date" name="date_released" value="$date_released" />$errorDate_released
@@ -60,6 +64,8 @@ class FormularioNuevaPelicula extends Form
             $result['title'] = "El nombre de la película no puede quedar vacío.";
         }
 
+        $image = $datos['image'] ?? null;
+
         //Podemos añadir películas sin estrenar aunque todavía no haya opción de descargar
         $date_released = $datos['date_released'] ?? null;
         if ( empty($date_released) ) {
@@ -81,7 +87,8 @@ class FormularioNuevaPelicula extends Form
 
         if (count($result) === 0) {
             //TODO Añadir lo de la imagen
-            $pelicula = Pelicula::crea($title, null, $date_released, $duration, $country, $plot);
+            echo $image;
+            $pelicula = Pelicula::crea($title, $image, $date_released, $duration, $country, $plot);
             if ( ! $pelicula ) {
                 $result[] = "La película ya existe";
             } //TODO Añadir una redirección a la página de la película
