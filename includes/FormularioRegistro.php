@@ -65,12 +65,16 @@ class FormularioRegistro extends Form
         }
 
         if (count($result) === 0) {
-            $user = Usuario::crea($nombreUsuario, $password, $nombre, '', '', null, 0, 0, 0);
-            if ( ! $user ) {
+            $usuario = Usuario::crea($nombreUsuario, $password, $nombre, '', '', null, 0, 0, 0);
+            if ( ! $usuario ) {
                 $result[] = "El usuario ya existe";
             } else {
                 $_SESSION['login'] = true;
                 $_SESSION['nombre'] = $nombreUsuario;
+				$_SESSION['esAdmin'] = $usuario->admin();
+				$_SESSION['esGestor'] = $usuario->content_manager();
+				$_SESSION['esModerador'] = $usuario->moderator();
+				$_SESSION['imagen'] = $usuario->image();
                 $result = 'index.php';
             }
         }

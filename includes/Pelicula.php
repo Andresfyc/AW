@@ -62,14 +62,14 @@ class Pelicula
     {
         $app = Aplicacion::getSingleton();
         $conn = $app->conexionBd();
-        $query=sprintf("UPDATE peliculas P SET image='%s', date_released='%s', duration='%s', country='%s', plot='%s', rating='%s' WHERE P.title='%s'"
+        $query=sprintf("UPDATE peliculas P SET title = '%s', image='%s', date_released='%s', duration=%d, country='%s', plot='%s' WHERE P.id=%d"
         , $conn->real_escape_string($pelicula->title)
         , $conn->real_escape_string($pelicula->image)
         , $conn->real_escape_string($pelicula->date_released)
         , $conn->real_escape_string($pelicula->duration)
         , $conn->real_escape_string($pelicula->country)
         , $conn->real_escape_string($pelicula->plot)
-            , $pelicula->title);
+            , $pelicula->id);
 
         if ( $conn->query($query) ) {
             if ( $conn->affected_rows != 1) {
@@ -84,6 +84,13 @@ class Pelicula
         return $pelicula;
     }
 
+    public static function editar($id, $title, $image, $date_released, $duration, $country, $plot)
+    {
+        $image = $image == NULL ? "film_default.jpg" : $image;
+        $pelicula = new Pelicula($id, $title, $image ,$date_released, $duration, $country, $plot);
+        return self::guarda($pelicula);
+    }
+
     public static function guarda($pelicula)
     {
         if ($pelicula->id !== null) {
@@ -96,7 +103,7 @@ class Pelicula
     {
         $app = Aplicacion::getSingleton();
         $conn = $app->conexionBd();
-        $query = sprintf("SELECT * FROM peliculas P WHERE P.id = '%d'", $id);
+        $query = sprintf("SELECT * FROM peliculas P WHERE P.id = %d", $id);
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {
@@ -181,6 +188,23 @@ class Pelicula
 
 		return $result;
 	}
+
+    public static function borraPorId($id)
+    {
+        $result = false;
+
+        $app = Aplicacion::getSingleton();
+        $conn = $app->conexionBd();
+        $query = sprintf("DELETE FROM Peliculas WHERE id = %d", $id);
+        $result = $conn->query($query);
+        if (!$result) {
+            error_log($conn->error);
+        } else if ($conn->affected_rows != 1) {
+            error_log("Se han borrado '$conn->affected_rows' !");
+        }
+
+        return $result;
+    }
 
     private $id;
 
