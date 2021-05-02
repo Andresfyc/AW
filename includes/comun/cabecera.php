@@ -3,5 +3,5 @@
 	<a href="index.php">Inicio</a>
 	<a href="foro.php">Foro</a>
 	<a href="peliculas.php">Peliculas</a>
-	<a href="AñadirPelicula.php">Gestor de Contenido</a>
+	<a href="NuevaPelicula.php">Gestor de Contenido</a>
 </header>

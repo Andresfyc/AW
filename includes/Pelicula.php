@@ -3,13 +3,15 @@ namespace es\ucm\fdi\aw;
 
 class Pelicula
 {
-    public static function crea($title, $date_released, $duration, $country, $plot)
+    public static function crea($title, $image, $date_released, $duration, $country, $plot)
     {
-        $pelicula = self::buscaPelicula($nombrePelicula);
+        /*$pelicula = self::buscaPelicula($nombrePelicula);
         if ($pelicula) {
             return false;
-        }
-        $pelicula = new Pelicula($title, NULL ,$date_released, $duration, $country, $plot);
+        }*/
+        //Puede haber varias películas con el mismo nombre de diferente año/país/etc...
+        $image = $image == NULL ? "film_default.jpg" : $image;
+        $pelicula = new Pelicula(null, $title, $image ,$date_released, $duration, $country, $plot);
         return self::guarda($pelicula);
     }
 
@@ -17,7 +19,7 @@ class Pelicula
     {
         $app = Aplicacion::getSingleton();
         $conn = $app->conexionBd();
-        $query = sprintf("SELECT * FROM peliculas P WHERE P.title = '%s'", $conn->real_escape_string($pelicula));
+        $query = sprintf("SELECT * FROM peliculas P WHERE P.id = '%s'", $conn->real_escape_string($pelicula));
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {
@@ -40,15 +42,13 @@ class Pelicula
     {
         $app = Aplicacion::getSingleton();
         $conn = $app->conexionBd();
-		echo "INSERTA";
-        $query=sprintf("INSERT INTO Peliculas(title, NULL, date_released, duration,country,plot,rating) VALUES('%s', '%s','%s', '%s', '%s','%s','%s')"
+        $query=sprintf("INSERT INTO Peliculas(title, image, date_released, duration,country,plot) VALUES('%s', '%s','%s', '%s', '%s','%s')"
             , $conn->real_escape_string($pelicula->title)
             , $conn->real_escape_string($pelicula->image)
             , $conn->real_escape_string($pelicula->date_released)
             , $conn->real_escape_string($pelicula->duration)
             , $conn->real_escape_string($pelicula->country)
-            , $conn->real_escape_string($pelicula->plot)
-            , $conn->real_escape_string($pelicula->rating));
+            , $conn->real_escape_string($pelicula->plot));
         if ( $conn->query($query) ) {
             $pelicula->id = $conn->insert_id;
         } else {
@@ -69,7 +69,6 @@ class Pelicula
         , $conn->real_escape_string($pelicula->duration)
         , $conn->real_escape_string($pelicula->country)
         , $conn->real_escape_string($pelicula->plot)
-        , $conn->real_escape_string($pelicula->rating)
             , $pelicula->title);
 
         if ( $conn->query($query) ) {
@@ -87,7 +86,7 @@ class Pelicula
 
     public static function guarda($pelicula)
     {
-        if (self::buscapelicula($pelicula->title)) {
+        if ($pelicula->id !== null) {
             return self::actualiza($pelicula);
         }
         return self::inserta($pelicula);
@@ -104,7 +103,6 @@ class Pelicula
             if ( $rs->num_rows == 1) {
                 $fila = $rs->fetch_assoc();
                 $pelicula = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating']);
-                $pelicula->id = $fila['id'];
                 $result = $pelicula;
             }
             $rs->free();
@@ -200,7 +198,7 @@ class Pelicula
 
     private $rating;
 
-    private function __construct($id, $title, $image, $date_released, $duration, $country, $plot, $rating)
+    private function __construct($id, $title, $image, $date_released, $duration, $country, $plot)
     {
         $this->id= $id;
         $this->title = $title;
@@ -209,7 +207,6 @@ class Pelicula
         $this->duration = $duration;
         $this->country = $country;
         $this->plot = $plot;
-        $this->rating = $rating;
     }
 
     public function id()

@@ -46,7 +46,6 @@ class FormularioRegistro extends Form
         $result = array();
 
         $nombreUsuario = $datos['nombreUsuario'] ?? null;
-
         if ( empty($nombreUsuario) || mb_strlen($nombreUsuario) < 5 ) {
             $result['nombreUsuario'] = "El nombre de usuario tiene que tener una longitud de al menos 5 caracteres.";
         }

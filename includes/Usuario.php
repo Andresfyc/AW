@@ -41,6 +41,7 @@ class Usuario
         if ($usuario) {
             return false;
         }
+        $image = $image == NULL ? "user_logged.png" : $image;
         $usuario = new Usuario($user, self::hashPassword($password), $name, $image, $date_joined, $watching, $admin, $content_manager, $moderator);
         return self::guarda($usuario);
     }

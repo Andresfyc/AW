@@ -1,41 +1,36 @@
 <?php
 namespace es\ucm\fdi\aw;
 
-
-class AñadirPelicula extends Form
+class FormularioNuevaPelicula extends Form
 {
     public function __construct() {
-        parent::__construct('formAñadirPelicula');
+        parent::__construct('formNuevaPelicula');
     }
 
     protected function generaCamposFormulario($datos, $errores = array())
     {
-        $nombreUsuario = $datos['nombreUsuario'] ?? '';
-        $nombre = $datos['nombre'] ?? '';
+        $title = $datos['title'] ?? '';
+        //$image = $datos['image'] ?? '';
+        $date_released = $datos['date_released'] ?? '';
+        $duration = $datos['duration'] ?? '';
+        $country = $datos['country'] ?? '';
+        $plot = $datos['plot'] ?? '';
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
-        $errorNombrePelicula = self::createMensajeError($errores, 'nombrePelicula', 'span', array('class' => 'error'));
+        $errorTitle = self::createMensajeError($errores, 'title', 'span', array('class' => 'error'));
         $errorDate_released= self::createMensajeError($errores, 'date_released', 'span', array('class' => 'error'));
-        $errorRating = self::createMensajeError($errores, 'rating', 'span', array('class' => 'error'));
         $errorDuration = self::createMensajeError($errores, 'duration', 'span', array('class' => 'error'));
+        $errorCountry = self::createMensajeError($errores, 'duration', 'span', array('class' => 'error'));
+        $errorPlot = self::createMensajeError($errores, 'duration', 'span', array('class' => 'error'));
 
 
-        $this->id= $id;
-        $this->title = $title;
-        $this->image = $image;
-        $this->date_released = $date_released;
-        $this->duration = $duration;
-        $this->country = $country;
-        $this->plot = $plot;
-        $this->rating = $rating;
-
-
+        //TODO Añadir lo de la imagen
         $html = <<<EOF
             <fieldset>
                 $htmlErroresGlobales
                 <div class="grupo-control">
-                    <label>Nombre de la película:</label> <input class="control" type="text" name="nombrePelicula" value="$nombrePelicula" />$errorNombrePelicula
+                    <label>Nombre de la película:</label> <input class="control" type="text" name="title" value="$title" />$errorTitle
                 </div>
                 <div class="grupo-control">
                     <label>Fecha publicación:</label> <input class="control" type="date" name="date_released" value="$date_released" />$errorDate_released
@@ -44,15 +39,12 @@ class AñadirPelicula extends Form
                     <label>Duración:</label> <input class="control" type="text" name="duration" value="$duration" />$errorDuration
                 </div>
                 <div class="grupo-control">
-                    <label>País:</label> <input class="control" type="text" name="country" value="$country"/>
+                    <label>País:</label> <input class="control" type="text" name="country" value="$country"/>$errorCountry
                 </div>
                 <div class="grupo-control">
-                    <label>Trama:</label> <input class="control" type="text" name="plot" value="$plot" />
+                    <label>Trama:</label> <input class="control" type="text" name="plot" value="$plot" />$errorPlot
                 </div>
-                <div class="grupo-control">
-                    <label>Rating:</label> <input class="control" type="range" name="rating"  value="$rating"/>$errorRating
-                </div>
-                <div class="grupo-control"><button type="submit" name="añadir">Añadir</button></div>
+                <div class="grupo-control"><button type="submit" name="nueva">Añadir</button></div>
             </fieldset>
         EOF;
         return $html;
@@ -63,16 +55,15 @@ class AñadirPelicula extends Form
     {
         $result = array();
 
-        $nombrePelicula = $datos['nombrePelicula'] ?? null;
-
-        if ( empty($nombrePelicula) || mb_strlen($nombrePelicula) < 1 ) {
-            $result['nombrePelicula'] = "El nombre de la película tiene que tener una longitud de al menos 1 caracter.";
+        $title = $datos['title'] ?? null;
+        if ( empty($title) ) {
+            $result['title'] = "El nombre de la película no puede quedar vacío.";
         }
 
-        $date_released = $datos['publicacion'] ?? null;
-        
-        if ( empty($date_released) || $date_released > date() ) {
-            $result['date_released'] = "La fecha no puede ser mayor que la actual.";
+        //Podemos añadir películas sin estrenar aunque todavía no haya opción de descargar
+        $date_released = $datos['date_released'] ?? null;
+        if ( empty($date_released) ) {
+            $result['date_released'] = "La fecha no puede quedar vacía.";
         }
 
         $duration = $datos['duration'] ?? null;
@@ -89,10 +80,14 @@ class AñadirPelicula extends Form
         }
 
         if (count($result) === 0) {
-            $pelicula = Pelicula::crea($nombrePelicula, $date_released, $duration, $country, $plot);
+            //TODO Añadir lo de la imagen
+            $pelicula = Pelicula::crea($title, null, $date_released, $duration, $country, $plot);
             if ( ! $pelicula ) {
                 $result[] = "La película ya existe";
-            } 
+            } //TODO Añadir una redirección a la página de la película
+            else {
+                $result = 'peliculas.php';
+            }
         }
         return $result;
     }

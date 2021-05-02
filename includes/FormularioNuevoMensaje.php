@@ -43,7 +43,7 @@ class FormularioNuevoMensaje extends Form
             $mensaje = Mensaje::crea($_SESSION["tempIdEventoTema"], $_SESSION['nombre'], $mensaje);
             if ( ! $mensaje ) {
                 $result[] = "Error";
-            } else {
+            } else { //TODO Añadir una redirección al tema/evento
                 $result = 'foro.php';
             }
         }

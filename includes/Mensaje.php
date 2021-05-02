@@ -36,10 +36,7 @@ class Mensaje
         return $mensaje;
     }
 
-    public static function saludo() 
-    {
-        return "HOLA";
-    }
+    //TODO Añadir actualiza()
     
     public static function buscaMensajesPorIdEventoTema($id)
     {
