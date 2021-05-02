@@ -11,7 +11,7 @@ class Pelicula
         }*/
         //Puede haber varias películas con el mismo nombre de diferente año/país/etc...
         $image = $image == NULL ? "film_default.jpg" : $image;
-        $pelicula = new Pelicula(null, $title, $image ,$date_released, $duration, $country, $plot);
+        $pelicula = new Pelicula(null, $title, $image ,$date_released, $duration, $country, $plot, null);
         return self::guarda($pelicula);
     }
 
@@ -26,7 +26,6 @@ class Pelicula
             if ( $rs->num_rows == 1) {
                 $fila = $rs->fetch_assoc();
                 $pelicula = new Pelicula($fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating']);
-                $pelicula->title = $fila['title'];
                 $result = $pelicula;
             }
             $rs->free();
@@ -51,6 +50,7 @@ class Pelicula
             , $conn->real_escape_string($pelicula->plot));
         if ( $conn->query($query) ) {
             $pelicula->id = $conn->insert_id;
+            $pelicula->rating = $conn->insert_rating;
         } else {
             echo "Error al insertar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
             exit();
@@ -86,8 +86,8 @@ class Pelicula
 
     public static function editar($id, $title, $image, $date_released, $duration, $country, $plot)
     {
-        $image = $image == NULL ? "film_default.jpg" : $image;
-        $pelicula = new Pelicula($id, $title, $image ,$date_released, $duration, $country, $plot);
+        $pelicula = new Pelicula($id, $title, $image ,$date_released, $duration, $country, $plot, null);
+        
         return self::guarda($pelicula);
     }
 
@@ -103,7 +103,7 @@ class Pelicula
     {
         $app = Aplicacion::getSingleton();
         $conn = $app->conexionBd();
-        $query = sprintf("SELECT * FROM peliculas P WHERE P.id = %d", $id);
+        $query = sprintf("SELECT * FROM peliculas WHERE id = %d", $id);
         $rs = $conn->query($query);
         $result = false;
         if ($rs) {
@@ -222,7 +222,7 @@ class Pelicula
 
     private $rating;
 
-    private function __construct($id, $title, $image, $date_released, $duration, $country, $plot)
+    private function __construct($id, $title, $image, $date_released, $duration, $country, $plot, $rating)
     {
         $this->id= $id;
         $this->title = $title;
@@ -231,6 +231,7 @@ class Pelicula
         $this->duration = $duration;
         $this->country = $country;
         $this->plot = $plot;
+        $this->rating = $rating;
     }
 
     public function id()

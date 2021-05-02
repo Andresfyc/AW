@@ -6,8 +6,12 @@ $eventosTemas = new es\ucm\fdi\aw\eventosTemas();
 
 $tituloPagina = 'Foro';
 
-$contenidoPrincipal=<<<EOS
-	<h1>Foro</h1>
+$contenidoPrincipal='<h1>Foro</h1>';
+if (isset($_SESSION["login"]) && ($_SESSION["login"]===true) && ($_SESSION["esGestor"] == true || $_SESSION["esAdmin"] == true)) {
+	$contenidoPrincipal .= '<a href="NuevoEventoTema.php">Añadir evento/tema</a>';
+}
+
+$contenidoPrincipal.=<<<EOS
 	<h3>Eventos</h3>
 	<div class="row-top">
 		<div class="col" id="col-4-1">
