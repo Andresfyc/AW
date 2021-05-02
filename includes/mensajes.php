@@ -9,7 +9,7 @@ class mensajes
 	function listaMensajes($id)
 	{
 		$html = '';
-		$mensajes = MENSAJE::buscaMensajesPorIdEventoTema($id);
+		$mensajes = Mensaje::buscaMensajesPorIdEventoTema($id);
 		foreach($mensajes as $mensaje) {
 			$html .= '<div class="row-mensaje">';
 			$html .= "<p>{$mensaje->text()} ({$mensaje->user()}) [{$mensaje->time_created()}]</p>";

@@ -4,6 +4,43 @@ namespace es\ucm\fdi\aw;
 class Mensaje
 {
     
+    public static function crea($eventoTema, $user, $text)
+    {
+        $mensaje = new Mensaje(null, $eventoTema, $user, $text, '');
+        return self::guarda($mensaje);
+    }
+    
+    public static function guarda($mensaje)
+    {
+        if ($mensaje->id !== null) {
+            return self::actualiza($mensaje);
+        }
+        return self::inserta($mensaje);
+    }
+    
+    private static function inserta($mensaje)
+    {
+        $app = Aplicacion::getSingleton();
+        $conn = $app->conexionBd();
+        $query = sprintf("INSERT INTO foro_mensajes (evento_tema, user, text, time_created) VALUES (%d, '%s','%s', CURRENT_TIMESTAMP())"
+            , $conn->real_escape_string($mensaje->evento_tema)
+            , $conn->real_escape_string($mensaje->user)
+            , $conn->real_escape_string($mensaje->text));
+        if ( $conn->query($query) ) {
+            $usuario->id = $conn->insert_id;
+            $usuario->time_created = $conn->insert_time_created;
+        } else {
+            echo "Error al insertar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
+            exit();
+        }
+        return $mensaje;
+    }
+
+    public static function saludo() 
+    {
+        return "HOLA";
+    }
+    
     public static function buscaMensajesPorIdEventoTema($id)
     {
         $result = [];
@@ -35,12 +72,20 @@ class Mensaje
 
     private function __construct($id, $evento_tema, $user, $text, $time_created)
     {
-        $this->id= $id;
+        $this->id = $id;
         $this->evento_tema = $evento_tema;
         $this->user = $user;
         $this->text = $text;
         $this->time_created = $time_created;
     }
+
+    /*private function __construct($evento_tema, $user, $text, $time_created)
+    {
+        $this->evento_tema = $evento_tema;
+        $this->user = $user;
+        $this->text = $text;
+        $this->time_created = $time_created;
+    }*/
 
     public function id()
     {
