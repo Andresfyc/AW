@@ -46,14 +46,17 @@ class Usuario
         return self::guarda($usuario);
     }
 
-    public static function editar($user, $password, $name, $image)
+    public static function editar($user, $password, $passwordComprobar, $name, $image)
     {
-        $usuario = new Usuario($user, $password, $name, $image, null, null, null, null, null);
+        $usuario = self::buscaUsuario($user);
+        if ($usuario && $usuario->compruebaPassword($passwordComprobar)) {
+            $usuario = new Usuario($user, self::hashPassword($password), $name, $image, null, null, null, null, null);
 
-        return self::guarda($usuario);
+            return self::guarda($usuario);
+        }
+        return false;
+
     }
-
-
 
     private static function hashPassword($password)
     {
@@ -63,6 +66,7 @@ class Usuario
     public static function guarda($usuario)
     {
         if (self::buscaUsuario($usuario->user)) {
+
             return self::actualiza($usuario);
         }
         return self::inserta($usuario);
@@ -90,16 +94,15 @@ class Usuario
     {
         $app = Aplicacion::getSingleton();
         $conn = $app->conexionBd();
-        $query=sprintf("UPDATE usuarios U SET password='%s', name='%s', image='%s', date_joined='%s', watching='%s', admin='%s', content_manager='%s', moderator='%s' WHERE U.user='%s'"
+        $query=sprintf("UPDATE usuarios U SET  password='%s', name='%s', image='%s',  admin='%s', content_manager='%s', moderator='%s' WHERE U.user='%s'"
             , $conn->real_escape_string($usuario->password)
             , $conn->real_escape_string($usuario->name)
             , $conn->real_escape_string($usuario->image)
-            , $conn->real_escape_string($usuario->date_joined)
-            , $conn->real_escape_string($usuario->watching)
             , $conn->real_escape_string($usuario->admin)
             , $conn->real_escape_string($usuario->content_manager)
             , $conn->real_escape_string($usuario->moderator)
             , $usuario->user);
+//        echo $query;
         if ( $conn->query($query) ) {
             if ( $conn->affected_rows != 1) {
                 echo "No se ha podido actualizar el usuario: " . $usuario->user;
@@ -109,7 +112,7 @@ class Usuario
             echo "Error al insertar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
             exit();
         }
-        
+
         return $usuario;
     }
 	

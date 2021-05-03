@@ -4,10 +4,10 @@ require_once __DIR__.'/includes/config.php';
 
 $user =$_SESSION["nombre"];
 
-$peliculas = new es\ucm\fdi\aw\usuarios();
-$pelicula = $peliculas->getUsuarioPorUser($user);
+$usuarios = new es\ucm\fdi\aw\usuarios();
+$usuario = $usuarios->getUsuarioPorUser($user);
 
-$form = new es\ucm\fdi\aw\FormularioEditarUsuario($user);
+$form = new es\ucm\fdi\aw\FormularioEditarUsuario($usuario);
 $htmlFormEditarUsuario = $form->gestiona();
 
 $tituloPagina = 'Editar Usuario';

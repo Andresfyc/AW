@@ -101,7 +101,7 @@ class FormularioEditarPelicula extends Form
         if (count($result) === 0) {
             //TODO Añadir lo de la imagen
             $pelicula = Pelicula::editar($id, $title, $image, $date_released, $duration, $country, $plot);
-            unset($_SESSION["tempIdPelicula"]);
+
             if ( ! $pelicula ) {
                 $result[] = "La película ya existe";
             } //TODO Añadir una redirección a la página de la película

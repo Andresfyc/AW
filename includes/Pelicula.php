@@ -98,12 +98,9 @@ class Pelicula
 
     public static function guarda($pelicula)
     {
-        echo "HOLA".$pelicula->id;
         if ($pelicula->id !== null) {
-            echo "HOLA2";
-            //return self::actualiza($pelicula);
+            return self::actualiza($pelicula);
         }
-        echo "HOLA3";
         return self::inserta($pelicula);
     }
 

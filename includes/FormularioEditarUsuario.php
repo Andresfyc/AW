@@ -16,9 +16,9 @@ class FormularioEditarUsuario extends Form
 
     protected function generaCamposFormulario($datos, $errores = array())
     {
-        $user = $datos['user'] ?? '';
-        $nombre = $datos['nombre'] ?? '';
-        $image = $datos['image'] ?? '';
+        $user = $datos['user'] ?? $this->usuario->user();
+        $nombre = $datos['nombre'] ?? $this->usuario->name();
+        $image = $datos['image'] ?? $this->usuario->image();
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
@@ -31,20 +31,23 @@ class FormularioEditarUsuario extends Form
         $html = <<<EOF
             <fieldset>
                 $htmlErroresGlobales
-                <div class="grupo-control">
-                    <label>Nombre de usuario:</label> <input class="control" type="text" name="nombreUsuario" value="$user" />$errorUser
-                </div>
+                
+                     <input class="control" type="hidden" name="user" value="$user"  readonly/>$errorUser
+               
                 <div class="grupo-control">
                     <label>Nombre completo:</label> <input class="control" type="text" name="nombre" value="$nombre" />$errorNombre
                 </div>
                 <div class="grupo-control">
                     <label>Imagen:</label> <input class="control" type="file" name="image" value="$image" />$errorImage
                 </div>
-                <div class="grupo-control">
-                    <label>Password:</label> <input class="control" type="password" name="password" />$errorPassword
+                 <div class="grupo-control">
+                    <label>Password Actual:</label> <input class="control" type="password" name="passwordComprobar" />$errorPassword
                 </div>
                 <div class="grupo-control">
-                    <label>Vuelve a introducir el Password:</label> <input class="control" type="password" name="password2" />$errorPassword2
+                    <label>Password Nueva:</label> <input class="control" type="password" name="password" />$errorPassword
+                </div>
+                <div class="grupo-control">
+                    <label>Repetir Password Nueva:</label> <input class="control" type="password" name="password2" />$errorPassword2
                 </div>
                 <div class="grupo-control"><button type="submit" name="registro">Actualizar</button></div>
             </fieldset>
@@ -67,6 +70,11 @@ class FormularioEditarUsuario extends Form
             $result['nombre'] = "El nombre tiene que tener una longitud de al menos 5 caracteres.";
         }
 
+        $passwordComprobar = $datos['passwordComprobar'] ?? null;
+        if ( empty($passwordComprobar) || mb_strlen($passwordComprobar) < 5 ) {
+            $result['passwordComprobar'] = "El password tiene que tener una longitud de al menos 5 caracteres.";
+        }
+
         $password = $datos['password'] ?? null;
         if ( empty($password) || mb_strlen($password) < 5 ) {
             $result['password'] = "El password tiene que tener una longitud de al menos 5 caracteres.";
@@ -85,13 +93,18 @@ class FormularioEditarUsuario extends Form
 
         if (count($result) === 0) {
             //TODO Añadir lo de la imagen
-            $usuario = Usuario::editar($user, $password, $nombre, $_FILES['image']['name']);
-            unset($_SESSION["tempIdUser"]);
+            $usuario = Usuario::editar($user, $password, $passwordComprobar, $nombre, $_FILES['image']['name']);
             if ( ! $usuario ) {
                 $result[] = "La Usuario ya existe";
             } //TODO Añadir una redirección a la página de la película
             else {
-                $result = 'peliculas.php';
+                $_SESSION['login'] = true;
+                $_SESSION['nombre'] = $usuario->user();
+                $_SESSION['esAdmin'] = $usuario->admin();
+                $_SESSION['esGestor'] = $usuario->content_manager();
+                $_SESSION['esModerador'] = $usuario->moderator();
+                $_SESSION['imagen'] = $usuario->image();
+                $result = 'index.php';
             }
         }
         return $result;
