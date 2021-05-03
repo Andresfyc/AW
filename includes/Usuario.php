@@ -45,7 +45,16 @@ class Usuario
         $usuario = new Usuario($user, self::hashPassword($password), $name, $image, $date_joined, $watching, $admin, $content_manager, $moderator);
         return self::guarda($usuario);
     }
-    
+
+    public static function editar($user, $password, $name, $image)
+    {
+        $usuario = new Usuario($user, $password, $name, $image, null, null, null, null, null);
+
+        return self::guarda($usuario);
+    }
+
+
+
     private static function hashPassword($password)
     {
         return password_hash($password, PASSWORD_DEFAULT);

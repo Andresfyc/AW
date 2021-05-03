@@ -1,0 +1,99 @@
+<?php
+
+
+namespace es\ucm\fdi\aw;
+
+
+class FormularioEditarUsuario extends Form
+{
+
+    private $usuario;
+
+    public function __construct($usuario) {
+        $this->usuario = $usuario;
+        parent::__construct('formEditarPerfil');
+    }
+
+    protected function generaCamposFormulario($datos, $errores = array())
+    {
+        $user = $datos['user'] ?? '';
+        $nombre = $datos['nombre'] ?? '';
+        $image = $datos['image'] ?? '';
+
+        // Se generan los mensajes de error si existen.
+        $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
+        $errorUser = self::createMensajeError($errores, 'user', 'span', array('class' => 'error'));
+        $errorNombre = self::createMensajeError($errores, 'nombre', 'span', array('class' => 'error'));
+        $errorPassword = self::createMensajeError($errores, 'password', 'span', array('class' => 'error'));
+        $errorPassword2 = self::createMensajeError($errores, 'password2', 'span', array('class' => 'error'));
+        $errorImage= self::createMensajeError($errores, 'image', 'span', array('class' => 'error'));
+
+        $html = <<<EOF
+            <fieldset>
+                $htmlErroresGlobales
+                <div class="grupo-control">
+                    <label>Nombre de usuario:</label> <input class="control" type="text" name="nombreUsuario" value="$user" />$errorUser
+                </div>
+                <div class="grupo-control">
+                    <label>Nombre completo:</label> <input class="control" type="text" name="nombre" value="$nombre" />$errorNombre
+                </div>
+                <div class="grupo-control">
+                    <label>Imagen:</label> <input class="control" type="file" name="image" value="$image" />$errorImage
+                </div>
+                <div class="grupo-control">
+                    <label>Password:</label> <input class="control" type="password" name="password" />$errorPassword
+                </div>
+                <div class="grupo-control">
+                    <label>Vuelve a introducir el Password:</label> <input class="control" type="password" name="password2" />$errorPassword2
+                </div>
+                <div class="grupo-control"><button type="submit" name="registro">Actualizar</button></div>
+            </fieldset>
+        EOF;
+        return $html;
+    }
+
+
+    protected function procesaFormulario($datos)
+    {
+        $result = array();
+
+        $user = $datos['user'] ?? null;
+        if ( empty($user) || mb_strlen($user) < 5 ) {
+            $result['user'] = "El nombre de usuario tiene que tener una longitud de al menos 5 caracteres.";
+        }
+
+        $nombre = $datos['nombre'] ?? null;
+        if ( empty($nombre) || mb_strlen($nombre) < 5 ) {
+            $result['nombre'] = "El nombre tiene que tener una longitud de al menos 5 caracteres.";
+        }
+
+        $password = $datos['password'] ?? null;
+        if ( empty($password) || mb_strlen($password) < 5 ) {
+            $result['password'] = "El password tiene que tener una longitud de al menos 5 caracteres.";
+        }
+        $password2 = $datos['password2'] ?? null;
+        if ( empty($password2) || strcmp($password, $password2) !== 0 ) {
+            $result['password2'] = "Los passwords deben coincidir";
+        }
+
+        $image = $datos['image'] ?? null;
+        $dir_subida = './img/';
+        $fichero_subido = $dir_subida . basename($_FILES['image']['name']);
+        if (!move_uploaded_file($_FILES['image']['tmp_name'], $fichero_subido)) {
+            $result['image'] = "El fichero no se ha podido subir correctamente";
+        }
+
+        if (count($result) === 0) {
+            //TODO Añadir lo de la imagen
+            $usuario = Usuario::editar($user, $password, $nombre, $_FILES['image']['name']);
+            unset($_SESSION["tempIdUser"]);
+            if ( ! $usuario ) {
+                $result[] = "La Usuario ya existe";
+            } //TODO Añadir una redirección a la página de la película
+            else {
+                $result = 'peliculas.php';
+            }
+        }
+        return $result;
+    }
+}
