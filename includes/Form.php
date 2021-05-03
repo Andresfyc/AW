@@ -157,7 +157,7 @@ abstract class Form
          * Revisa https://www.php.net/manual/en/language.types.string.php#language.types.string.syntax.heredoc
          */
         $htmlForm = <<<EOS
-            <form method="POST" action="$this->action" id="$this->formId" >
+            <form enctype="multipart/form-data" method="POST" action="$this->action" id="$this->formId" >
                 <input type="hidden" name="action" value="$this->formId" />
                 $htmlCamposFormularios
             </form>

@@ -64,7 +64,6 @@ class FormularioNuevaPelicula extends Form
             $result['title'] = "El nombre de la película no puede quedar vacío.";
         }
 
-        $image = $datos['image'] ?? null;
 
         //Podemos añadir películas sin estrenar aunque todavía no haya opción de descargar
         $date_released = $datos['date_released'] ?? null;
@@ -85,10 +84,16 @@ class FormularioNuevaPelicula extends Form
             $result['plot'] = "La película debe tener una trama";
         }
 
+        $image = $datos['image'] ?? null;
+        $dir_subida = './img/';
+        $fichero_subido = $dir_subida . basename($_FILES['image']['name']);
+        if (!move_uploaded_file($_FILES['image']['tmp_name'], $fichero_subido)) {
+            $result['image'] = "El fichero no se ha podido subir correctamente";
+        }
+
         if (count($result) === 0) {
             //TODO Añadir lo de la imagen
-            echo $image;
-            $pelicula = Pelicula::crea($title, $image, $date_released, $duration, $country, $plot);
+            $pelicula = Pelicula::crea($title, $_FILES['image']['name'], $date_released, $duration, $country, $plot);
             if ( ! $pelicula ) {
                 $result[] = "La película ya existe";
             } //TODO Añadir una redirección a la página de la película
