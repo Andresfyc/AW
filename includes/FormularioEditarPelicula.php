@@ -15,7 +15,7 @@ class FormularioEditarPelicula extends Form
     {
         $id = $datos['id'] ?? $this->pelicula->id();
         $title = $datos['title'] ?? $this->pelicula->title();
-        $image = $datos['image'] ?? $this->pelicula->image();
+        $image = $datos['image'] ?? '';
         $date_released = $datos['date_released'] ?? $this->pelicula->date_released();
         $duration = $datos['duration'] ?? $this->pelicula->duration();
         $country = $datos['country'] ?? $this->pelicula->country();
@@ -40,7 +40,7 @@ class FormularioEditarPelicula extends Form
                     <label>Nombre de la película:</label> <input class="control" type="text" name="title" value="$title" />$errorTitle
                 </div>
                 <div class="grupo-control">
-                    <label>Imagen de la película:</label> <input class="control" type="text" name="image" value="$image" />$errorImage
+                    <label>Imagen:</label> <input class="control" type="file" name="image" value="$image" />$errorImage
                 </div>
                 <div class="grupo-control">
                     <label>Fecha publicación:</label> <input class="control" type="date" name="date_released" value="$date_released" />$errorDate_released
@@ -71,13 +71,7 @@ class FormularioEditarPelicula extends Form
         if ( empty($title) ) {
             $result['title'] = "El nombre de la película no puede quedar vacío.";
         }
-        
-        $image = $datos['image'] ?? null;
-        if ( empty($image) ) {
-            $result['image'] = "La imagen no puede quedar vacía.";
-        }
 
-        //Podemos añadir películas sin estrenar aunque todavía no haya opción de descargar
         $date_released = $datos['date_released'] ?? null;
         if ( empty($date_released) ) {
             $result['date_released'] = "La fecha no puede quedar vacía.";
@@ -98,9 +92,16 @@ class FormularioEditarPelicula extends Form
             $result['plot'] = "La película debe tener una trama";
         }
 
+        $image = $datos['image'] ?? null;
+        $dir_subida = './img/';
+        $fichero_subido = $dir_subida . basename($_FILES['image']['name']);
+        if (!move_uploaded_file($_FILES['image']['tmp_name'], $fichero_subido) && !empty($_FILES['image']['name'])) {
+            $result['image'] = $_FILES['image']['name']."El fichero no se ha podido subir correctamente";
+        }
+
         if (count($result) === 0) {
             //TODO Añadir lo de la imagen
-            $pelicula = Pelicula::editar($id, $title, $image, $date_released, $duration, $country, $plot);
+            $pelicula = Pelicula::editar($id, $title, $_FILES['image']['name'], $date_released, $duration, $country, $plot);
 
             if ( ! $pelicula ) {
                 $result[] = "La película ya existe";

@@ -46,11 +46,16 @@ class Usuario
         return self::guarda($usuario);
     }
 
-    public static function editar($user, $password, $passwordComprobar, $name, $image)
+    public static function editar($user, $password, $passwordComprobar, $name, $image, $admin, $content_manager, $moderator)
     {
         $usuario = self::buscaUsuario($user);
         if ($usuario && $usuario->compruebaPassword($passwordComprobar)) {
-            $usuario = new Usuario($user, self::hashPassword($password), $name, $image, null, null, null, null, null);
+            $image = strlen($image) < 1 ? $usuario->image : $image;
+            $password = strlen($password) < 1 ? $usuario->password : self::hashPassword($password);
+            $admin = strlen($admin) < 1 ? $usuario->admin : $admin;
+            $content_manager = strlen($content_manager) < 1 ? $usuario->content_manager : $content_manager;
+            $moderator = strlen($moderator) < 1 ? $usuario->moderator : $moderator;
+            $usuario = new Usuario($user, $password, $name, $image, null, null, $admin, $content_manager, $moderator);
 
             return self::guarda($usuario);
         }
@@ -94,7 +99,7 @@ class Usuario
     {
         $app = Aplicacion::getSingleton();
         $conn = $app->conexionBd();
-        $query=sprintf("UPDATE usuarios U SET  password='%s', name='%s', image='%s',  admin='%s', content_manager='%s', moderator='%s' WHERE U.user='%s'"
+        $query=sprintf("UPDATE usuarios U SET password='%s', name='%s', image='%s',  admin='%s', content_manager='%s', moderator='%s' WHERE U.user='%s'"
             , $conn->real_escape_string($usuario->password)
             , $conn->real_escape_string($usuario->name)
             , $conn->real_escape_string($usuario->image)
@@ -102,7 +107,6 @@ class Usuario
             , $conn->real_escape_string($usuario->content_manager)
             , $conn->real_escape_string($usuario->moderator)
             , $usuario->user);
-//        echo $query;
         if ( $conn->query($query) ) {
             if ( $conn->affected_rows != 1) {
                 echo "No se ha podido actualizar el usuario: " . $usuario->user;

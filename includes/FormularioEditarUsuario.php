@@ -18,12 +18,13 @@ class FormularioEditarUsuario extends Form
     {
         $user = $datos['user'] ?? $this->usuario->user();
         $nombre = $datos['nombre'] ?? $this->usuario->name();
-        $image = $datos['image'] ?? $this->usuario->image();
+        $image = $datos['image'] ?? '';
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
         $errorUser = self::createMensajeError($errores, 'user', 'span', array('class' => 'error'));
         $errorNombre = self::createMensajeError($errores, 'nombre', 'span', array('class' => 'error'));
+        $errorPasswordComprobar = self::createMensajeError($errores, 'passwordComprobar', 'span', array('class' => 'error'));
         $errorPassword = self::createMensajeError($errores, 'password', 'span', array('class' => 'error'));
         $errorPassword2 = self::createMensajeError($errores, 'password2', 'span', array('class' => 'error'));
         $errorImage= self::createMensajeError($errores, 'image', 'span', array('class' => 'error'));
@@ -41,7 +42,7 @@ class FormularioEditarUsuario extends Form
                     <label>Imagen:</label> <input class="control" type="file" name="image" value="$image" />$errorImage
                 </div>
                  <div class="grupo-control">
-                    <label>Password Actual:</label> <input class="control" type="password" name="passwordComprobar" />$errorPassword
+                    <label>Password Actual:</label> <input class="control" type="password" name="passwordComprobar" />$errorPasswordComprobar
                 </div>
                 <div class="grupo-control">
                     <label>Password Nueva:</label> <input class="control" type="password" name="password" />$errorPassword
@@ -76,35 +77,35 @@ class FormularioEditarUsuario extends Form
         }
 
         $password = $datos['password'] ?? null;
-        if ( empty($password) || mb_strlen($password) < 5 ) {
+        if ( !empty($password) && mb_strlen($password) < 5 ) {
             $result['password'] = "El password tiene que tener una longitud de al menos 5 caracteres.";
         }
         $password2 = $datos['password2'] ?? null;
-        if ( empty($password2) || strcmp($password, $password2) !== 0 ) {
+        if ( strcmp($password, $password2) !== 0 ) {
             $result['password2'] = "Los passwords deben coincidir";
         }
 
         $image = $datos['image'] ?? null;
         $dir_subida = './img/';
         $fichero_subido = $dir_subida . basename($_FILES['image']['name']);
-        if (!move_uploaded_file($_FILES['image']['tmp_name'], $fichero_subido)) {
-            $result['image'] = "El fichero no se ha podido subir correctamente";
+        if (!move_uploaded_file($_FILES['image']['tmp_name'], $fichero_subido) && !empty($_FILES['image']['name'])) {
+            $result['image'] = $_FILES['image']['name']."El fichero no se ha podido subir correctamente";
         }
 
         if (count($result) === 0) {
-            //TODO Añadir lo de la imagen
-            $usuario = Usuario::editar($user, $password, $passwordComprobar, $nombre, $_FILES['image']['name']);
+            $usuario = Usuario::editar($user, $password, $passwordComprobar, $nombre, $_FILES['image']['name'], null, null, null);
             if ( ! $usuario ) {
-                $result[] = "La Usuario ya existe";
-            } //TODO Añadir una redirección a la página de la película
+                $result[] = "Contraseña errónea";
+            } 
             else {
                 $_SESSION['login'] = true;
                 $_SESSION['nombre'] = $usuario->user();
+                $_SESSION['nombreCompleto'] = $usuario->name();
                 $_SESSION['esAdmin'] = $usuario->admin();
                 $_SESSION['esGestor'] = $usuario->content_manager();
                 $_SESSION['esModerador'] = $usuario->moderator();
                 $_SESSION['imagen'] = $usuario->image();
-                $result = 'index.php';
+                $result = 'perfil.php';
             }
         }
         return $result;

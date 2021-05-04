@@ -64,8 +64,6 @@ class FormularioNuevaPelicula extends Form
             $result['title'] = "El nombre de la película no puede quedar vacío.";
         }
 
-
-        //Podemos añadir películas sin estrenar aunque todavía no haya opción de descargar
         $date_released = $datos['date_released'] ?? null;
         if ( empty($date_released) ) {
             $result['date_released'] = "La fecha no puede quedar vacía.";
@@ -87,8 +85,8 @@ class FormularioNuevaPelicula extends Form
         $image = $datos['image'] ?? null;
         $dir_subida = './img/';
         $fichero_subido = $dir_subida . basename($_FILES['image']['name']);
-        if (!move_uploaded_file($_FILES['image']['tmp_name'], $fichero_subido)) {
-            $result['image'] = "El fichero no se ha podido subir correctamente";
+        if (!move_uploaded_file($_FILES['image']['tmp_name'], $fichero_subido) && !empty($_FILES['image']['name'])) {
+            $result['image'] = $_FILES['image']['name']."El fichero no se ha podido subir correctamente";
         }
 
         if (count($result) === 0) {

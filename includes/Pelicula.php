@@ -91,6 +91,8 @@ class Pelicula
 
     public static function editar($id, $title, $image, $date_released, $duration, $country, $plot)
     {
+        $pelicula = self::buscaPorId($id);
+        $image = strlen($image) < 1 ? $pelicula->image : $image;
         $pelicula = new Pelicula($id, $title, $image ,$date_released, $duration, $country, $plot, null);
         
         return self::guarda($pelicula);

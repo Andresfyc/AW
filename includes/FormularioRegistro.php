@@ -9,12 +9,12 @@ class FormularioRegistro extends Form
 
     protected function generaCamposFormulario($datos, $errores = array())
     {
-        $nombreUsuario = $datos['nombreUsuario'] ?? '';
+        $user = $datos['user'] ?? '';
         $nombre = $datos['nombre'] ?? '';
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
-        $errorNombreUsuario = self::createMensajeError($errores, 'nombreUsuario', 'span', array('class' => 'error'));
+        $errorUser = self::createMensajeError($errores, 'user', 'span', array('class' => 'error'));
         $errorNombre = self::createMensajeError($errores, 'nombre', 'span', array('class' => 'error'));
         $errorPassword = self::createMensajeError($errores, 'password', 'span', array('class' => 'error'));
         $errorPassword2 = self::createMensajeError($errores, 'password2', 'span', array('class' => 'error'));
@@ -23,7 +23,7 @@ class FormularioRegistro extends Form
             <fieldset>
                 $htmlErroresGlobales
                 <div class="grupo-control">
-                    <label>Nombre de usuario:</label> <input class="control" type="text" name="nombreUsuario" value="$nombreUsuario" />$errorNombreUsuario
+                    <label>Nombre de usuario:</label> <input class="control" type="text" name="user" value="$user" />$errorUser
                 </div>
                 <div class="grupo-control">
                     <label>Nombre completo:</label> <input class="control" type="text" name="nombre" value="$nombre" />$errorNombre
@@ -45,9 +45,9 @@ class FormularioRegistro extends Form
     {
         $result = array();
 
-        $nombreUsuario = $datos['nombreUsuario'] ?? null;
-        if ( empty($nombreUsuario) || mb_strlen($nombreUsuario) < 5 ) {
-            $result['nombreUsuario'] = "El nombre de usuario tiene que tener una longitud de al menos 5 caracteres.";
+        $user = $datos['user'] ?? null;
+        if ( empty($user) || mb_strlen($user) < 5 ) {
+            $result['user'] = "El nombre de usuario tiene que tener una longitud de al menos 5 caracteres.";
         }
 
         $nombre = $datos['nombre'] ?? null;
@@ -65,12 +65,13 @@ class FormularioRegistro extends Form
         }
 
         if (count($result) === 0) {
-            $usuario = Usuario::crea($nombreUsuario, $password, $nombre, '', '', null, 0, 0, 0);
+            $usuario = Usuario::crea($user, $password, $nombre, '', '', null, 0, 0, 0);
             if ( ! $usuario ) {
                 $result[] = "El usuario ya existe";
             } else {
                 $_SESSION['login'] = true;
-                $_SESSION['nombre'] = $nombreUsuario;
+                $_SESSION['nombre'] = $user;
+                $_SESSION['nombreCompleto'] = $nombre;
 				$_SESSION['esAdmin'] = $usuario->admin();
 				$_SESSION['esGestor'] = $usuario->content_manager();
 				$_SESSION['esModerador'] = $usuario->moderator();

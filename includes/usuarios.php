@@ -28,15 +28,28 @@ class usuarios
 
 
     function getDivUsuario() {
+		$usuario = self::getUsuarioPorUser($_SESSION["nombre"]);
         if (isset($_SESSION["login"]) && ($_SESSION["login"]===true)) {
-            $html = ' <fieldset>';
+            $html = '<div class="div-perfil">';
+            $html .= "<img id=\"film_pic\" src=\"img/{$_SESSION["imagen"]}\" alt=\"imagen\" width=\"150\" height=\"150\">";
+            $html .= '<div>';
+			$html .= "<p>Usuario: {$usuario->user()}</p>";
+			$html .= "<p>Nombre completo: {$usuario->name()}</p>";
+			$html .= "<p>Correo electrónico: </p>";
+			$html .= "<p>Fecha de registro: {$usuario->date_joined()}</p>";
+			if (isset($_SESSION["login"]) && ($_SESSION["login"]===true)) {
+				$html .= '<p><a href="editarPerfil.php">Editar Perfil</a></p>';
+			}
+            $html .= '</div>';
+            $html .= '</div>';
+            /*$html .= ' <fieldset>';
             $html .= '<div>';
             $html .= "<img id=\"film_pic\" src=\"img/{$_SESSION["imagen"]}\" alt=\"imagen\" width=\"200\" height=\"200\">";
             $html .= '</div>';
             $html .= '<div>';
-            $html .= "<label><h3>Nombre:</h3></label>{$_SESSION["nombre"]} ";
+            $html .= "<label><h3>Nombre:</h3></label>{$usuario->name()} ";
             $html .= '</div>';
-            $html .= ' </fieldset>';
+            $html .= ' </fieldset>';*/
             return $html;
         }
 

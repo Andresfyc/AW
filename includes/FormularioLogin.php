@@ -11,11 +11,11 @@ class FormularioLogin extends Form
     protected function generaCamposFormulario($datos, $errores = array())
     {
         // Se reutiliza el nombre de usuario introducido previamente o se deja en blanco
-        $nombreUsuario =$datos['nombreUsuario'] ?? '';
+        $user =$datos['user'] ?? '';
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
-        $errorNombreUsuario = self::createMensajeError($errores, 'nombreUsuario', 'span', array('class' => 'error'));
+        $errorUser = self::createMensajeError($errores, 'user', 'span', array('class' => 'error'));
         $errorPassword = self::createMensajeError($errores, 'password', 'span', array('class' => 'error'));
 
         // Se genera el HTML asociado a los campos del formulario y los mensajes de error.
@@ -23,7 +23,7 @@ class FormularioLogin extends Form
         <fieldset>
             <legend>Usuario y contraseña</legend>
             $htmlErroresGlobales
-            <p><label>Nombre de usuario:</label> <input type="text" name="nombreUsuario" value="$nombreUsuario"/>$errorNombreUsuario</p>
+            <p><label>Nombre de usuario:</label> <input type="text" name="user" value="$user"/>$errorUser</p>
             <p><label>Password:</label> <input type="password" name="password" />$errorPassword</p>
             <button type="submit" name="login">Entrar</button>
         </fieldset>
@@ -36,10 +36,10 @@ class FormularioLogin extends Form
     {
         $result = array();
 
-        $nombreUsuario =$datos['nombreUsuario'] ?? null;
+        $user =$datos['user'] ?? null;
 
-        if ( empty($nombreUsuario) ) {
-            $result['nombreUsuario'] = "El nombre de usuario no puede estar vacío";
+        if ( empty($user) ) {
+            $result['user'] = "El nombre de usuario no puede estar vacío";
         }
 
         $password = $datos['password'] ?? null;
@@ -48,13 +48,14 @@ class FormularioLogin extends Form
         }
 
         if (count($result) === 0) {
-            $usuario = Usuario::login($nombreUsuario, $password);
+            $usuario = Usuario::login($user, $password);
             if ( ! $usuario ) {
                 // No se da pistas a un posible atacante
                 $result[] = "El usuario o el password no coinciden";
             } else {
                 $_SESSION['login'] = true;
-                $_SESSION['nombre'] = $nombreUsuario;
+                $_SESSION['nombre'] = $user;
+                $_SESSION['nombreCompleto'] = $nombre;
 				$_SESSION['esAdmin'] = $usuario->admin();
 				$_SESSION['esGestor'] = $usuario->content_manager();
 				$_SESSION['esModerador'] = $usuario->moderator();

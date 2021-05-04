@@ -259,3 +259,11 @@ button {
 .div-pelicula > p {
 	text-align: center;
 }
+
+.div-perfil {
+	display: flex;
+}
+
+.div-perfil > div > p {
+	padding-left: 15px;
+}
