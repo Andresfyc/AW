@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="estilo.css" />
+    <link rel="shortcut icon" href="img/icono.ico" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title><?= $tituloPagina ?></title>
 </head>
