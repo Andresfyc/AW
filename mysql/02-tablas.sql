@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-04-2021 a las 17:26:14
+-- Tiempo de generación: 04-05-2021 a las 13:06:46
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.4.15
 
@@ -135,6 +135,17 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `generos`
+--
+
+CREATE TABLE `generos` (
+  `id` int(11) NOT NULL,
+  `name` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `notificaciones`
 --
 
@@ -179,6 +190,18 @@ CREATE TABLE `peliculas_actores_directores` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `peliculas_generos`
+--
+
+CREATE TABLE `peliculas_generos` (
+  `id` int(11) NOT NULL,
+  `film_id` int(11) NOT NULL,
+  `genre_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `reviews`
 --
 
@@ -217,7 +240,7 @@ CREATE TABLE `usuarios` (
   `user` varchar(25) NOT NULL,
   `password` varchar(255) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
-  `image` varchar(45) NOT NULL DEFAULT 'img/user_logged.png',
+  `image` varchar(45) NOT NULL DEFAULT 'user_logged.png',
   `date_joined` date NOT NULL,
   `watching` int(11) DEFAULT NULL,
   `admin` tinyint(4) NOT NULL DEFAULT 0,
@@ -273,6 +296,12 @@ ALTER TABLE `foro_mensajes`
   ADD KEY `user_idx` (`user`);
 
 --
+-- Indices de la tabla `generos`
+--
+ALTER TABLE `generos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
@@ -299,6 +328,14 @@ ALTER TABLE `peliculas_actores_directores`
   ADD KEY `actor_id_idx` (`actor_director_id`),
   ADD KEY `film_id_idx` (`film_id`),
   ADD KEY `actor_film_id_idx` (`film_id`);
+
+--
+-- Indices de la tabla `peliculas_generos`
+--
+ALTER TABLE `peliculas_generos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_peliculas_generos` (`genre_id`),
+  ADD KEY `fk_generos_peliculas` (`film_id`);
 
 --
 -- Indices de la tabla `reviews`
@@ -355,6 +392,12 @@ ALTER TABLE `foro_mensajes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `generos`
+--
+ALTER TABLE `generos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
@@ -370,6 +413,12 @@ ALTER TABLE `peliculas`
 -- AUTO_INCREMENT de la tabla `peliculas_actores_directores`
 --
 ALTER TABLE `peliculas_actores_directores`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `peliculas_generos`
+--
+ALTER TABLE `peliculas_generos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -417,6 +466,13 @@ ALTER TABLE `notificaciones`
 ALTER TABLE `peliculas_actores_directores`
   ADD CONSTRAINT `fk_actores_directores_peliculas` FOREIGN KEY (`film_id`) REFERENCES `peliculas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_peliculas_actores_directores` FOREIGN KEY (`actor_director_id`) REFERENCES `actores_directores` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `peliculas_generos`
+--
+ALTER TABLE `peliculas_generos`
+  ADD CONSTRAINT `fk_generos_peliculas` FOREIGN KEY (`film_id`) REFERENCES `peliculas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_peliculas_generos` FOREIGN KEY (`genre_id`) REFERENCES `generos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `reviews`
