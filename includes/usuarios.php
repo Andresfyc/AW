@@ -31,7 +31,7 @@ class usuarios
 		$usuario = self::getUsuarioPorUser($_SESSION["nombre"]);
         if (isset($_SESSION["login"]) && ($_SESSION["login"]===true)) {
             $html = '<div class="div-perfil">';
-            $html .= "<img id=\"film_pic\" src=\"img/{$_SESSION["imagen"]}\" alt=\"imagen\" width=\"150\" height=\"150\">";
+            $html .= "<img id=\"film_pic\" src=\"img/usuarios/{$_SESSION["imagen"]}\" alt=\"imagen\" width=\"150\" height=\"150\">";
             $html .= '<div>';
 			$html .= "<p>Usuario: {$usuario->user()}</p>";
 			$html .= "<p>Nombre completo: {$usuario->name()}</p>";
@@ -42,14 +42,6 @@ class usuarios
 			}
             $html .= '</div>';
             $html .= '</div>';
-            /*$html .= ' <fieldset>';
-            $html .= '<div>';
-            $html .= "<img id=\"film_pic\" src=\"img/{$_SESSION["imagen"]}\" alt=\"imagen\" width=\"200\" height=\"200\">";
-            $html .= '</div>';
-            $html .= '<div>';
-            $html .= "<label><h3>Nombre:</h3></label>{$usuario->name()} ";
-            $html .= '</div>';
-            $html .= ' </fieldset>';*/
             return $html;
         }
 

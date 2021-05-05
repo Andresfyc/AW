@@ -14,9 +14,9 @@ class peliculas
 			if (isset($_SESSION["login"]) && ($_SESSION["login"]===true) && ($_SESSION["esGestor"] == true || $_SESSION["esAdmin"] == true)) {
 				$html .= "<p><a href=\"./editarPelicula.php?id={$pelicula->id()}\">Editar</a></p>";
 				$html .= "<p><a href=\"./eliminarPelicula.php?id={$pelicula->id()}\">Eliminar</a></p>";
-				$html .= "<img id=\"film_pic\" src=\"img/{$pelicula->image()}\" alt=\"imagen\" width=\"100\" height=\"150\">";
+				$html .= "<img id=\"film_pic\" src=\"img/peliculas/{$pelicula->image()}\" alt=\"imagen\" width=\"100\" height=\"150\">";
 			} else {
-				$html .= "<img id=\"film_pic\" src=\"img/{$pelicula->image()}\" alt=\"imagen\" width=\"150\" height=\"225\">";
+				$html .= "<img id=\"film_pic\" src=\"img/peliculas/{$pelicula->image()}\" alt=\"imagen\" width=\"150\" height=\"225\">";
 			}
 			$text = $pelicula->title();
 			$text = strlen($text) > 40 ? substr($text, 0, 40).'...' : $text;
