@@ -14,7 +14,7 @@ function mostrarActoresDirectores($actorDirector) {
 ?>
 <aside id="sidebarIzq">
 	<div id="topSide">
-		<img src="img/logo.png" alt="filmswap logo" width="100%" height="100px">
+		<img src="img/logo1.png" alt="filmswap logo" width="100%" height="100%">
 		<form id="buscador" name="buscador" method="post" action="buscar.php">
 			<input id="buscar" name="buscar" type="text" placeholder="Buscar" autofocus>
 		</form>

@@ -4,18 +4,18 @@ html {
 
 body {
 	display: flex;
-	background-color: #ffffff;
+	background-color: #1C1C1C;
 	margin: 0px;
 	padding: 0px;    
-	min-height: -webkit-fill-available;
+	min-height: -webkit-fill-available; /**/
 	font-size: small;
 }
 
 header {
 	padding: 30px;
 	height: 100px;
-	background-color: #303030;
-	color: white;
+	color: #FFFFFF;/**/
+	background-color: #000000;/**/
 }
 
 header a, header a:visited {
@@ -25,7 +25,7 @@ header a, header a:visited {
 } 
 
 header a:hover {
-	color: red;
+	color: #1DB954;/**/
 	font-weight: bold;
 	text-decoration: underline;
 } 
@@ -40,15 +40,25 @@ nav {
 }
 
 nav a, nav a:visited {
-	color: red;
+	color: #1DB954;/**/
 	font-weight: bold;
 	text-decoration: none;
 } 
 
 nav a:hover {
-	color: red;
+	color: #1DB954;/**/
 	text-decoration: underline;
-} 
+}
+
+a{
+	color: #1DB954;/**/
+	text-decoration: none;
+}
+
+a:hover {
+	color: white;
+	text-decoration: underline;
+}
 
 
 /*aside {
@@ -64,7 +74,8 @@ nav a:hover {
 	float: left;
 	/*width: 170px;*/
 	/*height: 1000px;*/
-	background-color: #dddddd;
+	color: #FFFFFF;/**/
+	background-color: #1C1C1C;/**/
 }
 
 #sidebarDer{
@@ -73,8 +84,10 @@ nav a:hover {
 	float: right;
 	/*width: 170px;*/
 	/*height: 1000px;*/
-	background-color: #dddddd;
+	color: #FFFFFF;/**/
+	background-color: #1C1C1C;/**/
 }
+
 
 main {
 	width: 70%;
@@ -82,7 +95,8 @@ main {
 	/*min-height: 1000px;*/
   	height: 100%;
 	/*width: 500px;*/
-	background-color: white;
+	background-color: #262626;/**/
+	color: white;
     overflow-y: auto;
 }
 
@@ -108,14 +122,15 @@ div.saludo {
 }
 
 fieldset {
-	border: 1px solid black;
+	border: 1px solid #666666;
 	width: 15em;
 	margin: 0 auto;
+	background: #373737;
 }
 
 legend {
-	color: #fff;
-	background: #303030;
+	color: #ffffff;/**/
+	background: #303030;/**/
 	border: 1px solid black;
 	padding: 2px 6px;
 } 
@@ -129,7 +144,7 @@ button {
 } 
 
 #topSide {
-	width: 1;
+	width: auto;
 	height: 135px;
 	padding: 15px;
 	text-align: center;
@@ -157,7 +172,7 @@ button {
 	justify-content: space-around;
 	width: 100%;
 	border-style: solid;
-	border-color: #000000;
+	border-color: #666666;
 	border-width: 2px;
 	display: flex;
 }
@@ -166,13 +181,14 @@ button {
 	justify-content: space-around;
 	width: 100%;
 	border-style: solid;
-	border-color: #000000;
+	border-color: #666666;/**/
 	border-width: 0 2px 2px 2px;
 	display: flex;
 }
 
 .col {
 	padding-left: 25px;
+	background-color: #373737;
 }
 
 #col-4-1 {
@@ -209,6 +225,7 @@ button {
 
 #col-3-3 > p {
 	text-align: center;
+
 }
 
 .row-mensaje {
@@ -234,16 +251,16 @@ button {
     height: 285px;
     width: 150px;
 	border-style: solid;
-	border-color: #333333;
+	border-color: #666666;/**/
 	border-width: 0.5px;
-	background-color: #f9f9f9;
+	background-color: #373737;/**/
 }
 
 .div-pelicula-last {
 	margin: 15px auto;
 	display: flex;
 	border-style: solid;
-	border-color: #333333;
+	border-color: #666666;/**/
 	border-width: 1px;
     flex-direction: column;
     justify-content: center;
@@ -251,9 +268,9 @@ button {
     height: 285px;
     width: 150px;
 	border-style: solid;
-	border-color: #333333;
+	border-color: #666666;/**/
 	border-width: 0.5px;
-	background-color: #f9f9f9;
+	background-color: #373737;/**/
 }
 
 .div-pelicula > p {
@@ -267,3 +284,5 @@ button {
 .div-perfil > div > p {
 	padding-left: 15px;
 }
+
+
