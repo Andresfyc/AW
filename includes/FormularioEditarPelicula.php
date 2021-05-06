@@ -40,7 +40,6 @@ class FormularioEditarPelicula extends Form
         $country = $datos['country'] ?? $this->pelicula->country();
         $plot = $datos['plot'] ?? $this->pelicula->plot();
         $genres = $datos['genres'] ?? $this->pelicula->genres();
-        $genres = $datos['allGenres'] ?? $this->pelicula->allGenres();
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
@@ -84,6 +83,7 @@ class FormularioEditarPelicula extends Form
         $html .= <<<EOF
                     </select>
                 </div>
+                <a href="./nuevoGenero.php?prevPage=editarPelicula&id=$id">Añadir Género</a>
                 <div class="grupo-control"><button type="submit" name="editar">Confirmar</button></div>
             </fieldset>
         EOF;
@@ -131,11 +131,13 @@ class FormularioEditarPelicula extends Form
             $result['image'] = $_FILES['image']['name']."El fichero no se ha podido subir correctamente";
         }
 
+        $genres = $datos['genres'] ?? null;
+
         if (count($result) === 0) {
             //TODO Añadir lo de la imagen
             $pelicula = Pelicula::editar($id, $title, $_FILES['image']['name'], $date_released, $duration, $country, $plot);
 
-            $pelicula = Pelicula::actualizarGeneros($pelicula, $datos['genres']);
+            $pelicula = Pelicula::actualizarGeneros($pelicula, $genres);
 
             if ( ! $pelicula ) {
                 $result[] = "La película ya existe";

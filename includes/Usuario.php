@@ -24,7 +24,6 @@ class Usuario
             if ( $rs->num_rows == 1) {
                 $fila = $rs->fetch_assoc();
                 $usuario = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator']);
-                $usuario->user = $fila['user'];
                 $result = $usuario;
             }
             $rs->free();
