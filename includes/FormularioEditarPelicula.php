@@ -11,6 +11,25 @@ class FormularioEditarPelicula extends Form
         parent::__construct('formEditarPelicula');
     }
 
+    protected function genres()
+    {
+        $html = '';
+        foreach ($this->pelicula->allGenres() as $genre) {
+            $genres = [];
+            if ($this->pelicula->genres() != null) {
+                foreach ($this->pelicula->genres() as $genre2) {
+                    $genres[] = $genre2->name();
+                }
+            }
+            if (in_array($genre->name(), $genres)) {
+                $html .= "<option value=\"{$genre->id()}\" selected=\"selected\">{$genre->name()}</option>";
+            } else {
+                $html .= "<option value=\"{$genre->id()}\">{$genre->name()}</option>";
+            }
+        }
+        return $html;
+    }
+
     protected function generaCamposFormulario($datos, $errores = array())
     {
         $id = $datos['id'] ?? $this->pelicula->id();
@@ -20,6 +39,8 @@ class FormularioEditarPelicula extends Form
         $duration = $datos['duration'] ?? $this->pelicula->duration();
         $country = $datos['country'] ?? $this->pelicula->country();
         $plot = $datos['plot'] ?? $this->pelicula->plot();
+        $genres = $datos['genres'] ?? $this->pelicula->genres();
+        $genres = $datos['allGenres'] ?? $this->pelicula->allGenres();
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
@@ -54,9 +75,20 @@ class FormularioEditarPelicula extends Form
                 <div class="grupo-control">
                     <label>Trama:</label> <input class="control" type="text" name="plot" value="$plot" />$errorPlot
                 </div>
+                <div class="grupo-control">
+                    <label>Géneros:</label> <select name="genres[]" multiple>
+        EOF;
+
+        $html .= self::genres();
+
+        $html .= <<<EOF
+                    </select>
+                </div>
                 <div class="grupo-control"><button type="submit" name="editar">Confirmar</button></div>
             </fieldset>
         EOF;
+
+
         return $html;
     }
 
@@ -102,6 +134,8 @@ class FormularioEditarPelicula extends Form
         if (count($result) === 0) {
             //TODO Añadir lo de la imagen
             $pelicula = Pelicula::editar($id, $title, $_FILES['image']['name'], $date_released, $duration, $country, $plot);
+
+            $pelicula = Pelicula::actualizarGeneros($pelicula, $datos['genres']);
 
             if ( ! $pelicula ) {
                 $result[] = "La película ya existe";

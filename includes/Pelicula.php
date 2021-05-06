@@ -213,6 +213,39 @@ class Pelicula
         return $result;
     }
 
+    public static function actualizarGeneros($peliculaIn, $generos)
+    {
+        $result = false;
+
+        $app = Aplicacion::getSingleton();
+        $conn = $app->conexionBd();
+
+        $query = sprintf("DELETE FROM peliculas_generos WHERE film_id = %d", $peliculaIn->id);
+        $result = $conn->query($query);
+        if (!$result) {
+            error_log($conn->error);
+        } else if ($conn->affected_rows != 1) {
+            error_log("Se han borrado '$conn->affected_rows' !");
+        }
+
+        foreach($generos as $genero) {
+            $query=sprintf("INSERT INTO peliculas_generos(film_id, genre_id) VALUES('%d', '%d')"
+                , $conn->real_escape_string($peliculaIn->id)
+                , $conn->real_escape_string($genero));
+            
+            echo $query;
+            
+            if ( $conn->query($query) ) {
+                $genero->id = $conn->insert_id;
+            } else {
+                echo "Error al insertar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
+                exit();
+            }
+        }
+
+        return $result;
+    }
+
     private $id;
 
     private $title;
@@ -229,6 +262,10 @@ class Pelicula
 
     private $rating;
 
+    private $genres;
+
+    private $allGenres;
+
     private function __construct($id, $title, $image, $date_released, $duration, $country, $plot, $rating)
     {
         $this->id= $id;
@@ -239,6 +276,8 @@ class Pelicula
         $this->country = $country;
         $this->plot = $plot;
         $this->rating = $rating;
+        $this->genres = Genero::buscaPorPeliId($id);
+        $this->allGenres = Genero::generos();
     }
 
     public function id()
@@ -279,5 +318,15 @@ class Pelicula
     public function rating()
     {
         return $this->rating;
+    }
+
+    public function genres()
+    {
+        return $this->genres;
+    }
+
+    public function allGenres()
+    {
+        return $this->allGenres;
     }
 }
