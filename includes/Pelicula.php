@@ -79,7 +79,7 @@ class Pelicula
         if ( $conn->query($query) ) {
             if ( $conn->affected_rows != 1) {
                 echo "No se ha podido actualizar la pelicula: " . $pelicula->title;
-                exit();
+                //exit();
             }
         } else {
             echo "Error al insertar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
