@@ -36,6 +36,29 @@ class Mensaje
         return $mensaje;
     }
 
+    private static function actualiza($pelicula)
+    {
+        $app = Aplicacion::getSingleton();
+        $conn = $app->conexionBd();
+        $query=sprintf("UPDATE foro_mensajes M SET text = '%s' WHERE M.id=%d"
+        , $conn->real_escape_string($mensaje->evento_tema)
+        , $conn->real_escape_string($mensaje->user)
+        , $conn->real_escape_string($mensaje->text)
+            , $mensaje->id);
+
+        if ( $conn->query($query) ) {
+            if ( $conn->affected_rows != 1) {
+                echo "No se ha podido actualizar el mensaje: " . $mensaje->text;
+                //exit();
+            }
+        } else {
+            echo "Error al insertar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
+            exit();
+        }
+        
+        return $pelicula;
+    }
+
     //TODO Añadir actualiza()
     
     public static function buscaMensajesPorIdEventoTema($id)
@@ -56,6 +79,53 @@ class Mensaje
 
         return $result;
     }
+    public static function buscaPorId($id)
+    {
+        $app = Aplicacion::getSingleton();
+        $conn = $app->conexionBd();
+        $query = sprintf("SELECT * FROM foro_mensajes WHERE id = %d", $id);
+        $rs = $conn->query($query);
+        $result = false;
+        if ($rs) {
+            if ( $rs->num_rows == 1) {
+                $fila = $rs->fetch_assoc();
+                $mensaje = new Mensaje($fila['id'], $fila['evento_tema'], $fila['user'], $fila['text'], $fila['time_created']);
+                $result = $mensaje;
+            }
+            $rs->free();
+        } else {
+            echo "Error al consultar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
+            exit();
+        }
+        return $result;
+    }
+
+
+    public static function borraPorId($id)
+    {
+        $result = false;
+
+        $app = Aplicacion::getSingleton();
+        $conn = $app->conexionBd();
+        $query = sprintf("DELETE FROM foro_mensajes WHERE id = %d", $id);
+        $result = $conn->query($query);
+        if (!$result) {
+            error_log($conn->error);
+        } else if ($conn->affected_rows != 1) {
+            error_log("Se han borrado '$conn->affected_rows' !");
+        }
+
+        return $result;
+    }
+
+    public static function editar($id,$evento_tema,$user,$text,$time_created)
+    {
+        $mensaje = self::buscaPorId($id);
+        $pelicula = new Mensaje($id,$evento_tema,$user,$text,$time_created);
+        
+        return self::guarda($mensaje);
+    }
+
 
     private $id;
 

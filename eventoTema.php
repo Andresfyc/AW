@@ -24,6 +24,7 @@ if (isset($_SESSION["login"]) && ($_SESSION["login"]===true)) {
 	$form = new es\ucm\fdi\aw\FormularioNuevoMensaje($idEventoTema, $nombreEventoTema, $timeEventoTema);
 	$htmlFormNuevoMensaje = $form->gestiona();
 
+
 	$contenidoPrincipal .= <<<EOS
 	<h4>Responder:</h4>
 	$htmlFormNuevoMensaje
