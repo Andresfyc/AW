@@ -12,11 +12,11 @@ $tituloPagina = 'Eliminar Mensaje';
 $time_created = substr($mensaje->time_created(), 0, 4);
 
 if(array_key_exists('cancelar', $_POST)) {
-    header('Location: Foro.php');
+    header("Location: eventoTema.php?id={$mensaje->evento_tema_obj()->id()}&nombre={$mensaje->evento_tema_obj()->name()}&time={$mensaje->evento_tema_obj()->time()}.php");
 }
 else if(array_key_exists('eliminar', $_POST)) {
     $mensajes->eliminarMensajePorId($idMensaje);
-    header('Location: Foro.php');
+    header("Location: eventoTema.php?id={$mensaje->evento_tema_obj()->id()}&nombre={$mensaje->evento_tema_obj()->name()}&time={$mensaje->evento_tema_obj()->time()}.php");
 }
 
 $contenidoPrincipal = <<<EOS

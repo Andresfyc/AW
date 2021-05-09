@@ -13,7 +13,10 @@ class FormularioEditarMensaje extends Form
 
     protected function generaCamposFormulario($datos, $errores = array())
     {
-        //echo substr($this->eventoTema->time(), 0, 10);
+        $id = $datos['id'] ?? $this->mensaje->id();
+        $id2 = $datos['id2'] ?? $this->mensaje->evento_tema_obj()->id();
+        $name = $datos['name'] ?? $this->mensaje->evento_tema_obj()->name();
+        $time = $datos['time'] ?? $this->mensaje->evento_tema_obj()->time();
         $text = $datos['text'] ?? $this->mensaje->text();
       
 
@@ -27,8 +30,10 @@ class FormularioEditarMensaje extends Form
             <fieldset>
                 $htmlErroresGlobales
                 <input class="control" type="hidden" name="id" value="$id" readonly/>
+                <input class="control" type="hidden" name="id2" value="$id2" readonly/>
+                <input class="control" type="hidden" name="name" value="$name" readonly/>
+                <input class="control" type="hidden" name="time" value="$time" readonly/>
                 <div class="grupo-control">
-                <label>$text</label>
                     <label>Mensaje:</label> <input class="control" type="text" name="text" value="$text" />$errorText
                 </div>
                 
@@ -44,9 +49,9 @@ class FormularioEditarMensaje extends Form
         $result = array();
         
         $id = $datos['id'] ?? null;
-        $evento_tema=$datos['evento_tema'] ?? null;
-        $user=$datos['user'] ?? null;
-        $time_created=$datos['time_created'] ?? null;
+        $id2 = $datos['id2'] ?? null;
+        $name = $datos['name'] ?? null;
+        $time = $datos['time'] ?? null;
 
         $text = $datos['text'] ?? null;
         if ( empty($text) ) {
@@ -55,12 +60,12 @@ class FormularioEditarMensaje extends Form
 
         if (count($result) === 0) {
             //TODO Añadir lo de la imagen
-            $mensaje = Mensaje::editar($id,$evento_tema,$user,$text,$time_created);
+            $mensaje = Mensaje::editar($id,null,null,$text,null);
             if ( !$mensaje ) {
                 $result[] = "El mensaje ya existe";
             } //TODO Añadir una redirección a la página de la película
             else {
-                $result = 'foro.php';
+                $result = "eventoTema.php?id={$id2}&nombre={$name}&time={$time}";
             }
         }
         return $result;

@@ -36,16 +36,14 @@ class Mensaje
         return $mensaje;
     }
 
-    private static function actualiza($pelicula)
+    private static function actualiza($mensaje)
     {
         $app = Aplicacion::getSingleton();
         $conn = $app->conexionBd();
         $query=sprintf("UPDATE foro_mensajes M SET text = '%s' WHERE M.id=%d"
-        , $conn->real_escape_string($mensaje->evento_tema)
-        , $conn->real_escape_string($mensaje->user)
         , $conn->real_escape_string($mensaje->text)
             , $mensaje->id);
-
+        echo $query;
         if ( $conn->query($query) ) {
             if ( $conn->affected_rows != 1) {
                 echo "No se ha podido actualizar el mensaje: " . $mensaje->text;
@@ -56,10 +54,8 @@ class Mensaje
             exit();
         }
         
-        return $pelicula;
+        return $mensaje;
     }
-
-    //TODO Añadir actualiza()
     
     public static function buscaMensajesPorIdEventoTema($id)
     {
@@ -121,7 +117,11 @@ class Mensaje
     public static function editar($id,$evento_tema,$user,$text,$time_created)
     {
         $mensaje = self::buscaPorId($id);
-        $pelicula = new Mensaje($id,$evento_tema,$user,$text,$time_created);
+        $evento_tema = strlen($evento_tema) < 1 ? $mensaje->evento_tema : $evento_tema;
+        $user = strlen($user) < 1 ? $mensaje->user : $user;
+        $text = strlen($text) < 1 ? $mensaje->text : $text;
+        $time_created = strlen($time_created) < 1 ? $mensaje->time_created : $time_created;
+        $mensaje = new Mensaje($id,$evento_tema,$user,$text,$time_created);
         
         return self::guarda($mensaje);
     }
@@ -136,6 +136,8 @@ class Mensaje
 	private $text;
 
     private $time_created;
+    
+    private $evento_tema_obj;
 
     private function __construct($id, $evento_tema, $user, $text, $time_created)
     {
@@ -144,15 +146,8 @@ class Mensaje
         $this->user = $user;
         $this->text = $text;
         $this->time_created = $time_created;
+		$this->evento_tema_obj = EventoTema::buscaPorId($this->evento_tema);
     }
-
-    /*private function __construct($evento_tema, $user, $text, $time_created)
-    {
-        $this->evento_tema = $evento_tema;
-        $this->user = $user;
-        $this->text = $text;
-        $this->time_created = $time_created;
-    }*/
 
     public function id()
     {
@@ -177,5 +172,10 @@ class Mensaje
     public function time_created()
     {
         return $this->time_created;
+    }
+
+    public function evento_tema_obj()
+    {
+        return $this->evento_tema_obj;
     }
 }

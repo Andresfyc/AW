@@ -16,8 +16,8 @@ class mensajes
 		
 			$html .= '<div class="row-mensaje">';
 			$html .= "{$mensaje->text()} ({$mensaje->user()}) [{$mensaje->time_created()}]  ";
-			if (isset($_SESSION["login"]) && ($_SESSION["login"]===true) && ($_SESSION["esGestor"] == true || $_SESSION["esAdmin"] == true)) {
-				$html .= "<a href=\"./FormularioEditarMensaje.php?id={$mensaje->id()}\">Editar</a>";
+			if (isset($_SESSION["login"]) && ($_SESSION["login"]===true) && ($_SESSION["esModerador"] == true || $_SESSION["esAdmin"] == true || $mensaje->user() == $_SESSION['nombre'])) {
+				$html .= "<a href=\"./editarMensaje.php?id={$mensaje->id()}\">Editar</a>";
 				$html .= "<a href=\"./eliminarMensaje.php?id={$mensaje->id()}\"> Eliminar</a>";
 			}
 			$html .= '</div>';
