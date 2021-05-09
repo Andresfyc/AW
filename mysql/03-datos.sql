@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-05-2021 a las 17:23:15
+-- Tiempo de generación: 09-05-2021 a las 04:26:45
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.4.15
 
@@ -105,7 +105,7 @@ INSERT INTO `generos` (`id`, `name`) VALUES
 --
 
 INSERT INTO `peliculas` (`id`, `title`, `image`, `date_released`, `duration`, `country`, `plot`, `rating`) VALUES
-(1, 'peli1', 'peli-1.jpg', '2013-05-21', 120, 'country1', 'peli1 plot', '1.00'),
+(1, 'peli1', 'peli-1.jpg', '2013-05-21', 120, 'country1', 'peli1 plot', '5.00'),
 (2, 'Titanic', 'peli-2.jpg', '2013-05-21', 210, 'Estados Unidos', 'Jack (DiCaprio), un joven artista, gana en una partida de cartas un pasaje para viajar a América en el Titanic, el transatlántico más grande y seguro jamás construido. A bordo conoce a Rose (Kate Winslet), una joven de una buena familia venida a menos que va a contraer un matrimonio de conveniencia con Cal (Billy Zane), un millonario engreído a quien sólo interesa el prestigioso apellido de su prometida. Jack y Rose se enamoran, pero el prometido y la madre de ella ponen todo tipo de trabas a su relación. Mientras, el gigantesco y lujoso transatlántico se aproxima hacia un inmenso iceberg.(FILMAFFINITY)', '3.33'),
 (3, 'Nosotros(Us)', 'peli-3.jpg', '2019-03-20', 121, 'Estados Unidos', 'Adelaide Wilson es una mujer que vuelve al hogar de su infancia en la costa junto a su marido, Gabe, y sus dos hijos, para una idílica escapada veraniega. Después de un tenso día en la playa con sus amigos, Adelaide y su familia vuelven a la casa donde están pasando las vacaciones. Cuando cae la noche, los Wilson descubren la silueta de cuatro figuras cogidas de la mano y en pie delante de la vivienda. \"Nosotros\" enfrenta a una entrañable familia estadounidense a un enemigo tan insólito como aterrador. (FILMAFFINITY)', '4.00'),
 (6, 'Tyler Rake', 'TylerRake.jpg', '2020-04-24', 117, 'Estados Unidos', 'Tyler Rake (Hemsworth) es un mercenario que ofrece sus servicios en el mercado negro, y al que contratan para una peligrosa misión: rescatar al hijo secuestrado del príncipe jefe de la mafia india que se encuentra en prisión. Secuestrado por un capo de la mafia tailandesa, una misión que se preveía suicida se convierte en un desafío casi imposible que cambiará para siempre las vidas de Tyler y el chico. (FILMAFFINITY)', '0.00'),
@@ -198,7 +198,7 @@ INSERT INTO `peliculas_generos` (`id`, `film_id`, `genre_id`) VALUES
 --
 
 INSERT INTO `reviews` (`id`, `user`, `film_id`, `review`, `stars`, `time_created`) VALUES
-(1, 'user1', 1, 'review1', 1, '2021-04-12 21:36:13');
+(1, 'user1', 1, 'review1', 5, '2021-04-12 21:36:13');
 
 --
 -- Volcado de datos para la tabla `usuarios`
@@ -207,9 +207,17 @@ INSERT INTO `reviews` (`id`, `user`, `film_id`, `review`, `stars`, `time_created
 INSERT INTO `usuarios` (`user`, `password`, `name`, `image`, `date_joined`, `watching`, `admin`, `content_manager`, `moderator`) VALUES
 ('prueb', '$2y$10$dA0PS/iNcrlua.37OmeATuZUSbjzyKNTbsm36u9VMTXDJpldPoaY2', 'prueba', 'user_logged.png', '2021-04-28', NULL, 0, 0, 0),
 ('prueba14', '$2y$10$0JmiC7x6KE7BWsSzKsSfAu71YOiHe/yceSmH2MJRm/tgmxdKXoQWK', 'prueba14 name', 'user_logged.png', '2021-04-28', NULL, 0, 0, 0),
-('user1', '$2y$10$nkhPkXCRh7CURO0s2eQAkeHx5s3vSJiviDgbhi/FwqWzc3YZ37Ayy', 'user1 name', 'andresimage.jpg', '2021-04-12', 1, 0, 1, 0),
+('user1', '$2y$10$nkhPkXCRh7CURO0s2eQAkeHx5s3vSJiviDgbhi/FwqWzc3YZ37Ayy', 'user1 name1', 'andresimage.jpg', '2021-04-12', 1, 0, 1, 0),
 ('usuario', '$2y$10$yAw3n1GYdGCRnCbOOkl.geXkst4m07Bmhhf5YGSfMKOyLxRNHqNCS', 'usuario user', 'user_logged.png', '2021-04-28', 2, 0, 0, 0),
 ('usuario2', '$2y$10$BiHz6rkbwoOfPcw4Pmg/zekJJBodBAdw22f2F8eBymX9WknIjuj4i', 'usuario2', 'user_logged.png', '2021-04-28', NULL, 0, 0, 0);
+
+--
+-- Volcado de datos para la tabla `usuarios_peliculas_vistas`
+--
+
+INSERT INTO `usuarios_peliculas_vistas` (`id`, `user`, `film_id`, `rating`, `time_created`) VALUES
+(1, 'usuario', 2, 0, '2021-05-09 02:25:10'),
+(2, 'user1', 1, 5, '2021-05-09 02:25:55');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

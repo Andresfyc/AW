@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-05-2021 a las 13:06:46
+-- Tiempo de generación: 09-05-2021 a las 04:13:59
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.4.15
 
@@ -20,43 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `film_swap_2`
 --
-
-DELIMITER $$
---
--- Procedimientos
---
-CREATE DEFINER=`root`@`%` PROCEDURE `updateNumMessagesForum` (`evento_tema_id_in` INT)  BEGIN
-	DECLARE total_messages INT;
-    
-    SELECT COUNT(*)
-    INTO total_messages
-    FROM foro_mensajes
-    WHERE evento_tema = evento_tema_id_in;
-    
-    UPDATE foro_eventos_temas 
-	SET 
-		num_messages = total_messages
-	WHERE
-		id = evento_tema_id_in;
-END$$
-
-CREATE DEFINER=`root`@`%` PROCEDURE `updateRating` (`film_id_in` INT)  BEGIN
-	DECLARE average DECIMAL(10,2);
-    
-    SELECT AVG(stars)
-    INTO average
-    FROM reviews
-    WHERE film_id = film_id_in;
-    
-    UPDATE peliculas 
-	SET 
-		rating = average
-	WHERE
-		id = film_id_in;
-    
-END$$
-
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -115,22 +78,6 @@ CREATE TABLE `foro_mensajes` (
   `text` longtext NOT NULL,
   `time_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Disparadores `foro_mensajes`
---
-DELIMITER $$
-CREATE TRIGGER `foro_mensajes_num_AFTER_DELETE` AFTER DELETE ON `foro_mensajes` FOR EACH ROW CALL updateNumMessagesForum(OLD.evento_tema)
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `foro_mensajes_num_AFTER_INSERT` AFTER INSERT ON `foro_mensajes` FOR EACH ROW CALL updateNumMessagesForum(NEW.evento_tema)
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `foro_mensajes_num_AFTER_UPDATE` AFTER UPDATE ON `foro_mensajes` FOR EACH ROW CALL updateNumMessagesForum(NEW.evento_tema)
-$$
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -214,22 +161,6 @@ CREATE TABLE `reviews` (
   `time_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Disparadores `reviews`
---
-DELIMITER $$
-CREATE TRIGGER `reviews_rate_AFTER_DELETE` AFTER DELETE ON `reviews` FOR EACH ROW CALL updateRating (OLD.film_id)
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `reviews_rate_AFTER_INSERT` AFTER INSERT ON `reviews` FOR EACH ROW CALL updateRating (NEW.film_id)
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `reviews_rate_AFTER_UPDATE` AFTER UPDATE ON `reviews` FOR EACH ROW CALL updateRating (NEW.film_id)
-$$
-DELIMITER ;
-
 -- --------------------------------------------------------
 
 --
@@ -258,6 +189,20 @@ CREATE TABLE `usuarios_actores_directores` (
   `id` int(11) NOT NULL,
   `user` varchar(45) NOT NULL,
   `actores_directores_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios_peliculas_vistas`
+--
+
+CREATE TABLE `usuarios_peliculas_vistas` (
+  `id` int(11) NOT NULL,
+  `user` varchar(25) NOT NULL,
+  `film_id` int(11) NOT NULL,
+  `rating` int(2) NOT NULL DEFAULT 0,
+  `time_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -364,6 +309,15 @@ ALTER TABLE `usuarios_actores_directores`
   ADD KEY `fk_usuarios_actores_directores_idx` (`actores_directores_id`);
 
 --
+-- Indices de la tabla `usuarios_peliculas_vistas`
+--
+ALTER TABLE `usuarios_peliculas_vistas`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `film_id` (`film_id`,`user`),
+  ADD KEY `fk_peliculas_usuarios_vistas_idx` (`user`),
+  ADD KEY `fk_usuarios_peliculas_vistas_idx` (`film_id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -434,6 +388,12 @@ ALTER TABLE `usuarios_actores_directores`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `usuarios_peliculas_vistas`
+--
+ALTER TABLE `usuarios_peliculas_vistas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Restricciones para tablas volcadas
 --
 
@@ -493,6 +453,13 @@ ALTER TABLE `usuarios`
 ALTER TABLE `usuarios_actores_directores`
   ADD CONSTRAINT `fk_actores_directores_usuarios` FOREIGN KEY (`user`) REFERENCES `usuarios` (`user`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_usuarios_actores_directores` FOREIGN KEY (`actores_directores_id`) REFERENCES `actores_directores` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `usuarios_peliculas_vistas`
+--
+ALTER TABLE `usuarios_peliculas_vistas`
+  ADD CONSTRAINT `fk_peliculas_usuarios_vistas` FOREIGN KEY (`user`) REFERENCES `usuarios` (`user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_usuarios_peliculas_vistas` FOREIGN KEY (`film_id`) REFERENCES `peliculas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
