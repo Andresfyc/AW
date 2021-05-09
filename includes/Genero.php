@@ -88,7 +88,7 @@ class Genero
 
         $app = Aplicacion::getSingleton();
         $conn = $app->conexionBd();
-		$query = "SELECT * FROM generos";
+		$query = "SELECT * FROM generos ORDER BY name ASC";
 
 		$rs = $conn->query($query);
 		if ($rs) {

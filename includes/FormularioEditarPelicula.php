@@ -14,7 +14,7 @@ class FormularioEditarPelicula extends Form
     protected function genres()
     {
         $html = '';
-        foreach ($this->pelicula->allGenres() as $genre) {
+        foreach (Genero::generos() as $genre) {
             $genres = [];
             if ($this->pelicula->genres() != null) {
                 foreach ($this->pelicula->genres() as $genre2) {
@@ -30,6 +30,44 @@ class FormularioEditarPelicula extends Form
         return $html;
     }
 
+    protected function actors()
+    {
+        $html = '';
+        foreach (ActorDirector::actores() as $actor) {
+            $actors = [];
+            if ($this->pelicula->actors() != null) {
+                foreach ($this->pelicula->actors() as $actor2) {
+                    $actors[] = $actor2->name();
+                }
+            }
+            if (in_array($actor->name(), $actors)) {
+                $html .= "<option value=\"{$actor->id()}\" selected=\"selected\">{$actor->name()}</option>";
+            } else {
+                $html .= "<option value=\"{$actor->id()}\">{$actor->name()}</option>";
+            }
+        }
+        return $html;
+    }
+
+    protected function directors()
+    {
+        $html = '';
+        foreach (ActorDirector::directores() as $director) {
+            $directors = [];
+            if ($this->pelicula->directors() != null) {
+                foreach ($this->pelicula->directors() as $director2) {
+                    $directors[] = $director2->name();
+                }
+            }
+            if (in_array($director->name(), $directors)) {
+                $html .= "<option value=\"{$director->id()}\" selected=\"selected\">{$director->name()}</option>";
+            } else {
+                $html .= "<option value=\"{$director->id()}\">{$director->name()}</option>";
+            }
+        }
+        return $html;
+    }
+
     protected function generaCamposFormulario($datos, $errores = array())
     {
         $id = $datos['id'] ?? $this->pelicula->id();
@@ -40,6 +78,8 @@ class FormularioEditarPelicula extends Form
         $country = $datos['country'] ?? $this->pelicula->country();
         $plot = $datos['plot'] ?? $this->pelicula->plot();
         $genres = $datos['genres'] ?? $this->pelicula->genres();
+        $actors = $datos['actors'] ?? $this->pelicula->actors();
+        $directors = $datos['directors'] ?? $this->pelicula->directors();
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
@@ -84,6 +124,27 @@ class FormularioEditarPelicula extends Form
                     </select>
                 </div>
                 <a href="./nuevoGenero.php?prevPage=editarPelicula&id=$id">Añadir Género</a>
+                <div class="grupo-control">
+                    <label>Actores:</label> <select name="actors[]" multiple>
+        EOF;
+
+        $html .= self::actors();
+
+        $html .= <<<EOF
+                    </select>
+                </div>
+                <a href="./nuevoActorDirector.php?ad=0&prevPage=editarPelicula&id=$id">Añadir Actor</a>
+                
+                <div class="grupo-control">
+                    <label>Directores:</label> <select name="directors[]" multiple>
+        EOF;
+
+        $html .= self::directors();
+
+        $html .= <<<EOF
+                    </select>
+                </div>
+                <a href="./nuevoActorDirector.php?ad=1&prevPage=editarPelicula&id=$id">Añadir Director</a>
                 <div class="grupo-control"><button type="submit" name="editar">Confirmar</button></div>
             </fieldset>
         EOF;
@@ -133,11 +194,17 @@ class FormularioEditarPelicula extends Form
 
         $genres = $datos['genres'] ?? null;
 
+        $actors = $datos['actors'] ?? null;
+
+        $directors = $datos['directors'] ?? null;
+
         if (count($result) === 0) {
             //TODO Añadir lo de la imagen
             $pelicula = Pelicula::editar($id, $title, $_FILES['image']['name'], $date_released, $duration, $country, $plot);
 
-            $pelicula = Pelicula::actualizarGeneros($pelicula, $genres);
+            Pelicula::actualizarGeneros($pelicula, $genres);
+
+            Pelicula::actualizarActoresDirectores($pelicula, $actors, $directors);
 
             if ( ! $pelicula ) {
                 $result[] = "La película ya existe";

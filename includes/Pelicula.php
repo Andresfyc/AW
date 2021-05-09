@@ -229,15 +229,57 @@ class Pelicula
         }
 
         foreach($generos as $genero) {
-            $query=sprintf("INSERT INTO peliculas_generos(film_id, genre_id) VALUES('%d', '%d')"
+            $query=sprintf("INSERT INTO peliculas_generos(film_id, genre_id) VALUES(%d, %d)"
                 , $conn->real_escape_string($peliculaIn->id)
                 , $conn->real_escape_string($genero));
             
             echo $query;
             
-            if ( $conn->query($query) ) {
-                $genero->id = $conn->insert_id;
-            } else {
+            if ( !$conn->query($query) ) {
+                echo "Error al insertar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
+                exit();
+            }
+        }
+
+        return $result;
+    }
+
+    public static function actualizarActoresDirectores($peliculaIn, $actores, $directores)
+    {
+        $result = false;
+
+        $app = Aplicacion::getSingleton();
+        $conn = $app->conexionBd();
+
+        $query = sprintf("DELETE FROM peliculas_actores_directores WHERE film_id = %d", $peliculaIn->id);
+        $result = $conn->query($query);
+        if (!$result) {
+            error_log($conn->error);
+        } else if ($conn->affected_rows != 1) {
+            error_log("Se han borrado '$conn->affected_rows' !");
+        }
+
+        foreach($actores as $actor) {
+            $query=sprintf("INSERT INTO peliculas_actores_directores(film_id, actor_director_id) VALUES(%d, %d)"
+                , $conn->real_escape_string($peliculaIn->id)
+                , $conn->real_escape_string($actor));
+            
+            echo $query;
+            
+            if ( !$conn->query($query) ) {
+                echo "Error al insertar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
+                exit();
+            }
+        }
+
+        foreach($directores as $director) {
+            $query=sprintf("INSERT INTO peliculas_actores_directores(film_id, actor_director_id) VALUES(%d, %d)"
+                , $conn->real_escape_string($peliculaIn->id)
+                , $conn->real_escape_string($director));
+            
+            echo $query;
+            
+            if ( !$conn->query($query) ) {
                 echo "Error al insertar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
                 exit();
             }
@@ -264,7 +306,9 @@ class Pelicula
 
     private $genres;
 
-    private $allGenres;
+    private $actors;
+
+    private $directors;
 
     private function __construct($id, $title, $image, $date_released, $duration, $country, $plot, $rating)
     {
@@ -277,7 +321,8 @@ class Pelicula
         $this->plot = $plot;
         $this->rating = $rating;
         $this->genres = Genero::buscaPorPeliId($id);
-        $this->allGenres = Genero::generos();
+        $this->actors = ActorDirector::buscaActorPorPeliId($id);
+        $this->directors = ActorDirector::buscaDirectorPorPeliId($id);
     }
 
     public function id()
@@ -325,8 +370,13 @@ class Pelicula
         return $this->genres;
     }
 
-    public function allGenres()
+    public function actors()
     {
-        return $this->allGenres;
+        return $this->actors;
+    }
+
+    public function directors()
+    {
+        return $this->directors;
     }
 }

@@ -16,10 +16,16 @@ if (strlen($prevPageId) > 0) {
 $form = new es\ucm\fdi\aw\FormularioNuevoActorDirector($ad, $prev);
 $htmlFormNuevoActorDirector = $form->gestiona();
 
-$tituloPagina = 'Añadir Actor/Director';
+if ($ad == 0) {
+    $adString = 'Actor';
+} else {
+    $adString = 'Director';
+}
+
+$tituloPagina = "Añadir {$adString}";
 
 $contenidoPrincipal = <<<EOS
-<h1>Añadir Actor/Director</h1>
+<h1>Añadir $adString</h1>
 $htmlFormNuevoActorDirector
 EOS;
 

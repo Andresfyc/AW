@@ -133,7 +133,7 @@ class ActorDirector
 
         $app = Aplicacion::getSingleton();
         $conn = $app->conexionBd();
-		$query = "SELECT * FROM actores_directores WHERE actor_director = 0";
+		$query = "SELECT * FROM actores_directores WHERE actor_director = 0 ORDER BY name ASC";
 
 		$rs = $conn->query($query);
 		if ($rs) {
@@ -152,9 +152,45 @@ class ActorDirector
 
         $app = Aplicacion::getSingleton();
         $conn = $app->conexionBd();
-		$query = "SELECT * FROM actores_directores WHERE actor_director = 1";
+		$query = "SELECT * FROM actores_directores WHERE actor_director = 1 ORDER BY name ASC";
 
 		$rs = $conn->query($query);
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			$result[] = new ActorDirector($fila['id'], $fila['actor_director'], $fila['name'], $fila['description'], $fila['birth_date'], $fila['nationality'], $fila['image']);
+		  }
+		  $rs->free();
+		}
+
+		return $result;
+    }
+
+	public static function buscaActorPorPeliId ($id)
+    {
+        $app = Aplicacion::getSingleton();
+        $conn = $app->conexionBd();
+        $query = sprintf("SELECT ad.* FROM actores_directores ad JOIN peliculas_actores_directores pad ON ad.id = pad.actor_director WHERE pad.film_id = %d AND ad.actor_director = 0", $id);
+        
+        $rs = $conn->query($query);
+        $result = false;
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			$result[] = new ActorDirector($fila['id'], $fila['actor_director'], $fila['name'], $fila['description'], $fila['birth_date'], $fila['nationality'], $fila['image']);
+		  }
+		  $rs->free();
+		}
+
+		return $result;
+    }
+
+	public static function buscaDirectorPorPeliId ($id)
+    {
+        $app = Aplicacion::getSingleton();
+        $conn = $app->conexionBd();
+        $query = sprintf("SELECT ad.* FROM actores_directores ad JOIN peliculas_actores_directores pad ON ad.id = pad.actor_director WHERE pad.film_id = %d AND ad.actor_director = 1", $id);
+        
+        $rs = $conn->query($query);
+        $result = false;
 		if ($rs) {
 		  while($fila = $rs->fetch_assoc()) {
 			$result[] = new ActorDirector($fila['id'], $fila['actor_director'], $fila['name'], $fila['description'], $fila['birth_date'], $fila['nationality'], $fila['image']);

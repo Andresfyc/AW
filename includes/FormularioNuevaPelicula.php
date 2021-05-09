@@ -43,8 +43,8 @@ class FormularioNuevaPelicula extends Form
         $country = $datos['country'] ?? '';
         $plot = $datos['plot'] ?? '';
         $genres = $datos['genres'] ?? '';
-        $genres = $datos['actors'] ?? '';
-        $genres = $datos['directors'] ?? '';
+        $actors = $datos['actors'] ?? '';
+        $directors = $datos['directors'] ?? '';
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
@@ -89,7 +89,7 @@ class FormularioNuevaPelicula extends Form
                 </div>
                 <a href="./nuevoGenero.php?prevPage=nuevaPelicula">Añadir Género</a>
                 <div class="grupo-control">
-                    <label>Actores:</label> <select name="actores[]" multiple>
+                    <label>Actores:</label> <select name="actors[]" multiple>
         EOF;
 
         $html .= self::actors();
@@ -100,7 +100,7 @@ class FormularioNuevaPelicula extends Form
                 <a href="./nuevoActorDirector.php?ad=0&prevPage=nuevaPelicula">Añadir Actor</a>
                 
                 <div class="grupo-control">
-                    <label>Directores:</label> <select name="directores[]" multiple>
+                    <label>Directores:</label> <select name="directors[]" multiple>
         EOF;
 
         $html .= self::directors();
@@ -156,14 +156,15 @@ class FormularioNuevaPelicula extends Form
         
         $actors = $datos['actors'] ?? null;
         
-        $directors = $directors['genres'] ?? null;
+        $directors = $datos['directors'] ?? null;
 
         if (count($result) === 0) {
             $pelicula = Pelicula::crea($title, $_FILES['image']['name'], $date_released, $duration, $country, $plot);
 
-            $pelicula = Pelicula::actualizarGeneros($pelicula, $genres);
+            Pelicula::actualizarGeneros($pelicula, $genres);
 
-            //TODO Manejar la actualización de actores y directores!!!!!!!!!!!!!!!!!!!!
+            Pelicula::actualizarActoresDirectores($pelicula, $actors, $directors);
+
             if ( ! $pelicula ) {
                 $result[] = "La película ya existe";
             } //TODO Añadir una redirección a la página de la película

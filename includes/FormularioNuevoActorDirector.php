@@ -15,7 +15,7 @@ class FormularioNuevoActorDirector extends Form
 
     protected function generaCamposFormulario($datos, $errores = array())
     {
-        $actor_director = $datos['actor_director'] ?? '';
+        $actor_director = $datos['actor_director'] ?? $this->actor_director;
         $name = $datos['name'] ?? '';
         $description = $datos['description'] ?? '';
         $birth_date = $datos['birth_date'] ?? '';
@@ -32,6 +32,12 @@ class FormularioNuevoActorDirector extends Form
         $errorNationality = self::createMensajeError($errores, 'nationality', 'span', array('class' => 'error'));
         $errorImage = self::createMensajeError($errores, 'image', 'span', array('class' => 'error'));
 
+        
+        if ($actor_director == 0) {
+            $adString = 'Actor';
+        } else {
+            $adString = 'Director';
+        }
 
         //TODO Añadir lo de la imagen
         $html = <<<EOF
@@ -40,7 +46,7 @@ class FormularioNuevoActorDirector extends Form
                 <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
                 <input class="control" type="hidden" name="actor_director" value="$actor_director" readonly/>
                 <div class="grupo-control">
-                    <label>Nombre del actor/director:</label> <input class="control" type="text" name="name" value="$name" />$errorName
+                    <label>Nombre del $adString:</label> <input class="control" type="text" name="name" value="$name" />$errorName
                 </div>
                 <div class="grupo-control">
                     <label>Imagen:</label> <input class="control" type="file" name="image" value="$image" />$errorImage
