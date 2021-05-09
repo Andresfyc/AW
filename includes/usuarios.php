@@ -8,20 +8,27 @@ class usuarios
 
 	function listaAmigos($user = NULL, $limit = NULL)
 	{
-		$html = '<ul>';
+		$html = '<div>';
 		$usuarios = Usuario::buscaAmigosPorUser($user, $limit);
 		foreach($usuarios as $usuario) {
-			$href = './actoresDirectores.php?id=' . $usuario->user();
-			$html .= '<li>';
+			$href = './usuarios.php?id=' . $usuario->user();
+			$html .= '<div class="div-usuarios">';
+			$html .= '<div class="usuarios">';
+			$html .= "<img id=\"prof_pic\" src=\"img/usuarios/{$usuario->image()}\" alt=\"user\" width=\"60\" height=\"60\">";
+			$html .= '<div>';
+			$html .= "<p><a href=\"$href\">{$usuario->user()} </a></p>";
+			$html .= "<p>{$usuario->name()} </p>";
+			$html .= '</div>';
+			$html .= '</div>';
+			$html .= '<div>';
 			$peliculaWatching = $usuario->film();
-			if (!$peliculaWatching) {
-				$html .= "<a href=\"$href\">{$usuario->user()} </a>";
-			} else {
-				$html .= "<a href=\"$href\">{$usuario->user()} (Viendo: {$peliculaWatching->title()})</a>";
+			if ($peliculaWatching) {
+				$html .= "<p><a href=> Viendo: {$peliculaWatching->title()} </a></p>";
 			}
-			$html .= '</li>';
+			$html .= '</div>';
+			$html .= '</div>';
 		}
-		$html .= '</ul>';
+		$html .= '</div>';
 
 		return $html;
 	}
@@ -31,7 +38,7 @@ class usuarios
 		$usuario = self::getUsuarioPorUser($_SESSION["nombre"]);
         if (isset($_SESSION["login"]) && ($_SESSION["login"]===true)) {
             $html = '<div class="div-perfil">';
-            $html .= "<img id=\"film_pic\" src=\"img/usuarios/{$_SESSION["imagen"]}\" alt=\"imagen\" width=\"150\" height=\"150\">";
+            $html .= "<img id=\"film_pic\" src=\"img/usuarios/{$_SESSION["imagen"]}\" alt=\"user\" width=\"150\" height=\"150\">";
             $html .= '<div>';
 			$html .= "<p>Usuario: {$usuario->user()}</p>";
 			$html .= "<p>Nombre completo: {$usuario->name()}</p>";

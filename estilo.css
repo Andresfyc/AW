@@ -69,7 +69,7 @@ a:hover {
 }*/
 
 #sidebarIzq{
-	width: 15%;
+	width: 17%;
 	/*padding: 10px;*/
 	float: left;
 	/*width: 170px;*/
@@ -79,7 +79,7 @@ a:hover {
 }
 
 #sidebarDer{
-	width: 15%;
+	width: 17%;
 	/*padding: 10px;*/
 	float: right;
 	/*width: 170px;*/
@@ -90,7 +90,7 @@ a:hover {
 
 
 main {
-	width: 70%;
+	width: 66%;
 	float: left;
 	/*min-height: 1000px;*/
   	height: 100%;
@@ -283,4 +283,46 @@ button {
 
 .div-perfil > div > p {
 	padding-left: 15px;
+}
+
+.div-actoresDirectores {
+	display: flex;
+	margin-bottom: 20px;
+    align-content: center;
+    align-items: center;
+}
+
+.div-actoresDirectores > div > p {
+	padding-left: 10px;
+}
+
+.div-actoresDirectores > p {
+	margin: 0;
+	padding-left: 10px;
+}
+
+.usuarios {
+	display: flex;
+    align-content: center;
+    align-items: center;
+}
+
+.usuarios > div > p {
+	padding-left: 10px;
+}
+
+.usuarios > p {
+	margin: 0;
+	padding-left: 10px;
+}
+
+.div-usuarios {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 20px;
+}
+
+.div-usuarios > div > p{
+	margin: 0;
+	padding: 5px;
 }

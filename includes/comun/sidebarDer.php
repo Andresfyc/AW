@@ -1,9 +1,9 @@
 <?php
 function mostrarSaludo() {
 	if (isset($_SESSION["login"]) && ($_SESSION["login"]===true)) {
-		echo "<img id=\"prof_pic\" src=\"img/usuarios/{$_SESSION["imagen"]}\" alt=\"imagen\" width=\"100\" height=\"100\"><p>Bienvenido, " . $_SESSION["nombre"] . "</p><a href='perfil.php'>Perfil</a> <a href='logout.php'>Salir</a>";
+		echo "<img id=\"prof_pic\" src=\"img/usuarios/{$_SESSION["imagen"]}\" alt=\"user\" width=\"75\" height=\"75\"><p>Bienvenido, " . $_SESSION["nombre"] . "</p><a href='perfil.php'>Perfil</a> <a href='logout.php'>Salir</a>";
 	} else {
-		echo "<img id=\"prof_pic\" src=\"img/usuarios/user_no_logged.png\" alt=\"imagen\" width=\"100\" height=\"100\"><p> Usuario desconocido </p><a href='login.php'>Login</a> <a href='registro.php'>Registro</a>";
+		echo "<img id=\"prof_pic\" src=\"img/usuarios/user_no_logged.png\" alt=\"user\" width=\"75\" height=\"75\"><p> Usuario desconocido </p><a href='login.php'>Login</a> <a href='registro.php'>Registro</a>";
 	}
 }
 

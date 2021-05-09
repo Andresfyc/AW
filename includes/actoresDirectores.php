@@ -7,16 +7,21 @@ class actoresDirectores
 {
 
 	function listaActoresDirectores($user = NULL, $limit = NULL, $actorDirector)
-	{
-		$html = '<ul>';
+	{		
+		$html = '<div>';
 		$actores = ActorDirector::buscaActoresDirectoresPorUser($user, $limit, $actorDirector);
 		foreach($actores as $actor) {
 			$href = './actoresDirectores.php?id=' . $actor->id();
-			$html .= '<li>';
-			$html .= "<a href=\"$href\">{$actor->name()}</a>";
-			$html .= '</li>';
+			$html .= '<div class="div-actoresDirectores">';
+			$html .= "<img id=\"prof_pic\" src=\"img/actores_directores/{$actor->image()}\" alt=\"actor/director\" width=\"60\" height=\"90\">";
+			$html .= '<div>';
+			$html .= "<p><a href=\"$href\">{$actor->name()}</a></p>";
+			$year = substr($actor->birth_date(), 0, 4);
+			$html .= "<p>{$year}</p>";
+			$html .= '</div>';
+			$html .= '</div>';
 		}
-		$html .= '</ul>';
+		$html .= '</div>';
 
 		return $html;
 	}

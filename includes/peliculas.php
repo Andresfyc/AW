@@ -11,7 +11,7 @@ class peliculas
 		$html = '<div class="div-peliculas">';
 		foreach($peliculas as $pelicula) {
 			$html .= '<div class="div-pelicula">';
-			if (isset($_SESSION["login"]) && ($_SESSION["login"]===true) && ($_SESSION["esGestor"] == true || $_SESSION["esAdmin"] == true)) {
+			if ($all && isset($_SESSION["login"]) && ($_SESSION["login"]===true) && ($_SESSION["esGestor"] == true || $_SESSION["esAdmin"] == true)) {
 				$html .= "<p><a href=\"./editarPelicula.php?id={$pelicula->id()}\">Editar</a></p>";
 				$html .= "<p><a href=\"./eliminarPelicula.php?id={$pelicula->id()}\">Eliminar</a></p>";
 				$html .= "<img id=\"film_pic\" src=\"img/peliculas/{$pelicula->image()}\" alt=\"imagen\" width=\"100\" height=\"150\">";
