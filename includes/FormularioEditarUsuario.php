@@ -86,7 +86,7 @@ class FormularioEditarUsuario extends Form
         }
 
         $image = $datos['image'] ?? null;
-        $dir_subida = './img/';
+        $dir_subida = './img/usuarios/';
         $fichero_subido = $dir_subida . basename($_FILES['image']['name']);
         if (!move_uploaded_file($_FILES['image']['tmp_name'], $fichero_subido) && !empty($_FILES['image']['name'])) {
             $result['image'] = $_FILES['image']['name']."El fichero no se ha podido subir correctamente";

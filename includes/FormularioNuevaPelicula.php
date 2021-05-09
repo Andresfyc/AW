@@ -16,6 +16,24 @@ class FormularioNuevaPelicula extends Form
         return $html;
     }
 
+    protected function actors()
+    {
+        $html = '';
+        foreach (ActorDirector::actores() as $actor) {
+            $html .= "<option value=\"{$actor->id()}\">{$actor->name()}</option>";
+        }
+        return $html;
+    }
+
+    protected function directors()
+    {
+        $html = '';
+        foreach (ActorDirector::directores() as $director) {
+            $html .= "<option value=\"{$director->id()}\">{$director->name()}</option>";
+        }
+        return $html;
+    }
+
     protected function generaCamposFormulario($datos, $errores = array())
     {
         $title = $datos['title'] ?? '';
@@ -25,6 +43,8 @@ class FormularioNuevaPelicula extends Form
         $country = $datos['country'] ?? '';
         $plot = $datos['plot'] ?? '';
         $genres = $datos['genres'] ?? '';
+        $genres = $datos['actors'] ?? '';
+        $genres = $datos['directors'] ?? '';
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
@@ -68,6 +88,27 @@ class FormularioNuevaPelicula extends Form
                     </select>
                 </div>
                 <a href="./nuevoGenero.php?prevPage=nuevaPelicula">Añadir Género</a>
+                <div class="grupo-control">
+                    <label>Actores:</label> <select name="actores[]" multiple>
+        EOF;
+
+        $html .= self::actors();
+
+        $html .= <<<EOF
+                    </select>
+                </div>
+                <a href="./nuevoActorDirector.php?ad=0&prevPage=nuevaPelicula">Añadir Actor</a>
+                
+                <div class="grupo-control">
+                    <label>Directores:</label> <select name="directores[]" multiple>
+        EOF;
+
+        $html .= self::directors();
+
+        $html .= <<<EOF
+                    </select>
+                </div>
+                <a href="./nuevoActorDirector.php?ad=1&prevPage=nuevaPelicula">Añadir Director</a>
                 <div class="grupo-control"><button type="submit" name="editar">Confirmar</button></div>
             </fieldset>
         EOF;
@@ -105,19 +146,24 @@ class FormularioNuevaPelicula extends Form
         }
 
         $image = $datos['image'] ?? null;
-        $dir_subida = './img/';
+        $dir_subida = './img/peliculas/';
         $fichero_subido = $dir_subida . basename($_FILES['image']['name']);
         if (!move_uploaded_file($_FILES['image']['tmp_name'], $fichero_subido) && !empty($_FILES['image']['name'])) {
             $result['image'] = $_FILES['image']['name']."El fichero no se ha podido subir correctamente";
         }
 
         $genres = $datos['genres'] ?? null;
+        
+        $actors = $datos['actors'] ?? null;
+        
+        $directors = $directors['genres'] ?? null;
 
         if (count($result) === 0) {
-            //TODO Añadir lo de la imagen
             $pelicula = Pelicula::crea($title, $_FILES['image']['name'], $date_released, $duration, $country, $plot);
 
             $pelicula = Pelicula::actualizarGeneros($pelicula, $genres);
+
+            //TODO Manejar la actualización de actores y directores!!!!!!!!!!!!!!!!!!!!
             if ( ! $pelicula ) {
                 $result[] = "La película ya existe";
             } //TODO Añadir una redirección a la página de la película
