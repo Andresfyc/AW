@@ -327,6 +327,8 @@ class Pelicula
 
     private $directors;
 
+    private $plataformas;
+
     private function __construct($id, $title, $image, $date_released, $duration, $country, $plot, $rating)
     {
         $this->id= $id;
@@ -340,6 +342,7 @@ class Pelicula
         $this->genres = Genero::buscaPorPeliId($id);
         $this->actors = ActorDirector::buscaActorPorPeliId($id);
         $this->directors = ActorDirector::buscaDirectorPorPeliId($id);
+        $this->plataformas = Plataforma::buscaPlataformaPorIdPelicula($id);
     }
 
     public function id()
@@ -395,5 +398,9 @@ class Pelicula
     public function directors()
     {
         return $this->directors;
+    }
+    public function plataformas()
+    {
+        return $this->plataformas;
     }
 }

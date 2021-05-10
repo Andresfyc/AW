@@ -361,3 +361,25 @@ button {
 .div-actorDirectorPeli > p {
 	text-align: center;
 }
+
+.div-plataformas-peli {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+	grid-gap: 10px;
+}
+
+.div-plataformas-peli {
+	margin: 15px auto;
+	display: flex;
+    align-items: center;
+    height: 75px;
+    width: 500px;
+	border-style: solid;
+	border-color: #666666;/**/
+	border-width: 0.5px;
+	background-color: #373737;/**/
+}
+
+.div-plataformas-peli > p {
+	text-align: center;
+}

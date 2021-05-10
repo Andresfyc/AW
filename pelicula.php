@@ -21,8 +21,10 @@ $contenidoPrincipal=<<<EOS
     <p> Sinopsis: {$pelicula->plot()} </p>
     </div>
     </div>
+    {$peliculas->listaPlataformas($pelicula->plataformas())}
     {$peliculas->listaActoresDirectores($pelicula->actors(), 0)}
     {$peliculas->listaActoresDirectores($pelicula->directors(), 1)}
+    
 EOS;
 
 require __DIR__ . '/includes/plantillas/plantilla.php';

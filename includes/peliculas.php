@@ -5,8 +5,6 @@ namespace es\ucm\fdi\aw;
 
 class peliculas
 {
-
-
 	function getDivPeliculas($peliculas, $all=FALSE) {
 		$html = '<div class="div-peliculas">';
 		foreach($peliculas as $pelicula) {
@@ -51,6 +49,27 @@ class peliculas
 				$text = $actorDirector->name();
 				$text = strlen($text) > 25 ? substr($text, 0, 25).'...' : $text;
 				$html .= "<p><a href=\"./actorDirector.php?id={$actorDirector->id()}\">{$text}</a></p>";
+				$html .= '</div>';
+			}
+			$html .= '</div>';
+		}
+
+		return $html;
+	}
+
+	function listaPlataformas($plataformas){
+		$html = '';
+		if (!empty($plataformas)) {
+			
+			$html .= '<h3> Plataforma: </h3>';
+			
+			$html .= '<div class="div-plataformas-peli">';
+			foreach($plataformas as $plataforma) {
+				$html .= '<div class="div-plataformas-peli">';
+				$html .= "<img id=\"film_pic\" src=\"img/plataformas/{$plataforma->image()}\" alt=\"imagen\" width=\"75\" height=\"75\">";
+				$text = $plataforma->nombre();
+				$text = strlen($text) > 25 ? substr($text, 0, 25).'...' : $text;
+			//	$html .= "<p><a href=\"./plataforma.php?id={$plataforma->id()}\">{$text}</a></p>";
 				$html .= '</div>';
 			}
 			$html .= '</div>';

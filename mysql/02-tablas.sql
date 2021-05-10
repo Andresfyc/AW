@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-05-2021 a las 04:13:59
--- Versión del servidor: 10.4.17-MariaDB
--- Versión de PHP: 7.4.15
+-- Tiempo de generación: 10-05-2021 a las 13:22:44
+-- Versión del servidor: 10.4.18-MariaDB
+-- Versión de PHP: 8.0.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,57 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `film_swap_2`
 --
+
+DELIMITER $$
+--
+-- Procedimientos
+--
+CREATE DEFINER=`film_swap`@`localhost` PROCEDURE `deleteFilmWatched` (IN `film_id_in` INT, IN `user_in` VARCHAR(25) CHARSET utf8mb4)  DELETE FROM usuarios_peliculas_vistas
+WHERE user = user_in AND film_id = film_id_in$$
+
+CREATE DEFINER=`film_swap`@`localhost` PROCEDURE `insertFilmWatched` (IN `film_id_in` INT, IN `user_in` VARCHAR(25) CHARSET utf8mb4, IN `rating_in` INT)  INSERT INTO usuarios_peliculas_vistas (user, film_id, rating)
+VALUES (user_in, film_id_in, rating_in)
+ON DUPLICATE KEY UPDATE rating = rating_in$$
+
+CREATE DEFINER=`film_swap`@`localhost` PROCEDURE `insertIgnoreFilmWatched` (IN `film_id_in` INT, IN `user_in` VARCHAR(25) CHARSET utf8mb4, IN `rating_in` INT)  INSERT IGNORE INTO usuarios_peliculas_vistas (user, film_id, rating)
+VALUES (user_in, film_id_in, rating_in)$$
+
+CREATE DEFINER=`film_swap`@`localhost` PROCEDURE `updateFilmWatched` (IN `film_id_in` INT, IN `user_in` VARCHAR(45) CHARSET utf8mb4, IN `rating_in` INT)  UPDATE usuarios_peliculas_vistas
+SET rating = rating_in
+WHERE user = user_in AND film_id = film_id_in$$
+
+CREATE DEFINER=`film_swap`@`localhost` PROCEDURE `updateNumMessagesForum` (IN `evento_tema_id_in` INT)  BEGIN
+	DECLARE total_messages INT;
+    
+    SELECT COUNT(*)
+    INTO total_messages
+    FROM foro_mensajes
+    WHERE evento_tema = evento_tema_id_in;
+    
+    UPDATE foro_eventos_temas 
+	SET 
+		num_messages = total_messages
+	WHERE
+		id = evento_tema_id_in;
+END$$
+
+CREATE DEFINER=`film_swap`@`localhost` PROCEDURE `updateRating` (IN `film_id_in` INT)  BEGIN
+	DECLARE average DECIMAL(10,2);
+    
+    SELECT AVG(stars)
+    INTO average
+    FROM reviews
+    WHERE film_id = film_id_in;
+    
+    UPDATE peliculas 
+	SET 
+		rating = average
+	WHERE
+		id = film_id_in;
+    
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -78,6 +129,22 @@ CREATE TABLE `foro_mensajes` (
   `text` longtext NOT NULL,
   `time_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Disparadores `foro_mensajes`
+--
+DELIMITER $$
+CREATE TRIGGER `foro_mensajes_num_AFTER_DELETE` AFTER DELETE ON `foro_mensajes` FOR EACH ROW CALL updateNumMessagesForum(OLD.evento_tema)
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `foro_mensajes_num_AFTER_INSERT` AFTER INSERT ON `foro_mensajes` FOR EACH ROW CALL updateNumMessagesForum(NEW.evento_tema)
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `foro_mensajes_num_AFTER_UPDATE` AFTER UPDATE ON `foro_mensajes` FOR EACH ROW CALL updateNumMessagesForum(NEW.evento_tema)
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -149,6 +216,30 @@ CREATE TABLE `peliculas_generos` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `peliculas_plataformas`
+--
+
+CREATE TABLE `peliculas_plataformas` (
+  `id` int(10) NOT NULL,
+  `pelicula` int(10) NOT NULL,
+  `plataforma` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `plataformas`
+--
+
+CREATE TABLE `plataformas` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(45) NOT NULL,
+  `image` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `reviews`
 --
 
@@ -160,6 +251,34 @@ CREATE TABLE `reviews` (
   `stars` int(11) NOT NULL,
   `time_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Disparadores `reviews`
+--
+DELIMITER $$
+CREATE TRIGGER `film_reviewed_AFTER_DELETE` AFTER DELETE ON `reviews` FOR EACH ROW CALL deleteFilmWatched(OLD.film_id, OLD.user)
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `film_reviewed_AFTER_INSERT` AFTER INSERT ON `reviews` FOR EACH ROW CALL insertFilmWatched(NEW.film_id, NEW.user, NEW.stars)
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `film_reviewed_AFTER_UPDATE` AFTER UPDATE ON `reviews` FOR EACH ROW CALL updateFilmWatched(NEW.film_id, NEW.user, NEW.stars)
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `reviews_rate_AFTER_DELETE` AFTER DELETE ON `reviews` FOR EACH ROW CALL updateRating (OLD.film_id)
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `reviews_rate_AFTER_INSERT` AFTER INSERT ON `reviews` FOR EACH ROW CALL updateRating (NEW.film_id)
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `reviews_rate_AFTER_UPDATE` AFTER UPDATE ON `reviews` FOR EACH ROW CALL updateRating (NEW.film_id)
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -178,6 +297,16 @@ CREATE TABLE `usuarios` (
   `content_manager` tinyint(4) NOT NULL DEFAULT 0,
   `moderator` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='La columna ''watching'' hará la función de estado del usuario. En caso de que esté viendo una película, el id de esta aparecerá en este campo. En caso de no estar viendo nada, este campo estará en NULL';
+
+--
+-- Disparadores `usuarios`
+--
+DELIMITER $$
+CREATE TRIGGER `user_film_watched_AFTER_UPDATE` AFTER UPDATE ON `usuarios` FOR EACH ROW IF NEW.watching IS NOT NULL THEN
+	CALL insertIgnoreFilmWatched(NEW.watching, NEW.user, 0);
+END IF
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -283,6 +412,22 @@ ALTER TABLE `peliculas_generos`
   ADD KEY `fk_generos_peliculas` (`film_id`);
 
 --
+-- Indices de la tabla `peliculas_plataformas`
+--
+ALTER TABLE `peliculas_plataformas`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`),
+  ADD KEY `fk_pelicula_plataforma` (`plataforma`),
+  ADD KEY `fk_plataforma_pelicula` (`pelicula`);
+
+--
+-- Indices de la tabla `plataformas`
+--
+ALTER TABLE `plataformas`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`) USING BTREE;
+
+--
 -- Indices de la tabla `reviews`
 --
 ALTER TABLE `reviews`
@@ -376,6 +521,18 @@ ALTER TABLE `peliculas_generos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `peliculas_plataformas`
+--
+ALTER TABLE `peliculas_plataformas`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `plataformas`
+--
+ALTER TABLE `plataformas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `reviews`
 --
 ALTER TABLE `reviews`
@@ -433,6 +590,13 @@ ALTER TABLE `peliculas_actores_directores`
 ALTER TABLE `peliculas_generos`
   ADD CONSTRAINT `fk_generos_peliculas` FOREIGN KEY (`film_id`) REFERENCES `peliculas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_peliculas_generos` FOREIGN KEY (`genre_id`) REFERENCES `generos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `peliculas_plataformas`
+--
+ALTER TABLE `peliculas_plataformas`
+  ADD CONSTRAINT `fk_pelicula_plataforma` FOREIGN KEY (`plataforma`) REFERENCES `plataformas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_plataforma_pelicula` FOREIGN KEY (`pelicula`) REFERENCES `peliculas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `reviews`

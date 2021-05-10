@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-05-2021 a las 04:26:45
--- Versión del servidor: 10.4.17-MariaDB
--- Versión de PHP: 7.4.15
+-- Tiempo de generación: 10-05-2021 a las 13:24:00
+-- Versión del servidor: 10.4.18-MariaDB
+-- Versión de PHP: 8.0.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -192,6 +192,42 @@ INSERT INTO `peliculas_generos` (`id`, `film_id`, `genre_id`) VALUES
 (31, 2, 7),
 (32, 6, 5),
 (33, 6, 1);
+
+--
+-- Volcado de datos para la tabla `peliculas_plataformas`
+--
+
+INSERT INTO `peliculas_plataformas` (`id`, `pelicula`, `plataforma`) VALUES
+(35, 9, 1),
+(36, 7, 1),
+(37, 17, 1),
+(38, 15, 2),
+(39, 15, 3),
+(40, 10, 1),
+(41, 11, 2),
+(42, 12, 1),
+(43, 12, 3),
+(44, 16, 1),
+(45, 16, 3),
+(46, 8, 1),
+(47, 13, 1),
+(48, 2, 2),
+(49, 6, 1),
+(50, 14, 2),
+(51, 3, 4),
+(52, 2, 5),
+(53, 12, 5);
+
+--
+-- Volcado de datos para la tabla `plataformas`
+--
+
+INSERT INTO `plataformas` (`id`, `nombre`, `image`) VALUES
+(1, 'Netflix', 'netflix.jpg'),
+(2, 'Disney+', 'dinsey.jpg'),
+(3, 'PrimeVideo', 'primevideo.jpg'),
+(4, 'Youtube-movies', 'youtube.jpg'),
+(5, 'HBO', 'hbo.jpg');
 
 --
 -- Volcado de datos para la tabla `reviews`
