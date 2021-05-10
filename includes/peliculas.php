@@ -63,13 +63,11 @@ class peliculas
 			
 			$html .= '<h3> Plataforma: </h3>';
 			
-			$html .= '<div class="div-plataformas-peli">';
+			$html .= '<div class="div-plataformasPeli">';
 			foreach($plataformas as $plataforma) {
-				$html .= '<div class="div-plataformas-peli">';
-				$html .= "<img id=\"film_pic\" src=\"img/plataformas/{$plataforma->image()}\" alt=\"imagen\" width=\"75\" height=\"75\">";
-				$text = $plataforma->nombre();
-				$text = strlen($text) > 25 ? substr($text, 0, 25).'...' : $text;
-			//	$html .= "<p><a href=\"./plataforma.php?id={$plataforma->id()}\">{$text}</a></p>";
+				$html .= '<div class="div-plataformaPeli">';
+				$html .= "<img id=\"film_pic\" src=\"img/plataformas/{$plataforma->image()}\" alt=\"imagen\" width=\"40\" height=\"40\">";
+				$html .= "<p><a href=>{$plataforma->nombre()}</a></p>";
 				$html .= '</div>';
 			}
 			$html .= '</div>';
