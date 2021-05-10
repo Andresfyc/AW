@@ -9,8 +9,6 @@ $mensaje = $mensajes->getMensajePorId($idMensaje);
 
 $tituloPagina = 'Eliminar Mensaje';
 
-$time_created = substr($mensaje->time_created(), 0, 4);
-
 if(array_key_exists('cancelar', $_POST)) {
     header("Location: eventoTema.php?id={$mensaje->evento_tema_obj()->id()}&nombre={$mensaje->evento_tema_obj()->name()}&time={$mensaje->evento_tema_obj()->time()}.php");
 }
@@ -21,7 +19,7 @@ else if(array_key_exists('eliminar', $_POST)) {
 
 $contenidoPrincipal = <<<EOS
 <h1>Eliminar Mensaje</h1>
-<p> ¿Quiere eliminar definitivamente el mensaje {$mensaje->text()} ({$time_created})?</p>
+<p> ¿Quiere eliminar definitivamente el mensaje "{$mensaje->text()}"?</p>
 <form method="post">
     <input type="submit" name="cancelar"
             class="button" value="Cancelar" />
