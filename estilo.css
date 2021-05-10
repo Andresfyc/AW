@@ -326,3 +326,38 @@ button {
 	margin: 0;
 	padding: 5px;
 }
+
+.pagina-pelicula {
+	display: flex;
+}
+
+#imagen-pelicula {
+	margin: 20px;
+}
+
+.pagina-pelicula > div {
+	margin: 20px;
+}
+
+.div-actoresDirectoresPeli {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+	grid-gap: 10px;
+}
+
+.div-actorDirectorPeli {
+	margin: 15px auto;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 200px;
+    width: 100px;
+	border-style: solid;
+	border-color: #666666;/**/
+	border-width: 0.5px;
+	background-color: #373737;/**/
+}
+
+.div-actorDirectorPeli > p {
+	text-align: center;
+}

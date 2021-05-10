@@ -34,6 +34,31 @@ class peliculas
 		return $html;
 	}
 
+
+	function listaActoresDirectores($actoresDirectores, $ad)
+	{
+		$html = '';
+		if (!empty($actoresDirectores)) {
+			if (!$ad){
+				$html .= '<h3> Actores: </h3>';
+			} else {
+				$html .= '<h3> Directores: </h3>';
+			}
+			$html .= '<div class="div-actoresDirectoresPeli">';
+			foreach($actoresDirectores as $actorDirector) {
+				$html .= '<div class="div-actorDirectorPeli">';
+				$html .= "<img id=\"film_pic\" src=\"img/actores_directores/{$actorDirector->image()}\" alt=\"imagen\" width=\"100\" height=\"150\">";
+				$text = $actorDirector->name();
+				$text = strlen($text) > 25 ? substr($text, 0, 25).'...' : $text;
+				$html .= "<p><a href=\"./actorDirector.php?id={$actorDirector->id()}\">{$text}</a></p>";
+				$html .= '</div>';
+			}
+			$html .= '</div>';
+		}
+
+		return $html;
+	}
+
 	
 	function listaUltimasPeliculasEstrenadas($limit = NULL)
 	{
