@@ -49,6 +49,28 @@ class ActorDirector
         }
         return $result;
     }
+
+    public static function busqueda($search)
+    {
+		$result = [];
+
+        $app = Aplicacion::getSingleton();
+        $conn = $app->conexionBd();
+        $query = sprintf("SELECT * FROM actores_directores AD WHERE AD.name LIKE '%s' OR AD.description LIKE '%s' OR AD.nationality LIKE '%s'", 
+        '%'.$conn->real_escape_string($search).'%',
+        '%'.$conn->real_escape_string($search).'%',
+        '%'.$conn->real_escape_string($search).'%');
+
+		$rs = $conn->query($query);
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			$result[] = new ActorDirector($fila['id'], $fila['actor_director'], $fila['name'], $fila['description'], $fila['birth_date'], $fila['nationality'], $fila['image']);
+		  }
+		  $rs->free();
+		}
+
+		return $result;
+    }
     
     private static function actualiza($actorDirector)
     {

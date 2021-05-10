@@ -5,11 +5,6 @@ class Pelicula
 {
     public static function crea($title, $image, $date_released, $duration, $country, $plot)
     {
-        /*$pelicula = self::buscaPelicula($nombrePelicula);
-        if ($pelicula) {
-            return false;
-        }*/
-        //Puede haber varias películas con el mismo nombre de diferente año/país/etc...
         $image = $image == NULL ? "film_default.jpg" : $image;
         $pelicula = new Pelicula(null, $title, $image ,$date_released, $duration, $country, $plot, null);
         return self::guarda($pelicula);
@@ -34,6 +29,28 @@ class Pelicula
             exit();
         }
         return $result;
+    }
+
+    public static function busqueda($search)
+    {
+		$result = [];
+
+        $app = Aplicacion::getSingleton();
+        $conn = $app->conexionBd();
+        $query = sprintf("SELECT * FROM peliculas P WHERE P.title LIKE '%s' OR P.country LIKE '%s' OR P.plot LIKE '%s'", 
+        '%'.$conn->real_escape_string($search).'%',
+        '%'.$conn->real_escape_string($search).'%',
+        '%'.$conn->real_escape_string($search).'%');
+
+		$rs = $conn->query($query);
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			$result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating']);
+		  }
+		  $rs->free();
+		}
+
+		return $result;
     }
 
         

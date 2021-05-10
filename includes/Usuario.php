@@ -33,6 +33,27 @@ class Usuario
         }
         return $result;
     }
+
+    public static function busqueda($search)
+    {
+		$result = [];
+
+        $app = Aplicacion::getSingleton();
+        $conn = $app->conexionBd();
+        $query = sprintf("SELECT * FROM usuarios U WHERE U.user LIKE '%s' OR U.name LIKE '%s'", 
+        '%'.$conn->real_escape_string($search).'%',
+        '%'.$conn->real_escape_string($search).'%');
+
+		$rs = $conn->query($query);
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			$result[] = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator']);
+		  }
+		  $rs->free();
+		}
+
+		return $result;
+    }
     
     public static function crea($user, $password, $name, $image, $date_joined, $watching, $admin, $content_manager, $moderator)
     {

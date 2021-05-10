@@ -25,4 +25,21 @@ class actoresDirectores
 
 		return $html;
 	}
+
+    function busqueda($search)
+    {
+		$actoresDirectores = ActorDirector::busqueda($search);
+		$html = '';
+		if (!empty($actoresDirectores)) {
+			$html .= '<h3> Actores y Directores: </h3>';
+			$html .= '<ul>';
+			foreach($actoresDirectores as $actorDirector) {
+				$text = substr($actorDirector->birth_date(), 0, 4);
+				$html .= "<p><a href=\"./actorDirector.php?id={$actorDirector->id()}\">{$actorDirector->name()} ({$text})</a></p>";
+			}
+			$html .= '</ul>';
+		}
+
+		return $html;
+    }
 }

@@ -60,4 +60,20 @@ class usuarios
         return Usuario::buscaUsuario($user);
     }
 
+    function busqueda($search)
+    {
+		$usuarios = Usuario::busqueda($search);
+		$html = '';
+		if (!empty($usuarios)) {
+			$html .= '<h3> Usuarios: </h3>';
+			$html .= '<ul>';
+			foreach($usuarios as $usuario) {
+				$html .= "<p><a href=\"./usuario.php?id={$usuario->user()}\">{$usuario->name()} ({$usuario->user()})</a></p>";
+			}
+			$html .= '</ul>';
+		}
+
+		return $html;
+    }
+
 }

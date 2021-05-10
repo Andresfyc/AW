@@ -90,4 +90,21 @@ class peliculas
 	{
 		return Pelicula::borraPorId($id);
 	}
+
+    function busqueda($search)
+    {
+		$peliculas = Pelicula::busqueda($search);
+		$html = '';
+		if (!empty($peliculas)) {
+			$html .= '<h3> Películas: </h3>';
+			$html .= '<ul>';
+			foreach($peliculas as $pelicula) {
+				$text = substr($pelicula->date_released(), 0, 4);
+				$html .= "<p><a href=\"./pelicula.php?id={$pelicula->id()}\">{$pelicula->title()} ({$text})</a></p>";
+			}
+			$html .= '</ul>';
+		}
+
+		return $html;
+    }
 }
