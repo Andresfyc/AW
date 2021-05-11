@@ -1,8 +1,5 @@
 <?php
 namespace es\ucm\fdi\aw;
-
-//require_once __DIR__.'/config.php';
-
 class plataformas
 {
 	function listaPlataformasPelicula($id)

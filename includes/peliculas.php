@@ -1,8 +1,6 @@
 <?php
 namespace es\ucm\fdi\aw;
 
-//require_once __DIR__.'/config.php';
-
 class peliculas
 {
 	function getDivPeliculas($peliculas, $all=FALSE) {
@@ -61,7 +59,7 @@ class peliculas
 		$html = '';
 		if (!empty($plataformas)) {
 			
-			$html .= '<h3> Plataforma: </h3>';
+			$html .= '<h3> Plataformas: </h3>';
 			
 			$html .= '<div class="div-plataformas-peli">';
 			foreach($peliculasPlataformas as $peliplata) {
@@ -76,13 +74,12 @@ class peliculas
 		return $html;
 	}
 	
-	function listaReviews($reviews, $href)
+	function listaReviews($reviews)
 	{
 
 		$html = '';
 		if (!empty($reviews)) {
 			
-			$html = "<h3> Reviews: {$href}</h3>";
 			$html .= '<div>';
 			foreach($reviews as $review) {
 				$html .= '<div class="div-reviewsPeli">';

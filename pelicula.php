@@ -29,7 +29,8 @@ $contenidoPrincipal=<<<EOS
     {$peliculas->listaPlataformas($pelicula->plataformas(),$pelicula->peliculasPlataformas())}
     {$peliculas->listaActoresDirectores($pelicula->actors(), 0)}
     {$peliculas->listaActoresDirectores($pelicula->directors(), 1)}
-    {$peliculas->listaReviews($pelicula->reviews(), $href)}
+    <h3> Reviews: {$href}</h3>
+    {$peliculas->listaReviews($pelicula->reviews())}
     
 EOS;
 
