@@ -222,6 +222,15 @@ button {
 #col-3-3 {
 	width: 10%;
 }
+figcaption {
+  display:none; 
+  transition: all .5s;
+}
+/* Visible texto */
+figure:hover > figcaption {
+  display:block;
+  transition: all .5s;
+}
 
 #col-3-3 > p {
 	text-align: center;
