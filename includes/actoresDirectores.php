@@ -23,6 +23,9 @@ class actoresDirectores
 
 		return $html;
 	}
+	function getADPorId($id){
+		return ActorDirector::buscaPorId($id);
+	}
 
     function busqueda($search)
     {
