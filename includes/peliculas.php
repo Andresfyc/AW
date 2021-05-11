@@ -74,7 +74,25 @@ class peliculas
 
 		return $html;
 	}
-	
+		function listaPelis_ActorDirector($peliculas){
+		$html='';
+		if(!empty($peliculas)){
+		$html= "<h3> Películas: </h3>";
+		//$html .= '<div>';
+		foreach($peliculas as $pelicula){
+			//$html .= '<div class="div-peliculas">';
+			$html .= '<div>';
+			//$html.= "<p> {$pelicula->title()}</p>";
+			$html.="<figure>";
+			$html .= "<img id=\"film_pic\" src=\"img/peliculas/{$pelicula->image()}\" alt=\"imagen\" width=\"150\" height=\"225\">";
+			$html.="<figcaption>{$pelicula->title()}</figcaption>";	
+			$html.="</figure>";
+		}
+		//$html .= '</div>';
+		}
+		$html .= '</div>';
+		return $html;
+	}
 	function listaReviews($reviews)
 	{
 
@@ -136,7 +154,9 @@ class peliculas
 
 		return self::getDivPeliculas($peliculas, TRUE);
 	}
-	
+	function getBuscaActorPorId($id){
+		return Pelicula::buscaPeliPorActorId($id); 
+	}
 	function listaPeliculasDuration($limit = NULL)
 	{
 		$peliculas = Pelicula::peliculasOrdenDuracion($limit);
