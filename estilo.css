@@ -343,7 +343,6 @@ button {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
 	grid-gap: 10px;
-	margin-bottom: 25px;
 }
 
 .div-actorDirectorPeli {
@@ -363,39 +362,24 @@ button {
 	text-align: center;
 }
 
-.div-plataformasPeli {
+.div-plataformas-peli {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
 	grid-gap: 10px;
-	margin-bottom: 25px;
 }
 
-.div-plataformaPeli {
+.div-plataformasPeli {
+	margin: 15px auto;
 	display: flex;
-    align-items: center;
+	align-items: center;
+    height: 75px;
+    width: 100px;
+	border-style: solid;
+	border-color: #666666;/**/
+	border-width: 0.5px;
 	background-color: #373737;/**/
 }
 
-.div-plataformaPeli > p {
+.div-plataformasPeli > p {
 	text-align: center;
-	padding-left: 10px;
-}
-
-.div-reviewsPeli {
-	padding: 20px;
-	background-color: #1C1C1C;
-	margin-bottom: 20px;
-}
-
-.div-reviewsPeli > div {
-	display: flex;
-	flex-direction: row;
-}
-
-.div-reviewsPeli > div > p {
-	margin-right: 20px;
-}
-
-.div-reviewsPeli > p {
-	padding-left: 20px;
 }

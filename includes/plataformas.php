@@ -9,10 +9,11 @@ class plataformas
 	{
 		$html = '';
 		$plataformas = Plataforma::buscaPlataformaPorIdPelicula($id);
+        $link = Plataforma::buscaEnlacePorPlataformaPorIdPelicula($id);
 		foreach($plataformas as $plataforma) {
 		
 			$html .= '<div class="row-plataforma">';
-			$html .= "{$plataforma->nombre()} ({$plataforma->image()})";
+			$html .= "{$plataforma->nombre()} ({$plataforma->image()} ({$link})";
 			$html .= '</div>';
 		}
 

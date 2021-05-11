@@ -26,7 +26,7 @@ $contenidoPrincipal=<<<EOS
     <p> Sinopsis: {$pelicula->plot()} </p>
     </div>
     </div>
-    {$peliculas->listaPlataformas($pelicula->plataformas())}
+    {$peliculas->listaPlataformas($pelicula->plataformas(),$pelicula->peliculasPlataformas())}
     {$peliculas->listaActoresDirectores($pelicula->actors(), 0)}
     {$peliculas->listaActoresDirectores($pelicula->directors(), 1)}
     {$peliculas->listaReviews($pelicula->reviews(), $href)}

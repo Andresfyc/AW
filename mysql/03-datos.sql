@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-05-2021 a las 15:25:36
+-- Tiempo de generación: 11-05-2021 a las 13:18:47
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 8.0.5
 
@@ -197,26 +197,26 @@ INSERT INTO `peliculas_generos` (`id`, `film_id`, `genre_id`) VALUES
 -- Volcado de datos para la tabla `peliculas_plataformas`
 --
 
-INSERT INTO `peliculas_plataformas` (`id`, `pelicula`, `plataforma`) VALUES
-(35, 9, 1),
-(36, 7, 1),
-(37, 17, 1),
-(38, 15, 2),
-(39, 15, 3),
-(40, 10, 1),
-(41, 11, 2),
-(42, 12, 1),
-(43, 12, 3),
-(44, 16, 1),
-(45, 16, 3),
-(46, 8, 1),
-(47, 13, 1),
-(48, 2, 2),
-(49, 6, 1),
-(50, 14, 2),
-(51, 3, 4),
-(52, 2, 5),
-(53, 12, 5);
+INSERT INTO `peliculas_plataformas` (`id`, `pelicula`, `plataforma`, `link`) VALUES
+(35, 9, 1, 'https://www.netflix.com/es/'),
+(36, 7, 1, 'https://www.netflix.com/es/'),
+(37, 17, 1, 'https://www.netflix.com/es/'),
+(38, 15, 2, 'https://www.disneyplus.com/en-es'),
+(39, 15, 3, 'https://www.primevideo.com/'),
+(40, 10, 1, 'https://www.netflix.com/es/'),
+(41, 11, 2, 'https://www.disneyplus.com/en-es'),
+(42, 12, 1, 'https://www.netflix.com/es/'),
+(43, 12, 3, 'https://www.primevideo.com/'),
+(44, 16, 1, 'https://www.netflix.com/es/'),
+(45, 16, 3, 'https://www.primevideo.com/'),
+(46, 8, 1, 'https://www.netflix.com/es/'),
+(47, 13, 1, 'https://www.netflix.com/es/'),
+(48, 2, 2, 'https://www.disneyplus.com/en-es'),
+(49, 6, 1, 'https://www.netflix.com/es/'),
+(50, 14, 2, 'https://www.disneyplus.com/en-es'),
+(51, 3, 4, 'https://www.youtube.com/movies'),
+(52, 2, 5, 'https://es.hboespana.com/'),
+(53, 12, 5, 'https://es.hboespana.com/');
 
 --
 -- Volcado de datos para la tabla `plataformas`

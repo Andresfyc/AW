@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-05-2021 a las 03:07:54
--- Versión del servidor: 10.4.17-MariaDB
--- Versión de PHP: 7.4.15
+-- Tiempo de generación: 11-05-2021 a las 13:17:43
+-- Versión del servidor: 10.4.18-MariaDB
+-- Versión de PHP: 8.0.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -155,7 +155,8 @@ CREATE TABLE `peliculas_generos` (
 CREATE TABLE `peliculas_plataformas` (
   `id` int(10) NOT NULL,
   `pelicula` int(10) NOT NULL,
-  `plataforma` int(10) NOT NULL
+  `plataforma` int(10) NOT NULL,
+  `link` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

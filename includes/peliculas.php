@@ -57,17 +57,17 @@ class peliculas
 		return $html;
 	}
 
-	function listaPlataformas($plataformas){
+	function listaPlataformas($plataformas,$peliculasPlataformas){
 		$html = '';
 		if (!empty($plataformas)) {
 			
 			$html .= '<h3> Plataforma: </h3>';
 			
-			$html .= '<div class="div-plataformasPeli">';
-			foreach($plataformas as $plataforma) {
-				$html .= '<div class="div-plataformaPeli">';
-				$html .= "<img id=\"film_pic\" src=\"img/plataformas/{$plataforma->image()}\" alt=\"imagen\" width=\"40\" height=\"40\">";
-				$html .= "<p><a href=>{$plataforma->nombre()}</a></p>";
+			$html .= '<div class="div-plataformas-peli">';
+			foreach($peliculasPlataformas as $peliplata) {
+				$plataforma = Plataforma::buscaPorId($peliplata->plataforma());
+				$html .= '<div class="div-plataformas-peli">';
+				$html .= "<a href='{$peliplata->link()}'><img src=\"img/plataformas/{$plataforma->image()}\" alt=\"imagen\" width=\"60\" height=\"60\"></a>";
 				$html .= '</div>';
 			}
 			$html .= '</div>';

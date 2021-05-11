@@ -71,6 +71,7 @@ class Plataforma
         }
 
         return $result;
+        
     }
 
     public static function buscaPlataformaPorIdPelicula($id)
@@ -89,6 +90,27 @@ class Plataforma
 		}
 
 		return $result;
+    }
+
+    public static function buscaPorId ($id)
+    {
+        $app = Aplicacion::getSingleton();
+        $conn = $app->conexionBd();
+        $query = sprintf("SELECT * FROM plataformas WHERE id = %d", $id);
+        $rs = $conn->query($query);
+        $result = false;
+        if ($rs) {
+            if ( $rs->num_rows == 1) {
+                $fila = $rs->fetch_assoc();
+                $plataforma =new Plataforma($fila['id'], $fila['nombre'], $fila['image']);
+                $result = $plataforma;
+            }
+            $rs->free();
+        } else {
+            echo "Error al consultar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
+            exit();
+        }
+        return $result;
     }
 
     public static function borraPorId($id)
