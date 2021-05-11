@@ -1,3 +1,4 @@
+
 <?php
 namespace es\ucm\fdi\aw;
 
@@ -118,6 +119,27 @@ class peliculas
 	function listaPeliculas($limit = NULL)
 	{
 		$peliculas = Pelicula::peliculasOrdenAlfabetico($limit);
+
+		return self::getDivPeliculas($peliculas, TRUE);
+	}
+	
+		function listaPeliculasFecha($limit = NULL)
+	{
+		$peliculas = Pelicula::peliculasOrdenFecha($limit);
+
+		return self::getDivPeliculas($peliculas, TRUE);
+	}
+	
+		function listaPeliculasRating($limit = NULL)
+	{
+		$peliculas = Pelicula::peliculasOrdenRating($limit);
+
+		return self::getDivPeliculas($peliculas, TRUE);
+	}
+	
+	function listaPeliculasDuration($limit = NULL)
+	{
+		$peliculas = Pelicula::peliculasOrdenDuracion($limit);
 
 		return self::getDivPeliculas($peliculas, TRUE);
 	}
