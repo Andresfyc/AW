@@ -373,6 +373,25 @@ class Pelicula
 
         return $result;
     }
+	public static function buscaPeliPorActorId ($id)
+    {
+		$result = [];
+
+        $app = Aplicacion::getSingleton();
+        $conn = $app->conexionBd();
+        $query = sprintf("SELECT * FROM peliculas ad JOIN peliculas_actores_directores pad ON ad.id = pad.film_id WHERE pad.actor_director_id = %d", $id);
+        
+        $rs = $conn->query($query);
+        $result = false;
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			$result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating']);
+		  }
+		  $rs->free();
+		}
+
+		return $result;
+    }
 
     private $id;
 
