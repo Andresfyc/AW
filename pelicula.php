@@ -9,6 +9,11 @@ $pelicula = $peliculas->getPeliculaPorId($id);
 
 $tituloPagina = $pelicula->title();
 
+$href = '';
+if (isset($_SESSION["login"]) && ($_SESSION["login"]===true)) {
+    $href .= "<a href=\"./nuevaReview.php?id={$pelicula->id()}\">Escribir nueva review</a>";
+}
+
 $contenidoPrincipal=<<<EOS
 	<div class="pagina-pelicula">
     <img id="imagen-pelicula" src="img/peliculas/{$pelicula->image()}" alt="pelicula" width="200" height="300">
@@ -24,6 +29,7 @@ $contenidoPrincipal=<<<EOS
     {$peliculas->listaPlataformas($pelicula->plataformas())}
     {$peliculas->listaActoresDirectores($pelicula->actors(), 0)}
     {$peliculas->listaActoresDirectores($pelicula->directors(), 1)}
+    {$peliculas->listaReviews($pelicula->reviews(), $href)}
     
 EOS;
 

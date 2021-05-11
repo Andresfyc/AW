@@ -17,18 +17,10 @@ EOS;
 if ($timeEventoTema != NULL) {
 	$contenidoPrincipal .= "<h3> Fecha y hora del evento: {$timeEventoTema}</h3>";
 }
+if (isset($_SESSION["login"]) && ($_SESSION["login"]===true)) {
+    $contenidoPrincipal .= "<h3><a href=\"./nuevoMensaje.php?id={$idEventoTema}&nombre={$nombreEventoTema}&time={$timeEventoTema}\">Escribir nuevo mensaje</a></h3>";
+}
 
 $contenidoPrincipal .= $mensajes->listaMensajes($idEventoTema);
-
-if (isset($_SESSION["login"]) && ($_SESSION["login"]===true)) {
-	$form = new es\ucm\fdi\aw\FormularioNuevoMensaje($idEventoTema, $nombreEventoTema, $timeEventoTema);
-	$htmlFormNuevoMensaje = $form->gestiona();
-
-
-	$contenidoPrincipal .= <<<EOS
-	<h4>Responder:</h4>
-	$htmlFormNuevoMensaje
-	EOS;
-}
 
 require __DIR__ . '/includes/plantillas/plantilla.php';

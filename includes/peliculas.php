@@ -75,7 +75,34 @@ class peliculas
 
 		return $html;
 	}
+	
+	function listaReviews($reviews, $href)
+	{
 
+		$html = '';
+		if (!empty($reviews)) {
+			
+			$html = "<h3> Reviews: {$href}</h3>";
+			$html .= '<div>';
+			foreach($reviews as $review) {
+				$html .= '<div class="div-reviewsPeli">';
+				$html .= '<div>';
+				$html .= "<p>Puntuación: {$review->stars()}/5</p>";
+				$html .= "<p>{$review->time_created()}</p>";
+				$html .= "<p>{$review->user()}</p><p>";
+				if (isset($_SESSION["login"]) && ($_SESSION["login"]===true) && ($_SESSION["esModerador"] == true || $_SESSION["esAdmin"] == true || $review->user() == $_SESSION['nombre'])) {
+					$html .= "<a href=\"./editarReview.php?id={$review->id()}\">Editar</a>";
+					$html .= "<a href=\"./eliminarReview.php?id={$review->id()}\"> Eliminar</a>";
+				}
+				$html .= '</p></div>';
+				$html .= "<p>{$review->review()}</p>";
+				$html .= '</div>';
+			}
+			$html .= '</div>';
+		}
+
+		return $html;
+	}
 	
 	function listaUltimasPeliculasEstrenadas($limit = NULL)
 	{

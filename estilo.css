@@ -343,6 +343,7 @@ button {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
 	grid-gap: 10px;
+	margin-bottom: 25px;
 }
 
 .div-actorDirectorPeli {
@@ -366,6 +367,7 @@ button {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 	grid-gap: 10px;
+	margin-bottom: 25px;
 }
 
 .div-plataformaPeli {
@@ -377,4 +379,23 @@ button {
 .div-plataformaPeli > p {
 	text-align: center;
 	padding-left: 10px;
+}
+
+.div-reviewsPeli {
+	padding: 20px;
+	background-color: #1C1C1C;
+	margin-bottom: 20px;
+}
+
+.div-reviewsPeli > div {
+	display: flex;
+	flex-direction: row;
+}
+
+.div-reviewsPeli > div > p {
+	margin-right: 20px;
+}
+
+.div-reviewsPeli > p {
+	padding-left: 20px;
 }

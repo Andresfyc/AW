@@ -75,6 +75,7 @@ class Mensaje
 
         return $result;
     }
+    
     public static function buscaPorId($id)
     {
         $app = Aplicacion::getSingleton();

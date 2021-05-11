@@ -189,6 +189,8 @@ class ActorDirector
 
 	public static function buscaActorPorPeliId ($id)
     {
+		$result = [];
+
         $app = Aplicacion::getSingleton();
         $conn = $app->conexionBd();
         $query = sprintf("SELECT ad.* FROM actores_directores ad JOIN peliculas_actores_directores pad ON ad.id = pad.actor_director_id WHERE pad.film_id = %d AND ad.actor_director = 0", $id);
@@ -207,6 +209,8 @@ class ActorDirector
 
 	public static function buscaDirectorPorPeliId ($id)
     {
+		$result = [];
+        
         $app = Aplicacion::getSingleton();
         $conn = $app->conexionBd();
         $query = sprintf("SELECT ad.* FROM actores_directores ad JOIN peliculas_actores_directores pad ON ad.id = pad.actor_director_id WHERE pad.film_id = %d AND ad.actor_director = 1", $id);
