@@ -129,4 +129,61 @@ class Aplicacion
 		}
 		return $this->conn;
 	}
+	
+    public function login(Usuario $user)
+    {
+      $this->compruebaInstanciaInicializada();
+      $_SESSION['login'] = true;
+      $_SESSION['nombre'] = $user->nombreUsuario();
+      $_SESSION['idUsuario'] = $user->id();
+      $_SESSION['rol'] = $user->rol();
+    }
+	
+	public function logout()
+    {
+      $this->compruebaInstanciaInicializada();
+      //Doble seguridad: unset + destroy
+      unset($_SESSION['login']);
+      unset($_SESSION['nombre']);
+      unset($_SESSION['idUsuario']);
+      unset($_SESSION['rol']);
+  
+  
+      session_destroy();
+      session_start();
+    }
+  
+    public function usuarioLogueado()
+    {
+      $this->compruebaInstanciaInicializada();
+      return ($_SESSION['login'] ?? false) === true;
+    }
+  
+    public function nombreUsuario()
+    {
+      $this->compruebaInstanciaInicializada();
+      return $_SESSION['nombre'] ?? '';
+    }
+  
+    public function idUsuario()
+    {
+      $this->compruebaInstanciaInicializada();
+      return $_SESSION['idUsuario'] ?? '';
+    }
+  
+    public function isAdmin()
+    {
+      $this->compruebaInstanciaInicializada();
+      return $_SESSION['esAdmin'];
+    }
+    public function isGestor()
+    {
+      $this->compruebaInstanciaInicializada();
+      return $_SESSION["esGestor"];
+    }
+    public function isMod()
+    {
+      $this->compruebaInstanciaInicializada();
+      return $_SESSION["esModerador"];
+    }		
 }

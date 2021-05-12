@@ -8,7 +8,7 @@ class peliculas
 		$html = '<div class="div-peliculas">';
 		foreach($peliculas as $pelicula) {
 			$html .= '<div class="div-pelicula">';
-			if ($all && isset($_SESSION["login"]) && ($_SESSION["login"]===true) && ($_SESSION["esGestor"] == true || $_SESSION["esAdmin"] == true)) {
+			if ($all && isset($_SESSION["login"]) && ($app->usuarioLogueado()) && ($app->isGestor() == true || $app->isAdmin() == true)) {
 				$html .= "<p><a href=\"./editarPelicula.php?id={$pelicula->id()}\">Editar</a></p>";
 				$html .= "<p><a href=\"./eliminarPelicula.php?id={$pelicula->id()}\">Eliminar</a></p>";
 				$html .= "<img id=\"film_pic\" src=\"img/peliculas/{$pelicula->image()}\" alt=\"imagen\" width=\"100\" height=\"150\">";
@@ -106,7 +106,7 @@ class peliculas
 				$html .= "<p>Puntuación: {$review->stars()}/5</p>";
 				$html .= "<p>{$review->time_created()}</p>";
 				$html .= "<p>{$review->user()}</p><p>";
-				if (isset($_SESSION["login"]) && ($_SESSION["login"]===true) && ($_SESSION["esModerador"] == true || $_SESSION["esAdmin"] == true || $review->user() == $_SESSION['nombre'])) {
+				if (isset($_SESSION["login"]) && ($app->usuarioLogueado()) && ($app->isMod() == true || $app->isAdmin() == true || $review->user() == $app->nombreUsuario())) {
 					$html .= "<a href=\"./editarReview.php?id={$review->id()}\">Editar</a>";
 					$html .= "<a href=\"./eliminarReview.php?id={$review->id()}\"> Eliminar</a>";
 				}
