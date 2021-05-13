@@ -44,6 +44,7 @@ class FormularioNuevaPelicula extends Form
 
     protected function generaCamposFormulario($datos, $errores = array())
     {
+        $RUTA_APP = RUTA_APP;
         $title = $datos['title'] ?? '';
         $image = $datos['image'] ?? '';
         $date_released = $datos['date_released'] ?? '';
@@ -94,7 +95,7 @@ class FormularioNuevaPelicula extends Form
         $camposFormulario .= <<<EOF
                     </select>
                 </div>
-                <a href="./nuevoGenero.php?prevPage=nuevaPelicula">Añadir Género</a>
+                <a href="{$RUTA_APP}nuevoGenero.php?prevPage=nuevaPelicula">Añadir Género</a>
                 <div class="grupo-control">
                     <label>Actores:</label> <select name="actors[]" multiple>
         EOF;
@@ -104,7 +105,7 @@ class FormularioNuevaPelicula extends Form
         $camposFormulario .= <<<EOF
                     </select>
                 </div>
-                <a href="./nuevoActorDirector.php?ad=0&prevPage=nuevaPelicula">Añadir Actor</a>
+                <a href="{$RUTA_APP}nuevoActorDirector.php?ad=0&prevPage=nuevaPelicula">Añadir Actor</a>
                 
                 <div class="grupo-control">
                     <label>Directores:</label> <select name="directors[]" multiple>
@@ -115,7 +116,7 @@ class FormularioNuevaPelicula extends Form
         $camposFormulario .= <<<EOF
                     </select>
                 </div>
-                <a href="./nuevoActorDirector.php?ad=1&prevPage=nuevaPelicula">Añadir Director</a>
+                <a href="{$RUTA_APP}nuevoActorDirector.php?ad=1&prevPage=nuevaPelicula">Añadir Director</a>
                 <div class="grupo-control"><button type="submit" name="editar">Confirmar</button></div>
             </fieldset>
         EOF;
@@ -176,7 +177,7 @@ class FormularioNuevaPelicula extends Form
                 if ( ! $pelicula ) {
                     $result[] = "La película ya existe";
                 } else {
-                    $result = RUTA_APP."/peliculas.php";
+                    $result = RUTA_APP."peliculas.php";
                 }
             }
         

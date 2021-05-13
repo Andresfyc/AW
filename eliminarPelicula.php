@@ -14,13 +14,13 @@ $tituloPagina = 'Eliminar Película';
 $dateReleased = substr($pelicula->date_released(), 0, 4);
 
 if(array_key_exists('cancelar', $_POST)) {
-    header('Location: peliculas.php');
+    header('Location: '.RUTA_APP.'peliculas.php');
 }
 else if(array_key_exists('eliminar', $_POST)) {
     $app = Aplicacion::getSingleton();
     if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
         eliminarPeliculaPorId($idPelicula);
-        header('Location: peliculas.php');
+        header('Location: '.RUTA_APP.'peliculas.php');
     }
 }
 

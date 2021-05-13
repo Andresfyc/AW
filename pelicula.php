@@ -11,7 +11,7 @@ $tituloPagina = $pelicula->title();
 
 $href = '';
 if (isset($_SESSION["login"]) && ($_SESSION["login"]===true)) {
-    $href .= "<a href=\"./nuevaReview.php?id={$pelicula->id()}\">Escribir nueva review</a>";
+    $href .= '<a href="'.RUTA_APP.'nuevaReview.php?id='.$pelicula->id().'">Escribir nueva review</a>';
 }
 
 $plataformas = listaPlataformas($pelicula->plataformas(),$pelicula->peliculasPlataformas());

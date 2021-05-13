@@ -12,13 +12,13 @@ $mensaje = buscaMensajePorId($idMensaje);
 $tituloPagina = 'Eliminar Mensaje';
 
 if(array_key_exists('cancelar', $_POST)) {
-    header("Location: eventoTema.php?id={$mensaje->evento_tema_obj()->id()}&nombre={$mensaje->evento_tema_obj()->name()}&time={$mensaje->evento_tema_obj()->time()}.php");
+    header('Location: '.RUTA_APP.'eventoTema.php?id='.$mensaje->evento_tema_obj()->id().'&nombre='.$mensaje->evento_tema_obj()->name().'&time='.$mensaje->evento_tema_obj()->time().'.php');
 }
 else if(array_key_exists('eliminar', $_POST)) {
     $app = Aplicacion::getSingleton();
     if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin()) || $mensaje->user() == $app->user()) {
         eliminarMensajePorId($idMensaje);
-        header("Location: eventoTema.php?id={$mensaje->evento_tema_obj()->id()}&nombre={$mensaje->evento_tema_obj()->name()}&time={$mensaje->evento_tema_obj()->time()}.php");
+        header('Location: '.RUTA_APP.'eventoTema.php?id='.$mensaje->evento_tema_obj()->id().'&nombre='.$mensaje->evento_tema_obj()->name().'&time='.$mensaje->evento_tema_obj()->time().'.php');
     }
 }
 

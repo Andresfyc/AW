@@ -7,7 +7,7 @@ $tituloPagina = 'Foro';
 
 $contenidoPrincipal='<h1>Foro</h1>';
 if (isset($_SESSION["login"]) && ($_SESSION["login"]===true) && ($_SESSION["esGestor"] == true || $_SESSION["esAdmin"] == true)) {
-	$contenidoPrincipal .= '<a href="nuevoEventoTema.php">Añadir evento/tema</a>';
+	$contenidoPrincipal .= '<a href="'.RUTA_APP.'nuevoEventoTema.php">Añadir evento/tema</a>';
 }
 
 $contenidoPrincipal.= listaEventos();

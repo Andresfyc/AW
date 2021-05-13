@@ -8,7 +8,7 @@ function mostrarPeliculas() {
 	$app = Aplicacion::getSingleton();
 	$html = "<h1>Películas</h1>";	
 	if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
-		$html .= '<a href="nuevaPelicula.php">Añadir película</a>';
+		$html .= '<a href="'.RUTA_APP.'nuevaPelicula.php">Añadir película</a>';
 	}
 	
 

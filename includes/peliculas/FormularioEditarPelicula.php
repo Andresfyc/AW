@@ -78,6 +78,7 @@ class FormularioEditarPelicula extends Form
   
   protected function generaCamposFormulario($datos, $errores = array())
   {    
+    $RUTA_APP = RUTA_APP;
     $id = $datos['id'] ?? $this->id;
     $this->pelicula = Pelicula::buscaPorId($id);
     $title = $datos['title'] ?? $this->pelicula->title();
@@ -131,7 +132,7 @@ class FormularioEditarPelicula extends Form
     $camposFormulario .= <<<EOF
                 </select>
             </div>
-            <a href="./nuevoGenero.php?prevPage=editarPelicula&id=$id">Añadir Género</a>
+            <a href="{$RUTA_APP}nuevoGenero.php?prevPage=editarPelicula&id=$id">Añadir Género</a>
             <div class="grupo-control">
                 <label>Actores:</label> <select name="actors[]" multiple>
     EOF;
@@ -141,7 +142,7 @@ class FormularioEditarPelicula extends Form
     $camposFormulario .= <<<EOF
                 </select>
             </div>
-            <a href="./nuevoActorDirector.php?ad=0&prevPage=editarPelicula&id=$id">Añadir Actor</a>
+            <a href="{$RUTA_APP}nuevoActorDirector.php?ad=0&prevPage=editarPelicula&id=$id">Añadir Actor</a>
             
             <div class="grupo-control">
                 <label>Directores:</label> <select name="directors[]" multiple>
@@ -152,7 +153,7 @@ class FormularioEditarPelicula extends Form
     $camposFormulario .= <<<EOF
                 </select>
             </div>
-            <a href="./nuevoActorDirector.php?ad=1&prevPage=editarPelicula&id=$id">Añadir Director</a>
+            <a href="{$RUTA_APP}nuevoActorDirector.php?ad=1&prevPage=editarPelicula&id=$id">Añadir Director</a>
             <div class="grupo-control"><button type="submit" name="editar">Confirmar</button></div>
         </fieldset>
     EOF;
@@ -218,7 +219,7 @@ class FormularioEditarPelicula extends Form
             if ( ! $pelicula  ) {
                 $result[] = "La película ya existe";
             } else {
-                $result = RUTA_APP.'/peliculas.php';
+                $result = RUTA_APP.'peliculas.php';
             }
         }
     }

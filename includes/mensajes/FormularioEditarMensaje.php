@@ -76,7 +76,7 @@ class FormularioEditarMensaje extends Form
             if ( ! $mensaje ) {
                 $result[] = "El mensaje ya existe";
             } else {
-                $result = RUTA_APP."/eventoTema.php?id={$id2}&nombre={$name}&time={$time}";
+                $result = RUTA_APP."eventoTema.php?id={$id2}&nombre={$name}&time={$time}";
             }
         }
     }

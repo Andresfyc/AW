@@ -12,7 +12,7 @@ define('BD_PASS', 'film_swap');
  * Parámetros de configuración utilizados para generar las URLs y las rutas a ficheros en la aplicación
  */
 define('RAIZ_APP', __DIR__);
-define('RUTA_APP', '/Proyecto/FilmSwap3');
+define('RUTA_APP', '/Proyecto/FilmSwap3/');
 define('RUTA_CSS', RUTA_APP.'/css');
 define('RUTA_JS', RUTA_APP.'/js');
 define('RUTA_IMG', RUTA_APP.'/img');

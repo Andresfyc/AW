@@ -109,7 +109,7 @@ class FormularioEditarUsuario extends Form
                 $result[] = "El usuario ya existe";
             } else {
                 $app->login($usuario);
-                $result = RUTA_APP."/perfil.php";
+                $result = RUTA_APP."perfil.php";
             }
         }
     }

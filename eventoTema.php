@@ -21,7 +21,7 @@ if ($timeEventoTema != NULL) {
 
 $app = Aplicacion::getSingleton();
 if ($app->usuarioLogueado()) {
-    $contenidoPrincipal .= "<h3><a href=\"./nuevoMensaje.php?id={$idEventoTema}&nombre={$nameEventoTema}&time={$timeEventoTema}\">Escribir nuevo mensaje</a></h3>";
+    $contenidoPrincipal .= '<h3><a href="'.RUTA_APP.'nuevoMensaje.php?id='.$idEventoTema.'&nombre='.$nameEventoTema.'&time='.$timeEventoTema.'">Escribir nuevo mensaje</a></h3>';
 }
 
 $contenidoPrincipal .= listaMensajes($idEventoTema);

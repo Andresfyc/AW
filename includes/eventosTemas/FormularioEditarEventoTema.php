@@ -88,7 +88,7 @@ class FormularioEditarEventoTema extends Form
             if ( ! $eventoTema ) {
                 $result[] = "El evento/tema ya existe";
             } else {
-                $result = RUTA_APP.'/foro.php';
+                $result = RUTA_APP.'foro.php';
             }
         }
     }
