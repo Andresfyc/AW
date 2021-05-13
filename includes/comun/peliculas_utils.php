@@ -21,7 +21,7 @@ function listaPelis_ActorDirector($id){
             $text = strlen($text) > 25 ? substr($text, 0, 25).'...' : $text;
             $html.=<<<EOS
                 <div class="div-actorDirectorPeli">
-                <img id="imagen-actorDirector" src="img/peliculas/{$pelicula->image()}" alt="imagen" width="100" height="150">
+                <img id="imagen-actorDirector" src="img/peliculas/{$pelicula->image()}" alt="imagen" >
                 <p><a href="./pelicula.php?id={$pelicula->id()}">{$text}</a></p>
             EOS;
             $html .= '</div>';
@@ -54,11 +54,11 @@ function getDivPeliculas($peliculas, $limit=NULL) {
             $html .=<<<EOS
                 <p><a href="./editarPelicula.php?id={$pelicula->id()}">Editar</a></p>
                 <p><a href="./eliminarPelicula.php?id={$pelicula->id()}">Eliminar</a></p>
-                <img id="film_pic" src="img/peliculas/{$pelicula->image()}" alt="imagen" width="100" height="150">
+                <img id="film_pic" src="img/peliculas/{$pelicula->image()}" alt="imagen" >
             EOS;
         } else {
             $html .=<<<EOS
-                <img id="film_pic" src="img/peliculas/{$pelicula->image()}" alt="imagen" width="150" height="225">
+                <img id="film_pic" src="img/peliculas/{$pelicula->image()}" alt="imagen" >
             EOS;
         }
         $text = $pelicula->title();
@@ -97,7 +97,7 @@ function listaActoresDirectores($actoresDirectores, $ad)
             $text = strlen($text) > 25 ? substr($text, 0, 25).'...' : $text;
             $html.=<<<EOS
                 <div class="div-actorDirectorPeli">
-                <img id="film_pic" src="img/actores_directores/{$actorDirector->image()}" alt="imagen" width="100" height="150">
+                <img id="film_pic" src="img/actores_directores/{$actorDirector->image()}" alt="imagen" >
                 <p><a href="./actorDirector.php?id={$actorDirector->id()}">{$text}</a></p>
                 </div>
             EOS;
@@ -117,7 +117,7 @@ function listaPlataformas($plataformas,$peliculasPlataformas){
             $plataforma = Plataforma::buscaPorId($peliplata->platform_id());
             $html.=<<<EOS
                 <div class="div-plataformas-peli">
-                <a href={$peliplata->link()}><img src="img/plataformas/{$plataforma->image()}" alt="imagen" width="60" height="60"></a>
+                <a href={$peliplata->link()}><img id="platf_pic" src="img/plataformas/{$plataforma->image()}" alt="imagen" ></a>
                 </div>
             EOS;
         }

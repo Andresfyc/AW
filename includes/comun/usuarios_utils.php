@@ -14,7 +14,7 @@ function getDivUsuario() {
     if ($app->usuarioLogueado()) {
         $html=<<<EOS
             <div class="div-perfil">
-            <img id="film_pic" src="img/usuarios/{$app->image()}" alt="user" width="150" height="150">
+            <img id="film_pic" src="img/usuarios/{$app->image()}" alt="user" >
             <div>
             <p>Usuario: {$usuario->user()}</p>
             <p>Nombre completo: {$usuario->name()}</p>
@@ -44,7 +44,7 @@ function listaAmigos($user, $limit=NULL)
             <div class="div-usuarios">
             <div class="div-usuarios">
             <div class="usuarios">
-            <img id="prof_pic" src="img/usuarios/{$usuario->image()}" alt="user" width="60" height="60">
+            <img id="prof_pic" src="img/usuarios/{$usuario->image()}" alt="user" >
             <div>
             <p><a href="$href">{$usuario->user()} </a></p>
             <p>{$usuario->name()} </p>
@@ -71,7 +71,7 @@ function listaActoresDirectoresUser($user = NULL, $limit = NULL, $actorDirector)
 
         $html .=<<<EOS
             <div class="div-actoresDirectores">
-            <img id="prof_pic" src="img/actores_directores/{$actor->image()}" alt="actor/director" width="60" height="90">
+            <img id="prof_pic" src="img/actores_directores/{$actor->image()}" alt="actor/director" >
             <div>
             <p><a href="$href">{$actor->name()}</a></p>
             <p>{$year}</p>

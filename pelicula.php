@@ -21,7 +21,7 @@ $reviews = listaReviews($pelicula->reviews());
 
 $contenidoPrincipal=<<<EOS
 	<div class="pagina-pelicula">
-    <img id="imagen-pelicula" src="img/peliculas/{$pelicula->image()}" alt="pelicula" width="200" height="300">
+    <img id="imagen-pelicula" src="img/peliculas/{$pelicula->image()}" alt="pelicula" >
     <div>
     <p> Título: {$pelicula->title()}</p>
     <p> Fecha de estreno: {$pelicula->date_released()} </p>

@@ -8,9 +8,9 @@ function mostrarSaludo() {
 	$image = $app->image();
 	$user = $app->user();
 	if ($app->usuarioLogueado()) {
-		echo "<img id=\"prof_pic\" src=\"img/usuarios/{$image}\" alt=\"user\" width=\"75\" height=\"75\"><p>Bienvenido, " . $user . "</p><a href='perfil.php'>Perfil</a> <a href='logout.php'>Salir</a>";
+		echo "<img id=\"prof_pic\" src=\"img/usuarios/{$image}\" alt=\"user\" ><p>Bienvenido, " . $user . "</p><a href='perfil.php'>Perfil</a> <a href='logout.php'>Salir</a>";
 	} else {
-		echo "<img id=\"prof_pic\" src=\"img/usuarios/user_no_logged.png\" alt=\"user\" width=\"75\" height=\"75\"><p> Usuario desconocido </p><a href='login.php'>Login</a> <a href='registro.php'>Registro</a>";
+		echo "<img id=\"prof_pic\" src=\"img/usuarios/user_no_logged.png\" alt=\"user\" ><p> Usuario desconocido </p><a href='login.php'>Login</a> <a href='registro.php'>Registro</a>";
 	}
 }
 
