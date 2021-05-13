@@ -1,11 +1,11 @@
 <?php
 
 require_once __DIR__.'/includes/config.php';
+require_once __DIR__.'/includes/comun/peliculas_utils.php';
 
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
-$peliculas = new es\ucm\fdi\aw\peliculas();
-$pelicula = $peliculas->getPeliculaPorId($id);
+$pelicula = buscaPeliculaPorId($id);
 
 $tituloPagina = $pelicula->title();
 
@@ -13,6 +13,11 @@ $href = '';
 if (isset($_SESSION["login"]) && ($_SESSION["login"]===true)) {
     $href .= "<a href=\"./nuevaReview.php?id={$pelicula->id()}\">Escribir nueva review</a>";
 }
+
+$plataformas = listaPlataformas($pelicula->plataformas(),$pelicula->peliculasPlataformas());
+$actores = listaActoresDirectores($pelicula->actors(), 0);
+$directores = listaActoresDirectores($pelicula->directors(), 1);
+$reviews = listaReviews($pelicula->reviews());
 
 $contenidoPrincipal=<<<EOS
 	<div class="pagina-pelicula">
@@ -26,11 +31,11 @@ $contenidoPrincipal=<<<EOS
     <p> Sinopsis: {$pelicula->plot()} </p>
     </div>
     </div>
-    {$peliculas->listaPlataformas($pelicula->plataformas(),$pelicula->peliculasPlataformas())}
-    {$peliculas->listaActoresDirectores($pelicula->actors(), 0)}
-    {$peliculas->listaActoresDirectores($pelicula->directors(), 1)}
+    $plataformas
+    $actores
+    $directores
     <h3> Reviews: {$href}</h3>
-    {$peliculas->listaReviews($pelicula->reviews())}
+    $reviews
     
 EOS;
 

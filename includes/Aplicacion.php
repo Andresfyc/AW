@@ -1,14 +1,19 @@
 <?php
 namespace es\ucm\fdi\aw;
+
+use es\ucm\fdi\aw\usuarios\Usuario;
+
 /**
  * Clase que mantiene el estado global de la aplicación.
  */
 class Aplicacion
 {
+	const ATTRIBUTO_SESSION_ATTRIBUTOS_PETICION = 'attsPeticion';
+
 	private static $instancia;
 	
 	/**
-	 * Permite obtener una instancia de <code>Aplicacion</code>.
+	 * Devuele una instancia de {@see Aplicacion}.
 	 * 
 	 * @return Applicacion Obtiene la única instancia de la <code>Aplicacion</code>
 	 */
@@ -87,7 +92,7 @@ class Aplicacion
 	public function shutdown()
 	{
 	    $this->compruebaInstanciaInicializada();
-	    if ($this->conn !== null) {
+	    if ($this->conn !== null && ! $this->conn->connect_errno) {
 	        $this->conn->close();
 	    }
 	}
@@ -129,4 +134,77 @@ class Aplicacion
 		}
 		return $this->conn;
 	}
+
+
+    public function login(Usuario $usuario)
+    {
+      $this->compruebaInstanciaInicializada();
+      $_SESSION['login'] = true;
+      $_SESSION['user'] = $usuario->user();
+      $_SESSION['name'] = $usuario->name();
+	  $_SESSION['esAdmin'] = $usuario->admin();
+	  $_SESSION['esGestor'] = $usuario->content_manager();
+	  $_SESSION['esModerador'] = $usuario->moderator();
+	  $_SESSION['image'] = $usuario->image();
+    }
+
+    public function logout()
+    {
+      $this->compruebaInstanciaInicializada();
+      //Doble seguridad: unset + destroy
+      unset($_SESSION['login']);
+      unset($_SESSION['user']);
+      unset($_SESSION['name']);
+      unset($_SESSION['esAdmin']);
+      unset($_SESSION['esGestor']);
+      unset($_SESSION['esModerador']);
+      unset($_SESSION['image']);
+  
+  
+      session_destroy();
+      session_start();
+    }
+  
+    public function usuarioLogueado()
+    {
+      $this->compruebaInstanciaInicializada();
+      return ($_SESSION['login'] ?? false) === true;
+    }
+  
+    public function user()
+    {
+      $this->compruebaInstanciaInicializada();
+      return $_SESSION['user'] ?? '';
+    }
+  
+    public function name()
+    {
+      $this->compruebaInstanciaInicializada();
+      return $_SESSION['name'] ?? '';
+    }
+  
+    public function image()
+    {
+      $this->compruebaInstanciaInicializada();
+      return $_SESSION['image'] ?? '';
+    }
+  
+    public function esAdmin()
+    {
+      $this->compruebaInstanciaInicializada();
+      return $_SESSION['esAdmin'];
+    }
+  
+    public function esModerador()
+    {
+      $this->compruebaInstanciaInicializada();
+      return $_SESSION['esModerador'];
+    }
+  
+    public function esGestor()
+    {
+      $this->compruebaInstanciaInicializada();
+      return $_SESSION['esGestor'];
+    }
+
 }

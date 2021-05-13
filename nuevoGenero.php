@@ -12,14 +12,14 @@ if (strlen($prevPageId) > 0) {
 }
 
 
-$form = new es\ucm\fdi\aw\FormularioNuevoGenero($prev);
+$form = new es\ucm\fdi\aw\generos\FormularioNuevoGenero($prev);
 $htmlFormNuevoGenero = $form->gestiona();
 
 $tituloPagina = 'Añadir Género';
 
 $contenidoPrincipal = <<<EOS
-<h1>Añadir Género</h1>
-$htmlFormNuevoGenero
+    <h1>Añadir Género</h1>
+    $htmlFormNuevoGenero
 EOS;
 
 require __DIR__.'/includes/plantillas/plantilla.php';

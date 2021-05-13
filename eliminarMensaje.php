@@ -1,11 +1,13 @@
 <?php
 
 require_once __DIR__.'/includes/config.php';
+require_once __DIR__.'/includes/comun/foro_utils.php';
+
+use es\ucm\fdi\aw\Aplicacion;
 
 $idMensaje = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
-$mensajes = new es\ucm\fdi\aw\mensajes();
-$mensaje = $mensajes->getMensajePorId($idMensaje);
+$mensaje = buscaMensajePorId($idMensaje);
 
 $tituloPagina = 'Eliminar Mensaje';
 
@@ -13,8 +15,11 @@ if(array_key_exists('cancelar', $_POST)) {
     header("Location: eventoTema.php?id={$mensaje->evento_tema_obj()->id()}&nombre={$mensaje->evento_tema_obj()->name()}&time={$mensaje->evento_tema_obj()->time()}.php");
 }
 else if(array_key_exists('eliminar', $_POST)) {
-    $mensajes->eliminarMensajePorId($idMensaje);
-    header("Location: eventoTema.php?id={$mensaje->evento_tema_obj()->id()}&nombre={$mensaje->evento_tema_obj()->name()}&time={$mensaje->evento_tema_obj()->time()}.php");
+    $app = Aplicacion::getSingleton();
+    if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin()) || $mensaje->user() == $app->user()) {
+        eliminarMensajePorId($idMensaje);
+        header("Location: eventoTema.php?id={$mensaje->evento_tema_obj()->id()}&nombre={$mensaje->evento_tema_obj()->name()}&time={$mensaje->evento_tema_obj()->time()}.php");
+    }
 }
 
 $contenidoPrincipal = <<<EOS

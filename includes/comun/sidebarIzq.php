@@ -1,11 +1,13 @@
 <?php
+require_once __DIR__.'/usuarios_utils.php';
 
-require_once 'includes/config.php';
+use es\ucm\fdi\aw\Aplicacion;
 
 function mostrarActoresDirectores($actorDirector) {
-	$actoresDirectores = new es\ucm\fdi\aw\actoresDirectores();
-	if (isset($_SESSION["login"]) && ($_SESSION["login"]===true)) {
-		echo $actoresDirectores->listaActoresDirectores($_SESSION["nombre"], 7, $actorDirector);			
+	$app = Aplicacion::getSingleton();
+	$user = $app->user();
+	if ($app->usuarioLogueado()) {
+		echo listaActoresDirectoresUser($user, 7, $actorDirector);			
 	} else {
 		//TODO Cambiar para que aparezcan actores y directores en general
 		echo "<p>Inicia sesión para ver tus actores y directores</p>";

@@ -7,7 +7,6 @@
     <title><?= $tituloPagina ?></title>
 </head>
 <body>
-<!--<div id="contenedor">-->
     <?php
     require("includes/comun/sidebarIzq.php");
     ?>
@@ -22,6 +21,5 @@
     <?php
     require("includes/comun/sidebarDer.php");
     ?>
-<!--</div>-->
 </body>
 </html>

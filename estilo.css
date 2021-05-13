@@ -348,6 +348,10 @@ figure:hover > figcaption {
 	margin: 20px;
 }
 
+#imagen-actordirector {
+	margin: 20px;
+}
+
 .div-actoresDirectoresPeli {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -373,7 +377,7 @@ figure:hover > figcaption {
 
 .div-plataformas-peli {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
 	grid-gap: 10px;
 }
 

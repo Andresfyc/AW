@@ -1,11 +1,13 @@
 <?php
 
 require_once __DIR__.'/includes/config.php';
+require_once __DIR__.'/includes/comun/peliculas_utils.php';
+
+use es\ucm\fdi\aw\Aplicacion;
 
 $idReview = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
-$reviews = new es\ucm\fdi\aw\reviews();
-$review = $reviews->getReviewPorId($idReview);
+$review = getReviewPorId($idReview);
 
 $tituloPagina = 'Eliminar Review';
 
@@ -13,8 +15,11 @@ if(array_key_exists('cancelar', $_POST)) {
     header("Location: pelicula.php?id={$review->film_id()}.php");
 }
 else if(array_key_exists('eliminar', $_POST)) {
-    $reviews->eliminarReviewPorId($idReview);
-    header("Location: pelicula.php?id={$review->film_id()}.php");
+    $app = Aplicacion::getSingleton();
+    if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $app->user() == $review->user())) {
+        eliminarReviewPorId($idReview);
+        header("Location: pelicula.php?id={$review->film_id()}.php");
+    }
 }
 
 $contenidoPrincipal = <<<EOS

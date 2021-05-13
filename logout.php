@@ -1,22 +1,7 @@
 <?php
+require_once __DIR__.'/includes/config.php';
 
-//Inicio del procesamiento
-session_start();
+$app->logout();
+header('Location: index.php');
 
-//Doble seguridad: unset + destroy
-unset($_SESSION["login"]);
-unset($_SESSION["esAdmin"]);
-unset($_SESSION["nombre"]);
-
-
-session_destroy();
-
-$tituloPagina = 'Portada';
-
-$contenidoPrincipal=<<<EOS
-	<h1>Hasta pronto!</h1>
-EOS;	
-
-
-
-require __DIR__ . '/includes/plantillas/plantilla.php';
+require __DIR__.'/includes/plantillas/plantilla.php';

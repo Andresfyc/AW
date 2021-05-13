@@ -8,6 +8,17 @@ define('BD_NAME', 'film_swap_2');
 define('BD_USER', 'film_swap');
 define('BD_PASS', 'film_swap');
 
+/*
+ * Parámetros de configuración utilizados para generar las URLs y las rutas a ficheros en la aplicación
+ */
+define('RAIZ_APP', __DIR__);
+define('RUTA_APP', '/Proyecto/FilmSwap3');
+define('RUTA_CSS', RUTA_APP.'/css');
+define('RUTA_JS', RUTA_APP.'/js');
+define('RUTA_IMG', RUTA_APP.'/img');
+define('RUTA_INC', RUTA_APP.'/includes');
+define('RUTA_COM', RUTA_INC.'/comun');
+
 /**
  * Configuración del soporte de UTF-8, localización (idioma y país) y zona horaria
  */
@@ -21,23 +32,23 @@ date_default_timezone_set('Europe/Madrid');
  * @see http://www.php-fig.org/psr/psr-4/
  */
 spl_autoload_register(function ($class) {
-
+    
     // project-specific namespace prefix
     $prefix = 'es\\ucm\\fdi\\aw\\';
-
+    
     // base directory for the namespace prefix
     $base_dir = __DIR__ . '/';
-
+    
     // does the class use the namespace prefix?
     $len = strlen($prefix);
     if (strncmp($prefix, $class, $len) !== 0) {
         // no, move to the next registered autoloader
         return;
     }
-
+    
     // get the relative class name
     $relative_class = substr($class, $len);
-
+    
     // replace the namespace prefix with the base directory, replace namespace
     // separators with directory separators in the relative class name, append
     // with .php
