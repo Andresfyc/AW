@@ -54,7 +54,7 @@ function getDivPeliculas($peliculas, $limit=NULL) {
             $html .=<<<EOS
                 <p><a href="./editarPelicula.php?id={$pelicula->id()}">Editar</a></p>
                 <p><a href="./eliminarPelicula.php?id={$pelicula->id()}">Eliminar</a></p>
-                <img id="film_pic" src="img/peliculas/{$pelicula->image()}" alt="imagen" >
+                <img id="film_pic_small" src="img/peliculas/{$pelicula->image()}" alt="imagen" >
             EOS;
         } else {
             $html .=<<<EOS

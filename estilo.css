@@ -464,6 +464,11 @@ figure:hover > figcaption {
 	height: 225px;
 }
 
+.div-pelicula #film_pic_small{
+	width: 100px;
+	height: 150px;
+}
+
 .pagina-pelicula #imagen-pelicula{
 	width: 200px;
 	height: 300px;

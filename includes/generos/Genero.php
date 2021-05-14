@@ -48,7 +48,7 @@ class Genero
 
     $app = App::getSingleton();
     $conn = $app->conexionBd();
-    $query=sprintf("INSERT INTO Generos(name) VALUES('%s')"
+    $query=sprintf("INSERT INTO generos(name) VALUES('%s')"
         , $conn->real_escape_string($genero->name));
     $result = $conn->query($query);
     if ($result) {

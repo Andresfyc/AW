@@ -62,7 +62,7 @@ class Usuario
     {
         $app = App::getSingleton();
         $conn = $app->conexionBd();
-        $query = sprintf("SELECT * FROM Usuarios WHERE id=%d", $idUsuario);
+        $query = sprintf("SELECT * FROM usuarios WHERE id=%d", $idUsuario);
         $rs = $conn->query($query);
         if ($rs && $rs->num_rows == 1) {
             $fila = $rs->fetch_assoc();
@@ -119,7 +119,7 @@ class Usuario
     {
         $app = App::getSingleton();
         $conn = $app->conexionBd();
-        $query=sprintf("INSERT INTO Usuarios(user, password, name, image, date_joined) VALUES('%s', '%s', '%s', '%s', CURDATE())"
+        $query=sprintf("INSERT INTO usuarios(user, password, name, image, date_joined) VALUES('%s', '%s', '%s', '%s', CURDATE())"
             , $conn->real_escape_string($usuario->user)
             , $conn->real_escape_string($usuario->password)
             , $conn->real_escape_string($usuario->name)
