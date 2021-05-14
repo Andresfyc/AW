@@ -15,7 +15,7 @@
 
 # AW_G-09 🥇
 
-<details>
+<details open>
 <summary>Equipo 🧑‍💻</summary>
 <br>
 
