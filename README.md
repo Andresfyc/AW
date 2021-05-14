@@ -1,6 +1,6 @@
 
 <div align="center">
-  <h1>Welcome to the FILMSWAP</h1>
+  <h1>Welcome to FILMSWAP</h1>
 <br>
   <b>Equipo:</b><br>
   <a href="#">Yaiza López</a> |
