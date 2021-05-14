@@ -11,7 +11,6 @@ use es\ucm\fdi\aw\reviews\Review;
  */
 
 function listaPelis_ActorDirector($id){
-    $RUTA_APP = RUTA_APP;
     $peliculas = Pelicula::peliculasPorActorDirectorId($id);
     $html = '';
     if (!empty($peliculas)) {
@@ -22,8 +21,8 @@ function listaPelis_ActorDirector($id){
             $text = strlen($text) > 25 ? substr($text, 0, 25).'...' : $text;
             $html.=<<<EOS
                 <div class="div-actorDirectorPeli">
-                <img id="imagen-actorDirector" src="img/peliculas/{$pelicula->image()}" alt="imagen" width="100" height="150">
-                <p><a href="{$RUTA_APP}pelicula.php?id={$pelicula->id()}">{$text}</a></p>
+                <img id="imagen-actorDirector" src="img/peliculas/{$pelicula->image()}" alt="imagen" >
+                <p><a href="./pelicula.php?id={$pelicula->id()}">{$text}</a></p>
             EOS;
             $html .= '</div>';
         }
@@ -47,26 +46,25 @@ function mostrarPortadaPeliculas($limit=NULL) {
 }
 
 function getDivPeliculas($peliculas, $limit=NULL) {
-    $RUTA_APP = RUTA_APP;
 	$app = Aplicacion::getSingleton();
     $html = '<div class="div-peliculas">';
     foreach($peliculas as $pelicula) {
         $html .= '<div class="div-pelicula">';
         if ($limit == NULL && $app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
             $html .=<<<EOS
-                <p><a href="{$RUTA_APP}editarPelicula.php?id={$pelicula->id()}">Editar</a></p>
-                <p><a href="{$RUTA_APP}eliminarPelicula.php?id={$pelicula->id()}">Eliminar</a></p>
-                <img id="film_pic" src="img/peliculas/{$pelicula->image()}" alt="imagen" width="100" height="150">
+                <p><a href="./editarPelicula.php?id={$pelicula->id()}">Editar</a></p>
+                <p><a href="./eliminarPelicula.php?id={$pelicula->id()}">Eliminar</a></p>
+                <img id="film_pic" src="img/peliculas/{$pelicula->image()}" alt="imagen" >
             EOS;
         } else {
             $html .=<<<EOS
-                <img id="film_pic" src="img/peliculas/{$pelicula->image()}" alt="imagen" width="150" height="225">
+                <img id="film_pic" src="img/peliculas/{$pelicula->image()}" alt="imagen" >
             EOS;
         }
         $text = $pelicula->title();
         $text = strlen($text) > 40 ? substr($text, 0, 40).'...' : $text;
         $html .=<<<EOS
-            <p><a href="{$RUTA_APP}pelicula.php?id={$pelicula->id()}">{$text}</a></p>
+            <p><a href="./pelicula.php?id={$pelicula->id()}">{$text}</a></p>
             </div>
         EOS;
     }
@@ -74,7 +72,7 @@ function getDivPeliculas($peliculas, $limit=NULL) {
     if ($limit != NULL) {
         $html .=<<<EOS
             <div class="div-pelicula-last">
-            <p><a href="{$RUTA_APP}peliculas.php">Ver todas</a></p>
+            <p><a href="./peliculas.php">Ver todas</a></p>
             </div>
         EOS;
     }
@@ -86,7 +84,6 @@ function getDivPeliculas($peliculas, $limit=NULL) {
 
 function listaActoresDirectores($actoresDirectores, $ad)
 {
-    $RUTA_APP = RUTA_APP;
     $html = '';
     if (!empty($actoresDirectores)) {
         if (!$ad){
@@ -100,8 +97,8 @@ function listaActoresDirectores($actoresDirectores, $ad)
             $text = strlen($text) > 25 ? substr($text, 0, 25).'...' : $text;
             $html.=<<<EOS
                 <div class="div-actorDirectorPeli">
-                <img id="film_pic" src="img/actores_directores/{$actorDirector->image()}" alt="imagen" width="100" height="150">
-                <p><a href="{$RUTA_APP}actorDirector.php?id={$actorDirector->id()}">{$text}</a></p>
+                <img id="film_pic" src="img/actores_directores/{$actorDirector->image()}" alt="imagen" >
+                <p><a href="./actorDirector.php?id={$actorDirector->id()}">{$text}</a></p>
                 </div>
             EOS;
         }
@@ -120,7 +117,7 @@ function listaPlataformas($plataformas,$peliculasPlataformas){
             $plataforma = Plataforma::buscaPorId($peliplata->platform_id());
             $html.=<<<EOS
                 <div class="div-plataformas-peli">
-                <a href={$peliplata->link()}><img src="img/plataformas/{$plataforma->image()}" alt="imagen" width="60" height="60"></a>
+                <a href={$peliplata->link()}><img id="platf_pic" src="img/plataformas/{$plataforma->image()}" alt="imagen" ></a>
                 </div>
             EOS;
         }
@@ -143,8 +140,8 @@ function listaReviews($reviews)
             $html .= "<p>{$review->time_created()}</p>";
             $html .= "<p>{$review->user()}</p><p>";
             if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $review->user() == $app->user())) {
-                $html .= '<a href="'.RUTA_APP.'editarReview.php?id='.$review->id().'">Editar</a>';
-                $html .= '<a href="'.RUTA_APP.'eliminarReview.php?id='.$review->id().'"> Eliminar</a>';
+                $html .= "<a href=\"./editarReview.php?id={$review->id()}\">Editar</a>";
+                $html .= "<a href=\"./eliminarReview.php?id={$review->id()}\"> Eliminar</a>";
             }
             $html .= '</p></div>';
             $html .= "<p>{$review->review()}</p>";
@@ -165,7 +162,7 @@ function busquedaActoresDirectores($search)
         $html .= '<ul>';
         foreach($actoresDirectores as $actorDirector) {
             $text = substr($actorDirector->birth_date(), 0, 4);
-            $html .= '<p><a href="'.RUTA_APP.'actorDirector.php?id='.$actorDirector->id().'">'.$actorDirector->name().' ('.$text.')</a></p>';
+            $html .= "<p><a href=\"./actorDirector.php?id={$actorDirector->id()}\">{$actorDirector->name()} ({$text})</a></p>";
         }
         $html .= '</ul>';
     }
@@ -182,7 +179,7 @@ function busquedaPeliculas($search)
         $html .= '<ul>';
         foreach($peliculas as $pelicula) {
             $text = substr($pelicula->date_released(), 0, 4);
-            $html .= '<p><a href="'.RUTA_APP.'pelicula.php?id='.$pelicula->id().'">'.$pelicula->title().' ('.$text.')</a></p>';
+            $html .= "<p><a href=\"./pelicula.php?id={$pelicula->id()}\">{$pelicula->title()} ({$text})</a></p>";
         }
         $html .= '</ul>';
     }

@@ -415,3 +415,81 @@ figure:hover > figcaption {
 .div-reviewsPeli > p {
 	padding-left: 20px;
 }
+
+/********** Imagenes **********/
+
+/*** Panel Derecha ***/
+
+ #topSide #prof_pic{
+	width: 90px;
+	height: 90px;
+	border-radius: 50%;
+}
+
+#contentSide #prof_pic{
+	width: 50px;
+	height: 50px;
+	border-radius: 10%;
+
+}
+
+/*** Panel Izquierda ***/
+
+#sidebarIzq #logo{
+	width: 140px;
+	height: 115px;
+}
+
+/*** usuario_utils.php ***/
+
+.div-perfil #film_pic{
+	width: 180px;
+	height: 180px;
+}
+
+.usuarios #prof_pic{
+	width: 60px;
+	height: 60px;
+}
+
+.div-actoresDirectores #prof_pic{
+	width: 60px;
+	height: 90px;
+}
+
+/*** Pelicula ***/
+
+.div-pelicula #film_pic{
+	width: 150px;
+	height: 225px;
+}
+
+.pagina-pelicula #imagen-pelicula{
+	width: 200px;
+	height: 300px;
+}
+
+.div-actorDirectorPeli #imagen-actorDirector{
+	width: 100px;
+	height: 150px;
+}
+
+/*** Actor Director ***/
+
+.div-actorDirectorPeli #film_pic{
+	width: 100px;
+	height: 150px;
+}
+
+.pagina-pelicula #imagen-actordirector{
+	width: 200px;
+	height: 300px;
+}
+
+/*** Plataforma Peli ***/
+
+.div-plataformas-peli #platf_pic{
+	width: 60px;
+	height: 60px;
+}
+
