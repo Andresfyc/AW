@@ -66,7 +66,7 @@ class FormularioNuevoMensaje extends Form
                 if ( ! $mensaje ) {
                     $result[] = "Error";
                 } else {
-                    $result = RUTA_APP."/eventoTema.php?id={$id}&name={$name}&time={$time}";
+                    $result = RUTA_APP."eventoTema.php?id={$id}&name={$name}&time={$time}";
                 }
             }
         

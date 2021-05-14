@@ -16,8 +16,8 @@ function listaMensajes($id) {
         $html .= '<div class="row-mensaje">';
         $html .= "{$mensaje->text()} ({$mensaje->user()}) [{$mensaje->time_created()}]  ";
         if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin()) || $mensaje->user() == $app->user()) {
-            $html .= "<a href=\"./editarMensaje.php?id={$mensaje->id()}\">Editar</a>";
-            $html .= "<a href=\"./eliminarMensaje.php?id={$mensaje->id()}\"> Eliminar</a>";
+            $html .= '<a href="'.RUTA_APP.'editarMensaje.php?id='.$mensaje->id().'">Editar</a>';
+            $html .= '<a href="'.RUTA_APP.'eliminarMensaje.php?id='.$mensaje->id().'"> Eliminar</a>';
         }
         $html .= '</div>';
     }
@@ -47,10 +47,10 @@ function listaEventos() {
 
     $eventos = EventoTema::buscaEventosRecientes();
     foreach($eventos as $evento) {
-        $href = './eventoTema.php?id=' . $evento->id() . '&name=' . $evento->name() . '&time=' . $evento->time();
+        $href = RUTA_APP.'eventoTema.php?id=' . $evento->id() . '&name=' . $evento->name() . '&time=' . $evento->time();
         $editarEliminar = '';
         if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
-            $editarEliminar .= "<p><a href=\"./editarEventoTema.php?id={$evento->id()}\">Editar</a> <a href=\"./eliminarEventoTema.php?id={$evento->id()}&name={$evento->name()}\">Eliminar</a></p>";
+            $editarEliminar .= '<p><a href="'.RUTA_APP.'editarEventoTema.php?id='.$evento->id().'">Editar</a> <a href="'.RUTA_APP.'eliminarEventoTema.php?id='.$evento->id().'&name='.$evento->name().'">Eliminar</a></p>';
         }
 
         $html.=<<<EOS
@@ -94,10 +94,10 @@ function listaTemas() {
 
     $temas = EventoTema::buscaTemas();
     foreach($temas as $tema) {
-        $href = './eventoTema.php?id=' . $tema->id() . '&name=' . $tema->name() . '&time=' . $tema->time();
+        $href = RUTA_APP.'eventoTema.php?id=' . $tema->id() . '&name=' . $tema->name() . '&time=' . $tema->time();
         $editarEliminar = '';
         if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
-            $editarEliminar .= "<p><a href=\"./editarEventoTema.php?id={$tema->id()}\">Editar</a> <a href=\"./eliminarEventoTema.php?id={$tema->id()}&name={$tema->name()}\">Eliminar</a></p>";
+            $editarEliminar .= '<p><a href="'.RUTA_APP.'editarEventoTema.php?id='.$tema->id().'">Editar</a> <a href="'.RUTA_APP.'eliminarEventoTema.php?id='.$tema->id().'&name='.$tema->name().'">Eliminar</a></p>';
         }
 
         $html.=<<<EOS

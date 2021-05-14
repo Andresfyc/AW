@@ -74,7 +74,7 @@ class FormularioRegistro extends Form
             } else {
                 $app = Aplicacion::getSingleton();
                 $app->login($usuario);
-                $result = 'index.php';
+                $result = RUTA_APP.'index.php';
             }
         }
         return $result;

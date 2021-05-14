@@ -63,7 +63,7 @@ class FormularioNuevaReview extends Form
                 if ( ! $review ) {
                     $result[] = "El género ya existe";
                 } else {
-                    $result = RUTA_APP."/pelicula.php?id={$id}";
+                    $result = RUTA_APP."pelicula.php?id={$id}";
                 }
             }
         

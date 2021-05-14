@@ -77,7 +77,7 @@ class FormularioEditarReview extends Form
             if ( ! $review  ) {
                 $result[] = "La review ya existe";
             } else {
-                $result = RUTA_APP."/pelicula.php?id={$filmId}";
+                $result = RUTA_APP."pelicula.php?id={$filmId}";
             }
         }
     }

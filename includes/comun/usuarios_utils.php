@@ -9,6 +9,7 @@ use es\ucm\fdi\aw\actoresDirectores\ActorDirector;
  */
 
 function getDivUsuario() {
+    $RUTA_APP = RUTA_APP;
 	$app = Aplicacion::getSingleton();
     $usuario = getUsuarioPorUser($app->user());
     if ($app->usuarioLogueado()) {
@@ -20,7 +21,7 @@ function getDivUsuario() {
             <p>Nombre completo: {$usuario->name()}</p>
             <p>Correo electrónico: </p>
             <p>Fecha de registro: {$usuario->date_joined()}</p>
-            <p><a href="editarPerfil.php?user={$usuario->user()}">Editar Perfil</a></p>
+            <p><a href="{$RUTA_APP}editarPerfil.php?user={$usuario->user()}">Editar Perfil</a></p>
             </div>
             </div>
         EOS;
@@ -33,11 +34,11 @@ function listaAmigos($user, $limit=NULL)
     $usuarios = Usuario::listaAmigos($user, $limit);
     $html = '<div>';
     foreach($usuarios as $usuario) {
-        $href = './usuarios.php?id=' . $usuario->user();
+        $href = RUTA_APP.'usuarios.php?id=' . $usuario->user();
         $peliculaWatching = $usuario->film();
         $watching = '';
         if ($peliculaWatching) {
-            $watching .= "<p><a href=\"pelicula.php?id={$peliculaWatching->id()}\"> Viendo: {$peliculaWatching->title()} </a></p>";
+            $watching .= '<p><a href="'.RUTA_APP.'pelicula.php?id='.$peliculaWatching->id().'"> Viendo: '.$peliculaWatching->title().' </a></p>';
         }
 
         $html .=<<<EOS
@@ -66,7 +67,7 @@ function listaActoresDirectoresUser($user = NULL, $limit = NULL, $actorDirector)
     $html = '<div>';
     $actores = ActorDirector::buscaActoresDirectoresPorUser($user, $limit, $actorDirector);
     foreach($actores as $actor) {
-        $href = './actorDirector.php?id=' . $actor->id();
+        $href = RUTA_APP.'actorDirector.php?id=' . $actor->id();
         $year = substr($actor->birth_date(), 0, 4);
 
         $html .=<<<EOS
@@ -92,7 +93,7 @@ function busquedaUsuarios($search)
         $html .= '<h3> Usuarios: </h3>';
         $html .= '<ul>';
         foreach($usuarios as $usuario) {
-            $html .= "<p><a href=\"./usuario.php?id={$usuario->user()}\">{$usuario->name()} ({$usuario->user()})</a></p>";
+            $html .= '<p><a href="'.RUTA_APP.'usuario.php?id='.$usuario->user().'">'.$usuario->name().' ('.$usuario->user().')</a></p>';
         }
         $html .= '</ul>';
     }

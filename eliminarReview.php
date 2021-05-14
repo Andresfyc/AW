@@ -12,13 +12,13 @@ $review = getReviewPorId($idReview);
 $tituloPagina = 'Eliminar Review';
 
 if(array_key_exists('cancelar', $_POST)) {
-    header("Location: pelicula.php?id={$review->film_id()}.php");
+    header('Location: '.RUTA_APP.'pelicula.php?id='.$review->film_id().'.php');
 }
 else if(array_key_exists('eliminar', $_POST)) {
     $app = Aplicacion::getSingleton();
     if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $app->user() == $review->user())) {
         eliminarReviewPorId($idReview);
-        header("Location: pelicula.php?id={$review->film_id()}.php");
+        header('Location: '.RUTA_APP.'pelicula.php?id='.$review->film_id().'.php');
     }
 }
 
