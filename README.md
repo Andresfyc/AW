@@ -19,8 +19,7 @@
 <summary>Equipo 🧑‍💻</summary>
 <br>
 
-<section>
-<a name="yaiza"> <h3> Yaiza López 👩 </h3></a>
+### Yaiza López 👩 
 - Perfil usuario.
 
 
@@ -35,7 +34,6 @@
 ### Víctor Choza 👨 
 - Vista de actores, directores y swappers.
 
-</section>
 </details>
 
 
