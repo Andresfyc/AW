@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-05-2021 a las 14:36:53
--- Versión del servidor: 10.4.17-MariaDB
--- Versión de PHP: 7.4.15
+-- Tiempo de generación: 14-05-2021 a las 11:41:48
+-- Versión del servidor: 10.4.18-MariaDB
+-- Versión de PHP: 8.0.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -58,32 +58,50 @@ INSERT INTO `actores_directores` (`id`, `actor_director`, `name`, `description`,
 INSERT INTO `amigos` (`id`, `user`, `friend`, `time_created`) VALUES
 (14, 'userPrueba', 'Paco123', '2021-05-13 12:06:32'),
 (15, 'userPrueba', 'Lolita', '2021-05-13 12:06:42'),
-(16, 'userPrueba', 'María', '2021-05-13 12:06:52');
+(16, 'userPrueba', 'María', '2021-05-13 12:06:52'),
+(17, 'Abart', 'charlyvary', '2021-05-14 08:34:25'),
+(18, 'Abart', 'AndresYunda', '2021-05-14 08:34:25'),
+(19, 'AndresYunda', 'VictorRuiz', '2021-05-14 08:34:25'),
+(21, 'VictorRuiz', 'Yaiza', '2021-05-14 08:34:25'),
+(22, 'charlyvary', 'Ditochoza', '2021-05-14 08:34:25'),
+(23, 'Yaiza', 'charlyvary', '2021-05-14 08:35:14'),
+(24, 'Ditochoza', 'charlyvary', '2021-05-14 08:36:21'),
+(25, 'Ditochoza', 'VictorRuiz', '2021-05-14 08:36:21'),
+(26, 'charlyvary', 'Abart', '2021-05-14 08:37:04');
 
 --
 -- Volcado de datos para la tabla `foro_eventos_temas`
 --
 
 INSERT INTO `foro_eventos_temas` (`id`, `name`, `description`, `time`, `time_created`, `num_messages`) VALUES
-(1, 'evento1', 'evento1 description', '2007-12-31 23:00:01', '2021-04-12 20:50:28', 3),
-(2, 'evento2', 'evento2 description', '2007-12-31 23:00:01', '2021-04-12 20:50:28', 0),
-(3, 'evento3', 'evento3 description', '2007-12-31 23:00:01', '2021-04-12 20:50:28', 0),
-(4, 'evento4', 'evento4 description', '2007-12-31 23:00:01', '2021-04-12 20:50:28', 0),
-(5, 'evento5', 'evento5 description', '2007-12-31 23:00:01', '2021-04-12 20:50:28', 0),
-(6, 'tema1', 'tema1 description', NULL, '2021-04-12 20:51:45', 0),
-(7, 'tema2', 'tema2 description', NULL, '2021-04-12 20:51:45', 0),
-(8, 'tema3', 'tema3 description', NULL, '2021-04-12 20:51:45', 0),
-(9, 'tema4', 'tema4 description', NULL, '2021-04-12 20:51:45', 0),
-(10, 'tema5', 'tema5 description', NULL, '2021-04-12 20:51:45', 0);
+(12, 'Películas Ciencia Ficción', '¡Deja tus comentarios con las mejores películas de ciencia ficción de la época!', NULL, '2021-05-11 08:43:36', 3),
+(13, 'Películas Terror', 'Películas Terror', NULL, '2021-05-14 09:15:37', 3),
+(14, 'Directores ', 'Opiniones de directores\r\n', NULL, '2021-05-14 09:18:07', 3),
+(15, 'Oscars', 'Comentemos los Oscars de este año', NULL, '2021-05-14 09:18:07', 2),
+(16, '¡Animales fantásticos 3!', 'Estamos a la espera de esta ansiada entrega que saldrá a finales de 2022', '2022-11-30 10:18:22', '2021-05-14 09:19:26', 0),
+(17, 'Festival Internacional de Cine de Venecia', '¡¡Festival de Venecia en directo!!', '2021-09-02 09:20:21', '2021-05-14 09:21:26', 0),
+(18, 'Charla interactiva sobre cine moderno', 'En esta charla trataremos temas de actualidad del cine moderno!', '2021-05-31 09:21:35', '2021-05-14 09:22:19', 0),
+(20, 'Anthony Hopkins', 'Repasemos la trayectoria de este magnifico autor', NULL, '2021-05-14 09:24:19', 3);
 
 --
 -- Volcado de datos para la tabla `foro_mensajes`
 --
 
 INSERT INTO `foro_mensajes` (`id`, `evento_tema`, `user`, `text`, `time_created`) VALUES
-(9, 1, 'Lolita', 'Está guay este evento', '2021-05-13 12:16:39'),
-(10, 1, 'Paco123', 'Buenas!!!', '2021-05-13 12:16:52'),
-(12, 1, 'userPrueba', 'Vale, ya lo he entendido!', '2021-05-13 12:19:42');
+(13, 20, 'Abart', 'Increíble actor, me he visto todas sus películas', '2021-05-14 09:28:34'),
+(14, 20, 'charlyvary', 'Pues a mi no me gusta tanto la verdad, está sobrevalorado.', '2021-05-14 09:28:59'),
+(15, 20, 'VictorRuiz', 'Su papel en el secreto de los corderos me dejo impactada, desde esa película le sigo en todos sus trabajos.', '2021-05-14 09:30:40'),
+(16, 14, 'VictorRuiz', 'Mi actor favorito sin duda es Baiona, que peliculón se marcó con Jurassic World, me encantaría verla otra vez, podríais añadirla!', '2021-05-14 09:30:40'),
+(17, 14, 'Ditochoza', 'Digáis lo que digáis, Steven Spielberg es el mejor director de todos los tiempos.', '2021-05-14 09:32:42'),
+(18, 14, 'Yaiza', 'John Ford y sus películas del oeste me transmiten demasiados sentimientos', '2021-05-14 09:32:42'),
+(20, 15, 'Yaiza', 'Ya en verdad Abart, vaya tongo han hecho', '2021-05-14 09:39:19'),
+(21, 15, 'Ditochoza', 'Merecidísimo!! Como no os ha podido gustar Nomadland?!', '2021-05-14 09:39:19'),
+(22, 12, 'Yaiza', 'Avatar es mi película favorita de ciencia ficción.', '2021-05-14 09:39:19'),
+(23, 12, 'AndresYunda', 'Horizonte final, menudo películon, os la recomiendo a todos muchísimo.', '2021-05-14 09:39:19'),
+(24, 12, 'VictorRuiz', 'Sin lugar a dudas Matrix gana a todas las películas de ciencia ficción #teamNeo', '2021-05-14 09:39:19'),
+(25, 13, 'charlyvary', 'Me encantan las películas de Expediente Warren, sabéis si habrá nuevas entregas de la saga?', '2021-05-14 09:39:19'),
+(26, 13, 'Ditochoza', 'Creo que si!! Van a sacar una que tiene pinta de que va a ser la mejor hasta el momento, que ganas!!', '2021-05-14 09:39:19'),
+(27, 13, 'Yaiza', 'The Conjuring: The Devil Made Me Do It, sale este año!!', '2021-05-14 09:39:19');
 
 --
 -- Volcado de datos para la tabla `generos`
@@ -239,13 +257,19 @@ INSERT INTO `reviews` (`id`, `user`, `film_id`, `review`, `stars`, `time_created
 --
 
 INSERT INTO `usuarios` (`user`, `password`, `name`, `image`, `date_joined`, `watching`, `admin`, `content_manager`, `moderator`) VALUES
+('Abart', '$2y$10$5zI7DgRddbEBqD9jTZUZfu/PhyZDtdMmjvhVxH.NTrku7/nKLflQu', 'Aser Bartolomé', 'aserimage.jpg', '2021-05-14', 11, 1, 0, 0),
+('AndresYunda', '$2y$10$VAi05OvJBsPhz1qouNn8T.EOTXaLbO7Hl84wE6ehi6i.oKLEBGaFK', 'Andres Yunda', 'andresimage.jpg', '2021-05-14', 6, 0, 1, 0),
+('charlyvary', '$2y$10$LoJ.u7/PtUgDGD6S8if8Xufp89neFLl2a8wafnQ54Af2dWDs2S.D.', 'Carlos Varela', 'carlosimage.jpg', '2021-05-14', 14, 0, 0, 1),
+('Ditochoza', '$2y$10$2J3rT2Y3MFbZzl3HRQ2BFe79b7xfo5BaX5jXSpzSviqF.8cBk5rOm', 'Víctor Choza', 'victorcimage.jpg', '2021-05-14', 16, 1, 1, 1),
 ('Lolita', '$2y$10$l4MxYoqJlwKKBSF.Ef4/K.UCjmXMBB6Kz2Dj7NtSOuhUW1wGNtAha', 'Lolita Davis', 'user_logged.png', '2021-05-13', NULL, 0, 0, 0),
 ('María', '$2y$10$s6EphqO5qS5Lrda0EXwnPuNjjlSIIk3DOgYW5QDJXvPtRw1C2FAlm', 'María Sánchez', 'user_logged.png', '2021-05-13', 2, 0, 0, 0),
 ('Paco123', '$2y$10$9B3hkr7QvzjoHSyKEaH1D.vO7TJPa2jX7WTnGDofBNNxOnyZEG6Bm', 'Paco López', 'user_logged.png', '2021-05-13', NULL, 0, 0, 0),
 ('userAdmin', '$2y$10$4XWfC7h2/m74aIi.iPdMFeciNcat0sGQxa7o2ZFQ2uCHpavX67r2O', 'userAdmin', 'user_logged.png', '2021-05-13', NULL, 1, 0, 0),
-('userGestor', '$2y$10$DUtfatkTvdvWXLbnZmV7Eux7OvDUp7c/Xhyy7tAjMhtp8qZPw0OTy', 'userGestor', 'user_logged.png', '2021-05-13', NULL, 0, 1, 0),
+('userGestor', '$2y$10$DUtfatkTvdvWXLbnZmV7Eux7OvDUp7c/Xhyy7tAjMhtp8qZPw0OTy', 'userGestor', 'user_logged.png', '2021-05-13', 13, 0, 1, 0),
 ('userModerador', '$2y$10$OZttXem0XvM006BJ/gzeDOcIS7URd1GIZyj.G5njaOkeiHoxcj8Oi', 'userModerador', 'user_logged.png', '2021-05-13', NULL, 0, 0, 1),
-('userPrueba', '$2y$10$chV7iF0WazYj.hrPr0opaud2F8AzbTFF52.IHAwO3pk/yyvNuINaK', 'Nombre de Usuario', 'andresimage.jpg', '2021-05-13', NULL, 0, 0, 0);
+('userPrueba', '$2y$10$chV7iF0WazYj.hrPr0opaud2F8AzbTFF52.IHAwO3pk/yyvNuINaK', 'Nombre de Usuario', 'andresimage.jpg', '2021-05-13', NULL, 0, 0, 0),
+('VictorRuiz', '$2y$10$bCibIZPjee.LuJDbZ1cxM.T56s3JMEGE.NdDq5sRT2h.eInfxyWWS', 'Victor Ruiz', 'victorrimage.jpg', '2021-05-14', 3, 1, 1, 0),
+('Yaiza', '$2y$10$.L60ULCR0tvQ1G8iQWm.C.SPO1kCmiuTc5rpwnT4SCQwaEHf23NJ.', 'Yaiza López', 'yaizaimage.jpg', '2021-05-14', 7, 0, 1, 1);
 
 --
 -- Volcado de datos para la tabla `usuarios_actores_directores`
@@ -254,7 +278,20 @@ INSERT INTO `usuarios` (`user`, `password`, `name`, `image`, `date_joined`, `wat
 INSERT INTO `usuarios_actores_directores` (`id`, `user`, `actores_directores_id`) VALUES
 (4, 'userPrueba', 12),
 (5, 'userPrueba', 25),
-(6, 'userPrueba', 16);
+(6, 'userPrueba', 16),
+(7, 'Abart', 22),
+(8, 'Abart', 22),
+(9, 'AndresYunda', 28),
+(10, 'AndresYunda', 12),
+(11, 'charlyvary', 21),
+(12, 'charlyvary', 27),
+(13, 'charlyvary', 16),
+(14, 'Ditochoza', 17),
+(15, 'Ditochoza', 20),
+(16, 'VictorRuiz', 30),
+(17, 'VictorRuiz', 11),
+(18, 'Yaiza', 18),
+(19, 'Yaiza', 14);
 
 --
 -- Volcado de datos para la tabla `usuarios_peliculas_vistas`
@@ -264,7 +301,14 @@ INSERT INTO `usuarios_peliculas_vistas` (`id`, `user`, `film_id`, `rating`, `tim
 (8, 'María', 2, 0, '2021-05-13 12:07:09'),
 (9, 'userPrueba', 2, 5, '2021-05-13 12:10:22'),
 (10, 'Lolita', 2, 4, '2021-05-13 12:10:44'),
-(11, 'Paco123', 2, 4, '2021-05-13 12:11:07');
+(11, 'Paco123', 2, 4, '2021-05-13 12:11:07'),
+(12, 'Abart', 11, 0, '2021-05-14 08:28:33'),
+(13, 'AndresYunda', 6, 0, '2021-05-14 08:28:40'),
+(14, 'userGestor', 13, 0, '2021-05-14 08:28:44'),
+(15, 'Yaiza', 7, 0, '2021-05-14 08:28:50'),
+(16, 'charlyvary', 14, 0, '2021-05-14 08:28:57'),
+(17, 'VictorRuiz', 3, 0, '2021-05-14 08:29:03'),
+(18, 'Ditochoza', 16, 0, '2021-05-14 08:29:13');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
