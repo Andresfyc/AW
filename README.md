@@ -19,7 +19,7 @@
 <summary>Equipo 🧑‍💻</summary>
 <br>
 
-### Yaiza López 👩 
+### Yaiza López 
 - Perfil usuario.
 
 
