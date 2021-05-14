@@ -2,7 +2,7 @@
 <div align="center">
   <h1>Welcome to FILMSWAP 🎬</h1>
 <br>
-  <b>Equipo: 🧑‍💻 </b><br>
+  <b>Equipo: 🧑‍💻 </b><br><br>
   <a href="#">👩 Yaiza López</a> |
   <a href="#">👨 Víctor Choza</a> |
   <a href="#">👨 Víctor Ruiz</a> |
