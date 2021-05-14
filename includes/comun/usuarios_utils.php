@@ -72,7 +72,7 @@ function listaActoresDirectoresUser($user = NULL, $limit = NULL, $actorDirector)
 
         $html .=<<<EOS
             <div class="div-actoresDirectores">
-            <img id="prof_pic" src="img/actores_directores/{$actor->image()}" alt="actor/director" >
+            <img id="prof_pic_long" src="img/actores_directores/{$actor->image()}" alt="actor/director" >
             <div>
             <p><a href="$href">{$actor->name()}</a></p>
             <p>{$year}</p>
