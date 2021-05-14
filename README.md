@@ -57,70 +57,51 @@
 <summary>Equipo 💻</summary>
 <br>
 
-<details>
-<summary>Yaiza López 👩</summary>
-<br>
+### Yaiza López 👩
 
 |  <img src="https://user-images.githubusercontent.com/62907237/118292251-b9ea2e80-b4d8-11eb-80ee-030cb8732f25.jpg" width=100%> 	|  Hola! Soy Yaiza López. Adoro disfrutar de la naturaleza, sobre todo de las puestas de sol y del mar. Me gusta complementarlo con mi música favorita y una lectura atrapadora. Junto a mis cercanos, me gusta pasar el tiempo viendo alguna obra de teatro, yendo al cine o disfrutando de la comida de mi lugar natal.	|
 |:-:	|:-:	|
 
-</details>
+
 
 ***
 
-<details>
-<summary>Víctor Choza 👨 </summary>
-<br>
+### Víctor Choza 👨
 
-|  <img src="https://user-images.githubusercontent.com/62907237/118295164-d3d94080-b4db-11eb-82ba-48d31baa0872.jpg" width=80%> 	|  Hola! Soy Víctor Choza. Soy un amante de la naturaleza la cual aprovecho para practicar mi segundo amor, la fotografía. Cuando no estoy junto a la increible flora y fauna,adoro investigar sobre la tecnología, la informática y conocer la última hora de estas.	|
+|  <img src="https://user-images.githubusercontent.com/62907237/118301744-b6a87000-b4e3-11eb-9912-175772592f86.jpg" width=90%> 	|  Hola! Soy Víctor Choza. Soy un amante de la naturaleza la cual aprovecho para practicar mi segundo amor, la fotografía. Cuando no estoy junto a la increible flora y fauna,adoro investigar sobre la tecnología, la informática y conocer la última hora de estas.	|
 |:-:	|:-:	|
 
-</details>
 
 ***
 
-<details>
-<summary>Víctor Ruiz 👨  </summary>
-<br>
+### Víctor Ruiz 👨  
 
-|  <img src="https://user-images.githubusercontent.com/62907237/118295047-b2785480-b4db-11eb-9952-76b6183681af.jpg" width=90%> 	| Hola! Soy Víctor Ruiz. El deporte es mi mayor amor. Me encanta practicarlo y sobre todo, realizarlo. Junto a ello, no puede faltar mi música favorita y mis peliculas más especiales.	|
-|:-:	|:-:	|
+|  <img src="https://user-images.githubusercontent.com/62907237/118302888-118e9700-b4e5-11eb-9193-b06bfa7a7e8d.jpg" width=75%> 	| Hola! Soy Víctor Ruiz. El deporte es mi mayor amor. Me encanta practicarlo y sobre todo, realizarlo. Junto a ello, no puede faltar mi música favorita y mis peliculas más especiales.	|
+|:-:	|:-	|
 
-</details>
 
 ***
 
-<details>
-<summary>Aser Bartolomé 👨 </summary>
-<br>
+### Aser Bartolomé 👨
 
-|  <img src="https://user-images.githubusercontent.com/62907237/118295347-0420df00-b4dc-11eb-97ec-621341d6541c.jpg" width=100%> 	|  Hola! Soy Aser Bartolomé. La música es algo imprescindible en mi vida, adoro escuchar obras durante todo el día. Me encanta complementar mi afición con la música junto a otros gustos	como aprender cosas nuevas, jugar a videojuegos, etc...	|
+|  <img src="https://user-images.githubusercontent.com/62907237/118301977-f4a59400-b4e3-11eb-99a9-549145d999e4.jpg" width=100%> 	|  Hola! Soy Aser Bartolomé. La música es algo imprescindible en mi vida, adoro escuchar obras durante todo el día. Me encanta complementar mi afición con la música junto a otros gustos	como aprender cosas nuevas, jugar a videojuegos, etc...	|
 |:-:	|:-:	|
-
-</details>
 
 ***
 
-<details>
-<summary>Carlos Varela 👨  </summary>
-<br>
+### Carlos Varela 👨
 
-|  <img src="https://user-images.githubusercontent.com/62907237/118295233-e784a700-b4db-11eb-9962-16011e4287ce.jpg" width=100%> 	| Hola! Soy Carlos Varela. Soy un gran entusiasta del ski y del futbol, además de entrenar eventualmente futsal con un equipo regional. En mis ratos libres,	me gusta disfrutar del cine y de buenas series las cuales me ayudan a descansar física y mentalmente.	|
+|  <img src="https://user-images.githubusercontent.com/62907237/118301859-d5a70200-b4e3-11eb-90ff-89664b07e89a.jpg" width=100%> 	| Hola! Soy Carlos Varela. Soy un gran entusiasta del ski y del futbol, además de entrenar eventualmente futsal con un equipo regional. En mis ratos libres,	me gusta disfrutar del cine y de buenas series las cuales me ayudan a descansar física y mentalmente.	|
 |:-:	|:-:	|
-
-</details>
 
 ***
 
+### Andres Yunda 👶
 
-<details>
-<summary>Andres Yunda 👶  </summary>
-<br>
 
-|  <img src="https://user-images.githubusercontent.com/62907237/118295413-1bf86300-b4dc-11eb-9a3e-7f70a2863fc3.jpg" width=90%> 	|  Hola! Soy Andrés Yunda. He desarrollado mis habilidades de trabajo en equipo practicando fútbol y golf. La práctica de estas disciplinas	me ha servido de complemento vital para el desarrollo mental, físico y de mucho valor en nuestra cultura.	|
+|  <img src="https://user-images.githubusercontent.com/62907237/118302055-0d15ae80-b4e4-11eb-9a82-7b209a5af69d.jpg" width=100%> 	|  Hola! Soy Andrés Yunda. He desarrollado mis habilidades de trabajo en equipo practicando fútbol y golf. La práctica de estas disciplinas	me ha servido de complemento vital para el desarrollo mental, físico y de mucho valor en nuestra cultura.	|
 |:-:	|:-:	|
 
-</details>
 </details>
 
 ***
