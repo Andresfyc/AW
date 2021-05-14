@@ -89,7 +89,7 @@ class Usuario
     {
         $usuario = self::buscaUsuario($user);
         if ($usuario && $usuario->compruebaPassword($passwordComprobar)) {
-            $image = $image ?? $usuario->$image;
+            $image = strlen($image) < 1 ? $usuario->image : $image;
             $password = strlen($password) < 1 ? $usuario->password : self::hashPassword($password);
             $admin = $admin ?? $usuario->admin;
             $content_manager = $content_manager ??  $usuario->content_manager;
