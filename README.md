@@ -47,9 +47,9 @@
 
 ## Versionado 📌
 
-- stable release version:
+- [![version](https://img.shields.io/badge/version-1.1.0-blue)](https://github.com/Ditochoza/FilmSwap3/releases/tag/v1.1.0)
  
-![version](https://img.shields.io/badge/version-1.1.0-blue)
+
 
 ## Autores ✒️
 
