@@ -3,7 +3,7 @@
   <h1>Welcome to FILMSWAP 🎬</h1>
 <br>
   <b>Equipo: 🧑‍💻 </b><br><br>
-  <h4><a href="#yaiza">👩 Yaiza López</a> |
+  <h4><a href="https://github.com/Ditochoza/FilmSwap3/blob/main/README.md#yaiza-l%C3%B3pez-">👩 Yaiza López</a> |
       <a href="#">👨 Víctor Choza</a> |
       <a href="#">👨 Víctor Ruiz</a> |
       <a href="#">👨 Aser Bartolomé</a> |
