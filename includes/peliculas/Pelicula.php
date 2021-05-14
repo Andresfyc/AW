@@ -132,7 +132,6 @@ class Pelicula
     $app = App::getSingleton();
     $conn = $app->conexionBd();
     $query = sprintf("DELETE FROM peliculas WHERE id = %d", $id);
-    echo $query;
     $result = $conn->query($query);
     if (!$result) {
       error_log($conn->error);
@@ -187,9 +186,6 @@ class Pelicula
           $query=sprintf("INSERT INTO peliculas_generos(film_id, genre_id) VALUES(%d, %d)"
               , $conn->real_escape_string($peliculaIn->id)
               , $conn->real_escape_string($genero));
-          
-          echo $query;
-          
           if ( !$conn->query($query) ) {
               echo "Error al insertar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
               exit();
@@ -218,9 +214,6 @@ class Pelicula
           $query=sprintf("INSERT INTO peliculas_actores_directores(film_id, actor_director_id) VALUES(%d, %d)"
               , $conn->real_escape_string($peliculaIn->id)
               , $conn->real_escape_string($actor));
-          
-          echo $query;
-          
           if ( !$conn->query($query) ) {
               echo "Error al insertar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
               exit();
@@ -231,9 +224,6 @@ class Pelicula
           $query=sprintf("INSERT INTO peliculas_actores_directores(film_id, actor_director_id) VALUES(%d, %d)"
               , $conn->real_escape_string($peliculaIn->id)
               , $conn->real_escape_string($director));
-          
-          echo $query;
-          
           if ( !$conn->query($query) ) {
               echo "Error al insertar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
               exit();
