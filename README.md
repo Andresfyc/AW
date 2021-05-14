@@ -3,12 +3,12 @@
   <h1>Welcome to FILMSWAP 🎬</h1>
 <br>
   <b>Equipo: 🧑‍💻 </b><br><br>
-  <h4><a href="https://github.com/Ditochoza/FilmSwap3/blob/main/README.md#yaiza-l%C3%B3pez">👩 Yaiza López</a> |
-      <a href="#">👨 Víctor Choza</a> |
-      <a href="#">👨 Víctor Ruiz</a> |
-      <a href="#">👨 Aser Bartolomé</a> |
-      <a href="#">👨 Carlos Varela</a> | 
-      <a href="#"> 👶 Andres Yunda</a></h4>
+  <h4><a href="https://github.com/Ditochoza/FilmSwap3#yaiza-l%C3%B3pez-">👩 Yaiza López</a> |
+      <a href="https://github.com/Ditochoza/FilmSwap3#v%C3%ADctor-choza-">👨 Víctor Choza</a> |
+      <a href="https://github.com/Ditochoza/FilmSwap3#v%C3%ADctor-ruiz-">👨 Víctor Ruiz</a> |
+      <a href="https://github.com/Ditochoza/FilmSwap3#aser-bartolom%C3%A9-">👨 Aser Bartolomé</a> |
+      <a href="https://github.com/Ditochoza/FilmSwap3#carlos-varela-">👨 Carlos Varela</a> | 
+      <a href="https://github.com/Ditochoza/FilmSwap3#andres-yunda-"> 👶 Andres Yunda</a></h4>
   <br><br>
   <img src="https://media.giphy.com/media/ZtkPc1pz6x7kMkPacy/giphy.gif">
 </div>
@@ -53,7 +53,7 @@
 
 ## Autores ✒️
 
-<details>
+<details open>
 <summary>Equipo 💻</summary>
 <br>
 
@@ -69,7 +69,7 @@
 ### Víctor Choza 👨
 
 |  <img src="https://user-images.githubusercontent.com/62907237/118301744-b6a87000-b4e3-11eb-9912-175772592f86.jpg" width=90%> 	|  Hola! Soy Víctor Choza. Soy un amante de la naturaleza la cual aprovecho para practicar mi segundo amor, la fotografía. Cuando no estoy junto a la increible flora y fauna,adoro investigar sobre la tecnología, la informática y conocer la última hora de estas.	|
-|:-:	|:-:	|
+|:-	|:-:	|
 
 
 ***
@@ -77,7 +77,7 @@
 ### Víctor Ruiz 👨  
 
 |  <img src="https://user-images.githubusercontent.com/62907237/118302888-118e9700-b4e5-11eb-9193-b06bfa7a7e8d.jpg" width=75%> 	| Hola! Soy Víctor Ruiz. El deporte es mi mayor amor. Me encanta practicarlo y sobre todo, realizarlo. Junto a ello, no puede faltar mi música favorita y mis peliculas más especiales.	|
-|:-:	|:-	|
+|:-	|:-:|
 
 
 ***
