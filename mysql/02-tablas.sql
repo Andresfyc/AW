@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-05-2021 a las 11:40:50
--- Versión del servidor: 10.4.18-MariaDB
--- Versión de PHP: 8.0.5
+-- Tiempo de generación: 23-05-2021 a las 12:43:55
+-- Versión del servidor: 10.4.17-MariaDB
+-- Versión de PHP: 7.4.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -219,6 +219,18 @@ CREATE TABLE `usuarios_actores_directores` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `usuarios_peliculasfav`
+--
+
+CREATE TABLE `usuarios_peliculasfav` (
+  `ID` int(11) NOT NULL,
+  `user` varchar(11) NOT NULL,
+  `id_pelicula` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuarios_peliculas_vistas`
 --
 
@@ -351,6 +363,15 @@ ALTER TABLE `usuarios_actores_directores`
   ADD KEY `fk_usuarios_actores_directores_idx` (`actores_directores_id`);
 
 --
+-- Indices de la tabla `usuarios_peliculasfav`
+--
+ALTER TABLE `usuarios_peliculasfav`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `ID` (`ID`),
+  ADD KEY `fk_usuarios_peliculasFav` (`id_pelicula`),
+  ADD KEY `fk_peliculasFav_usuarios` (`user`);
+
+--
 -- Indices de la tabla `usuarios_peliculas_vistas`
 --
 ALTER TABLE `usuarios_peliculas_vistas`
@@ -442,6 +463,12 @@ ALTER TABLE `usuarios_actores_directores`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `usuarios_peliculasfav`
+--
+ALTER TABLE `usuarios_peliculasfav`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `usuarios_peliculas_vistas`
 --
 ALTER TABLE `usuarios_peliculas_vistas`
@@ -514,6 +541,13 @@ ALTER TABLE `usuarios`
 ALTER TABLE `usuarios_actores_directores`
   ADD CONSTRAINT `fk_actores_directores_usuarios` FOREIGN KEY (`user`) REFERENCES `usuarios` (`user`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_usuarios_actores_directores` FOREIGN KEY (`actores_directores_id`) REFERENCES `actores_directores` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `usuarios_peliculasfav`
+--
+ALTER TABLE `usuarios_peliculasfav`
+  ADD CONSTRAINT `fk_peliculasFav_usuarios` FOREIGN KEY (`user`) REFERENCES `usuarios` (`user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_usuarios_peliculasFav` FOREIGN KEY (`id_pelicula`) REFERENCES `peliculas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usuarios_peliculas_vistas`

@@ -44,6 +44,17 @@ function mostrarPortadaPeliculas($limit=NULL) {
 
     return $html;
 }
+function mostrarPeliculasFav($user, $limit=NULL) {
+    $ultimasPeliculasFavoritas= listaPeliculasFav($user, $limit);
+
+    $html=<<<EOS
+        <h3> Peliculas Favoritas </h3>
+        $ultimasPeliculasFavoritas
+
+    EOS;
+
+    return $html;
+}
 
 function getDivPeliculas($peliculas, $limit=NULL) {
 	$app = Aplicacion::getSingleton();
@@ -190,6 +201,13 @@ function busquedaPeliculas($search)
 function listaPeliculas($order, $ascdesc, $limit=NULL)
 {
     $peliculas = Pelicula::listaPeliculas($order, $ascdesc, $limit);
+
+    return getDivPeliculas($peliculas, $limit);
+}
+
+function listaPeliculasFav($user, $limit=NULL)
+{
+    $peliculas = Pelicula::listaPeliculasFavoritas($user, $limit);
 
     return getDivPeliculas($peliculas, $limit);
 }

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-05-2021 a las 11:41:48
--- Versión del servidor: 10.4.18-MariaDB
--- Versión de PHP: 8.0.5
+-- Tiempo de generación: 23-05-2021 a las 12:42:59
+-- Versión del servidor: 10.4.17-MariaDB
+-- Versión de PHP: 7.4.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -292,6 +292,22 @@ INSERT INTO `usuarios_actores_directores` (`id`, `user`, `actores_directores_id`
 (17, 'VictorRuiz', 11),
 (18, 'Yaiza', 18),
 (19, 'Yaiza', 14);
+
+--
+-- Volcado de datos para la tabla `usuarios_peliculasfav`
+--
+
+INSERT INTO `usuarios_peliculasfav` (`ID`, `user`, `id_pelicula`) VALUES
+(1, 'Abart', 3),
+(2, 'AndresYunda', 16),
+(3, 'charlyvary', 14),
+(4, 'Ditochoza', 12),
+(5, 'Lolita', 15),
+(6, 'VictorRuiz', 2),
+(7, 'Yaiza', 7),
+(8, 'Ditochoza', 6),
+(9, 'Abart', 13),
+(10, 'charlyvary', 10);
 
 --
 -- Volcado de datos para la tabla `usuarios_peliculas_vistas`

@@ -28,6 +28,12 @@ function getDivUsuario() {
         return $html;
     }
 }
+function getUsuario() {
+    $RUTA_APP = RUTA_APP;
+	$app = Aplicacion::getSingleton();
+    $usuario = getUsuarioPorUser($app->user());
+	return $usuario;
+}
 
 function listaAmigos($user, $limit=NULL)
 {

@@ -2,6 +2,7 @@
 
 require_once __DIR__.'/includes/config.php';
 require_once __DIR__.'/includes/comun/usuarios_utils.php';
+require_once __DIR__.'/includes/comun/peliculas_utils.php';
 
 function mostrarPerfil() {
     $RUTA_APP = RUTA_APP;
@@ -17,8 +18,27 @@ function mostrarPerfil() {
     return $html;
 }
 
+function mostrarPeliculas() {
+    $RUTA_APP = RUTA_APP;
+    $Usuario = getUsuario();
+	
+    return mostrarPeliculasFav($Usuario->user(), 7);
+  
+}
+
+
+$perfilInicial = mostrarPerfil();
+$peliculasFav = mostrarPeliculas();
+
+
 $tituloPagina = 'Usuario';
 
-$contenidoPrincipal=mostrarPerfil();
+$contenidoPrincipal =<<<EOS
+    $perfilInicial
+	$peliculasFav
+
+	
+	
+EOS;
 
 require __DIR__ . '/includes/plantillas/plantilla.php';
