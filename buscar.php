@@ -4,7 +4,7 @@ require_once __DIR__.'/includes/config.php';
 require_once __DIR__.'/includes/comun/peliculas_utils.php';
 require_once __DIR__.'/includes/comun/usuarios_utils.php';
 
-$busqueda = htmlspecialchars(trim(strip_tags($_POST["buscar"])));
+$busqueda = htmlspecialchars(trim(strip_tags($_POST["search"])));
 
 $usuarios = busquedaUsuarios($busqueda);
 $peliculas = busquedaPeliculas($busqueda);
