@@ -43,6 +43,7 @@ function listaAmigos($user, $limit=NULL)
         $href = RUTA_APP.'usuarios.php?id=' . $usuario->user();
         $peliculaWatching = $usuario->film();
         $watching = '';
+        $swapper='<p><a href="perfilAmigo.php?id='.$usuario->user().'"> Swapper: '.$usuario->user().' </a></p>';
         if ($peliculaWatching) {
             $watching .= '<p><a href="'.RUTA_APP.'pelicula.php?id='.$peliculaWatching->id().'"> Viendo: '.$peliculaWatching->title().' </a></p>';
         }
@@ -53,7 +54,7 @@ function listaAmigos($user, $limit=NULL)
             <div class="usuarios">
             <img id="prof_pic" src="img/usuarios/{$usuario->image()}" alt="user" >
             <div>
-            <p><a href="$href">{$usuario->user()} </a></p>
+            $swapper
             <p>{$usuario->name()} </p>
             </div>
             </div>
@@ -67,6 +68,7 @@ function listaAmigos($user, $limit=NULL)
 
     return $html;
 }
+
 
 function listaActoresDirectoresUser($user = NULL, $limit = NULL, $actorDirector)
 {		

@@ -1,11 +1,15 @@
 <?php
-
+/*
 require_once __DIR__.'/includes/config.php';
 require_once __DIR__.'/includes/comun/usuarios_utils.php';
 require_once __DIR__.'/includes/comun/peliculas_utils.php';
 
-function mostrarPerfil() {
+//$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+$usuario = getUsuarioPorUser($id);
+
+function mostrarPerfilAmigo() {
     $RUTA_APP = RUTA_APP;
+
     $divUsuario = getDivUsuario();
     $html=<<<EOS
         <h1> Perfil de usuario</h1>
@@ -20,14 +24,13 @@ function mostrarPerfil() {
 
 function mostrarPeliculas() {
     $RUTA_APP = RUTA_APP;
-    $Usuario = getUsuario();
 	
-    return mostrarPeliculasFav($Usuario->user(), 7);
+    return mostrarPeliculasFav($usuario->user(), 7);
   
 }
 
 
-$perfilInicial = mostrarPerfil();
+$perfilInicial = mostrarPerfilAmigo();
 $peliculasFav = mostrarPeliculas();
 
 
@@ -36,9 +39,12 @@ $tituloPagina = 'Usuario';
 $contenidoPrincipal =<<<EOS
     $perfilInicial
 	$peliculasFav
+    
 
 	
 	
 EOS;
 
 require __DIR__ . '/includes/plantillas/plantilla.php';
+
+*/
