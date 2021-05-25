@@ -8,15 +8,14 @@ $tituloPagina = 'Actores Favoritos';
 $contenidoPrincipal='<h1>Actores Favoritos</h1>';
 
 function mostrarActoresFavoritos() {
-	$app = Aplicacion::getSingleton();
-	$RUTA_APP = RUTA_APP;
-	$Usuario = getUsuario();
+
+	$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
+	$Usuario = getUsuarioPorUser($id);
 	$html="";
 	$html .= listaActoresDirectoresUser($Usuario->user(), null, 0);
         
 	return $html;
 }
-
 
 $contenidoPrincipal.= mostrarActoresFavoritos();
 

@@ -28,6 +28,27 @@ function getDivUsuario() {
         return $html;
     }
 }
+
+function getDivAmigo($amigo) {
+ //   $RUTA_APP = RUTA_APP;
+//	$app = Aplicacion::getSingleton();
+  //  $usuario = getUsuarioPorUser($amigo);
+    
+        $html=<<<EOS
+            <div class="div-perfil">
+            <img id="film_pic" src="img/usuarios/{$amigo->image()}" alt="user" >
+            <div>
+            <p>Usuario: {$amigo->user()}</p>
+            <p>Nombre completo: {$amigo->name()}</p>
+            <p>Correo electrónico: </p>
+            <p>Fecha de registro: {$amigo->date_joined()}</p>
+            </div>
+            </div>
+        EOS;
+        return $html;
+    
+}
+
 function getUsuario() {
     $RUTA_APP = RUTA_APP;
 	$app = Aplicacion::getSingleton();
