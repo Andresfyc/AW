@@ -8,6 +8,7 @@ use es\ucm\fdi\aw\actoresDirectores\ActorDirector;
  * Funciones de apoyo
  */
 
+ 
 function getDivUsuario() {
     $RUTA_APP = RUTA_APP;
 	$app = Aplicacion::getSingleton();
