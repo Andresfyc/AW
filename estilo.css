@@ -16,14 +16,17 @@ header {
     height: 100px;
     color: #FFFFFF; /**/
     background-color: #000000; /**/
+
 }
 
+
 /*MENU*/
+
+
 
 .navbar {
     overflow: hidden;
     background-color: #000000;
-
 }
 
 .navbar a {
@@ -34,6 +37,7 @@ header {
     padding: 14px 16px;
     text-decoration: none;
     font-size: 17px;
+
 }
 
 .navbar a:hover {
@@ -540,3 +544,8 @@ header {
         height: 60px;
     }
 
+
+    .div-actoresDirectores #prof_pic_long{
+        width: 150px;
+        height: 200px;
+    }
