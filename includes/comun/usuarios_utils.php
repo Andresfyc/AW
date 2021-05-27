@@ -3,6 +3,8 @@
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\usuarios\Usuario;
 use es\ucm\fdi\aw\actoresDirectores\ActorDirector;
+use es\ucm\fdi\aw\reviews\Review;
+use es\ucm\fdi\aw\peliculas\Pelicula;
 
 /*
  * Funciones de apoyo
@@ -111,6 +113,36 @@ function listaActoresDirectoresUser($user = NULL, $limit = NULL, $actorDirector)
         EOS;
     }
     $html .= '</div>';
+
+    return $html;
+}
+
+function listaReviewsUser($user = NULL)
+{		
+	$app = Aplicacion::getSingleton();
+
+    $reviews = Review::buscaReviewsPorIdUser($user);
+	
+	
+        $html = '<div>';
+        foreach($reviews as $review) {
+			$pelicula = Pelicula::buscaPorId($review->film_id());
+            $html .= '<div class="div-reviewsPeli">';
+            $html .= '<div>';
+			$html .= "<p><a href=\"./pelicula.php?id={$pelicula->id()}\">{$pelicula->title()}</a></p>";
+            $html .= "<p>Puntuación: {$review->stars()}/5</p>";
+            $html .= "<p>{$review->time_created()}</p>";
+            $html .= "<p>{$review->user()}</p><p>";
+			if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $review->user() == $app->user())) {
+                $html .= "<a href=\"./editarReview.php?id={$review->id()}\">Editar</a>";
+                $html .= "<a href=\"./eliminarReview.php?id={$review->id()}\"> Eliminar</a>";
+            }			
+            $html .= '</p></div>';
+            $html .= "<p>{$review->review()}</p>";
+            $html .= '</div>';
+
+        }
+        $html .= '</div>';
 
     return $html;
 }

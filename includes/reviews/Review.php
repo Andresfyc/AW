@@ -137,6 +137,27 @@ class Review
 
       return $result;
   }
+   public static function buscaReviewsPorIdUser($id)
+  {
+      $result = [];
+
+      $app = App::getSingleton();
+      $conn = $app->conexionBd();
+      $query = sprintf("SELECT * FROM reviews WHERE user = '%s' ORDER BY time_created DESC", $id);
+      
+	  echo "$id";
+	  
+      $rs = $conn->query($query);
+      $result = false;
+      if ($rs) {
+        while($fila = $rs->fetch_assoc()) {
+          $result[] = new Review($fila['id'], $fila['user'], $fila['film_id'], $fila['review'], $fila['stars'], $fila['time_created']);
+        }
+        $rs->free();
+      }
+
+      return $result;
+  }
 
 
   private $id;
