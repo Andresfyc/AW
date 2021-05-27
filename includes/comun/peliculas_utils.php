@@ -80,7 +80,7 @@ function getDivPeliculas($peliculas, $limit=NULL) {
         EOS;
     }
 
-    if ($limit != NULL) {
+    if ($limit != NULL && count($peliculas) > 1) {
         $html .=<<<EOS
             <div class="div-pelicula-last">
             <p><a href="./peliculas.php">Ver todas</a></p>
