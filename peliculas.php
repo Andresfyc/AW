@@ -39,15 +39,25 @@ function mostrarPeliculas() {
 }
 function dropdown_ordenacion() {
 	$html = <<<EOS
-        <form action="" method="post">
+    <div-peliculas onLoad=cargar_pagina()>
+    <script language=Javascript>
+    function cargar_pagina(){
+        form1.action='peliculas.php';
+        form1.submit();
+    }
+    </script>
+
+        <form name="form1" method="POST" action="peliculas.php">
             <select name="desplegable">
             <option value="1">Por orden alfabético</option>
             <option value="2">Por fecha de estreno</option>
             <option value="3">Por valoración</option>
             <option value="4">Por duración</option>
             </select>
-            <input type="submit" value="Submit">
         </form>
+    </div-peliculas>
+       
+
     EOS;
 return $html;
 }

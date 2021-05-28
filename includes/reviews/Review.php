@@ -144,8 +144,6 @@ class Review
       $app = App::getSingleton();
       $conn = $app->conexionBd();
       $query = sprintf("SELECT * FROM reviews WHERE user = '%s' ORDER BY time_created DESC", $id);
-      
-	  echo "$id";
 	  
       $rs = $conn->query($query);
       $result = false;

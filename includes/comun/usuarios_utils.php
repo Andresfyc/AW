@@ -122,9 +122,9 @@ function listaReviewsUser($user = NULL)
 	$app = Aplicacion::getSingleton();
 
     $reviews = Review::buscaReviewsPorIdUser($user);
-	
-	
-        $html = '<div>';
+	$html = '<div>';
+	if($reviews !=null){
+        
         foreach($reviews as $review) {
 			$pelicula = Pelicula::buscaPorId($review->film_id());
             $html .= '<div class="div-reviewsPeli">';
@@ -142,7 +142,9 @@ function listaReviewsUser($user = NULL)
             $html .= '</div>';
 
         }
-        $html .= '</div>';
+        
+    }
+    $html .= '</div>';
 
     return $html;
 }
@@ -166,4 +168,9 @@ function busquedaUsuarios($search)
 function getUsuarioPorUser($user)
 {
     return Usuario::buscaUsuario($user);
+}
+
+function getReviewPorUser($user)
+{
+    return Review::buscaReviewsPorIdUser($user);
 }

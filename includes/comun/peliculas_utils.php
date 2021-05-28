@@ -236,3 +236,8 @@ function eliminarReviewPorId($id)
 {
     return Review::borraPorId($id);
 }
+function getReviewPorIdPelicula($id)
+{
+    return Review::buscaReviewsPorIdPeli($id);
+}
+
