@@ -5,17 +5,20 @@ use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Form;
 use es\ucm\fdi\aw\generos\Genero;
 use es\ucm\fdi\aw\actoresDirectores\ActorDirector;
+use es\ucm\fdi\aw\plataformas\PeliculaPlataforma;
 
 class FormularioEditarPelicula extends Form
 {
 
   private $id;
+  private $prevPage;
   private $pelicula;
 
-  public function __construct($id)
+  public function __construct($id, $prevPage)
   {
     parent::__construct('formEditarPelicula', $id);
     $this->id = $id;
+    $this->prevPage = $prevPage;
   }
 
   protected function genres()
@@ -75,6 +78,20 @@ class FormularioEditarPelicula extends Form
       return $html;
   }
 
+  protected function platforms()
+  {
+      $RUTA_APP = RUTA_APP;
+      $html = '';
+      foreach ($this->pelicula->peliculasPlataformas() as $filmPlatform) {
+        $html .= <<<EOS
+            <li> {$filmPlatform->platform()->name()}
+            <a href="{$RUTA_APP}editarPeliculaPlataforma.php?id={$filmPlatform->id()}&prevPage=editarPelicula&prevId={$this->id}">Editar</a>
+            <a href="{$RUTA_APP}eliminarPeliculaPlataforma.php?id={$filmPlatform->id()}&prevPage=editarPelicula&prevId={$this->id}"> Eliminar</a></li>
+        EOS;
+      }
+      return $html;
+  }
+
   
   protected function generaCamposFormulario($datos, $errores = array())
   {    
@@ -87,6 +104,7 @@ class FormularioEditarPelicula extends Form
     $duration = $datos['duration'] ?? $this->pelicula->duration();
     $country = $datos['country'] ?? $this->pelicula->country();
     $plot = $datos['plot'] ?? $this->pelicula->plot();
+    $prevPage = $datos['prevPage'] ?? $this->prevPage;
     $genres = $datos['genres'] ?? $this->pelicula->genres();
     $actors = $datos['actors'] ?? $this->pelicula->actors();
     $directors = $datos['directors'] ?? $this->pelicula->directors();
@@ -105,6 +123,7 @@ class FormularioEditarPelicula extends Form
         <fieldset>
             $htmlErroresGlobales
             <input class="control" type="hidden" name="id" value="$id" readonly/>
+            <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
             <div class="grupo-control">
                 <label>Nombre de la película:</label> <input class="control" type="text" name="title" value="$title" />$errorTitle
             </div>
@@ -124,6 +143,17 @@ class FormularioEditarPelicula extends Form
                 <label>Trama:</label> <input class="control" type="text" name="plot" value="$plot" />$errorPlot
             </div>
             <div class="grupo-control">
+                <label>Plataformas:</label>
+                <ul>
+    EOF;
+
+    $camposFormulario .= self::platforms();
+
+    $camposFormulario .= <<<EOF
+                </ul>
+            </div>
+            <a href="{$RUTA_APP}nuevaPeliculaPlataforma.php?id=$id&prevPage=editarPelicula&prevId=$id">Añadir Plataforma</a>
+            <div class="grupo-control">
                 <label>Géneros:</label> <select name="genres[]" multiple>
     EOF;
 
@@ -132,7 +162,7 @@ class FormularioEditarPelicula extends Form
     $camposFormulario .= <<<EOF
                 </select>
             </div>
-            <a href="{$RUTA_APP}nuevoGenero.php?prevPage=editarPelicula&id=$id">Añadir Género</a>
+            <a href="{$RUTA_APP}nuevoGenero.php?prevPage=editarPelicula&prevId=$id">Añadir Género</a>
             <div class="grupo-control">
                 <label>Actores:</label> <select name="actors[]" multiple>
     EOF;
@@ -142,7 +172,7 @@ class FormularioEditarPelicula extends Form
     $camposFormulario .= <<<EOF
                 </select>
             </div>
-            <a href="{$RUTA_APP}nuevoActorDirector.php?ad=0&prevPage=editarPelicula&id=$id">Añadir Actor</a>
+            <a href="{$RUTA_APP}nuevoActorDirector.php?ad=0&prevPage=editarPelicula&prevId=$id">Añadir Actor</a>
             
             <div class="grupo-control">
                 <label>Directores:</label> <select name="directors[]" multiple>
@@ -153,7 +183,7 @@ class FormularioEditarPelicula extends Form
     $camposFormulario .= <<<EOF
                 </select>
             </div>
-            <a href="{$RUTA_APP}nuevoActorDirector.php?ad=1&prevPage=editarPelicula&id=$id">Añadir Director</a>
+            <a href="{$RUTA_APP}nuevoActorDirector.php?ad=1&prevPage=editarPelicula&prevId=$id">Añadir Director</a>
             <div class="grupo-control"><button type="submit" name="editar">Confirmar</button></div>
         </fieldset>
     EOF;
@@ -208,6 +238,8 @@ class FormularioEditarPelicula extends Form
     $actors = $datos['actors'] ?? null;
 
     $directors = $datos['directors'] ?? null;
+        
+    $prevPage = $datos['prevPage'] ?? null;
 
     if (count($result) === 0) {
         if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
@@ -219,7 +251,7 @@ class FormularioEditarPelicula extends Form
             if ( ! $pelicula  ) {
                 $result[] = "La película ya existe";
             } else {
-                $result = RUTA_APP.'peliculas.php';
+                $result = "{$prevPage}";
             }
         }
     }

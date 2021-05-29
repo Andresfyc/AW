@@ -9,7 +9,7 @@ class PeliculaPlataforma
 
   public static function crea($film_id, $platform_id, $link)
   {
-    $peliculaPlataforma = new Plataforma(null, $film_id, $platform_id, $link);
+    $peliculaPlataforma = new PeliculaPlataforma(null, $film_id, $platform_id, $link);
     return self::guarda($peliculaPlataforma);
   }
     
@@ -64,7 +64,8 @@ class PeliculaPlataforma
 
     $app = App::getSingleton();
     $conn = $app->conexionBd();
-    $query=sprintf("UPDATE peliculas_plataformas P SET link = '%s' WHERE P.id=%d"
+    $query=sprintf("UPDATE peliculas_plataformas P SET platform_id = '%s', link = '%s' WHERE P.id=%d"
+    , $conn->real_escape_string($peliculaPlataforma->platform_id)
     , $conn->real_escape_string($peliculaPlataforma->link)
         , $peliculaPlataforma->id);
     $result = $conn->query($query);
@@ -99,13 +100,14 @@ class PeliculaPlataforma
     return $result;
   }
 
-  public static function editar($id,$film_id,$platform_id)
+  public static function editar($id,$film_id,$platform_id,$link)
   {
       $peliculaPlataforma = self::buscaPorId($id);
       $film_id = $film_id ?? $peliculaPlataforma->film_id;
       $platform_id = $platform_id ?? $peliculaPlataforma->platform_id;
+      $link = $link ?? $peliculaPlataforma->link;
 
-      $peliculaPlataforma = new Plataforma($id,$film_id,$platform_id);
+      $peliculaPlataforma = new PeliculaPlataforma($id,$film_id,$platform_id,$link);
       
       return self::guarda($peliculaPlataforma);
   }
@@ -135,6 +137,8 @@ class PeliculaPlataforma
   private $platform_id;
 
   private $link;
+
+  private $platform;
   
 
   private function __construct($id, $film_id, $platform_id, $link)
@@ -143,6 +147,7 @@ class PeliculaPlataforma
       $this->film_id = $film_id;
       $this->platform_id = $platform_id;
       $this->link = $link;
+      $this->platform = Plataforma::buscaPorId($platform_id);
   }
 
   public function id()
@@ -163,6 +168,11 @@ class PeliculaPlataforma
   public function link()
   {
       return $this->link;
+  }
+  
+  public function platform()
+  {
+      return $this->platform;
   }
 
   /* Métodos mágicos para que si existen métodos setPropiedad / getPropiedad se pueda hacer:

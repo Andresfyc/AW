@@ -4,6 +4,7 @@ use es\ucm\fdi\aw\actoresDirectores\ActorDirector;
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\peliculas\Pelicula;
 use es\ucm\fdi\aw\plataformas\Plataforma;
+use es\ucm\fdi\aw\plataformas\PeliculaPlataforma;
 use es\ucm\fdi\aw\reviews\Review;
 
 /*
@@ -63,8 +64,8 @@ function getDivPeliculas($peliculas, $limit=NULL) {
         $html .= '<div class="div-pelicula">';
         if ($limit == NULL && $app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
             $html .=<<<EOS
-                <p><a href="./editarPelicula.php?id={$pelicula->id()}">Editar</a></p>
-                <p><a href="./eliminarPelicula.php?id={$pelicula->id()}">Eliminar</a></p>
+                <p><a href="./editarPelicula.php?id={$pelicula->id()}&prevPage=peliculas">Editar</a></p>
+                <p><a href="./eliminarPelicula.php?id={$pelicula->id()}&prevPage=peliculas">Eliminar</a></p>
                 <img id="film_pic_small" src="img/peliculas/{$pelicula->image()}" alt="imagen" >
             EOS;
         } else {
@@ -217,6 +218,11 @@ function buscaPeliculaPorId($id)
     return Pelicula::buscaPorId($id);
 }
 
+function buscaPeliculaPlataformaPorId($id)
+{
+    return PeliculaPlataforma::buscaPorId($id);
+}
+
 function buscaActorDirectorPorId($id)
 {
     return ActorDirector::buscaPorId($id);
@@ -225,6 +231,11 @@ function buscaActorDirectorPorId($id)
 function eliminarPeliculaPorId($id)
 {
     return Pelicula::borraPorId($id);
+}
+
+function eliminarPeliculaPlataformaPorId($id)
+{
+    return PeliculaPlataforma::borraPorId($id);
 }
     
 function getReviewPorId($id)

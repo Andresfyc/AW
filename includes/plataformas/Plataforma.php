@@ -9,6 +9,7 @@ class Plataforma
 
   public static function crea($name, $image)
   {
+    $image = $image == NULL ? "blank.png" : $image;
     $plataforma = new Plataforma(null, $name, $image);
     return self::guarda($plataforma);
   }
@@ -125,6 +126,25 @@ class Plataforma
   }
 
   return $result;
+  }
+
+  public static function plataformas()
+  {
+      $result = [];
+  
+      $app = App::getSingleton();
+      $conn = $app->conexionBd();
+      $query = "SELECT * FROM plataformas ORDER BY name ASC";
+  
+      $rs = $conn->query($query);
+      if ($rs) {
+        while($fila = $rs->fetch_assoc()) {
+          $result[] = new Plataforma($fila['id'], $fila['name'], $fila['image']);
+        }
+        $rs->free();
+      }
+  
+      return $result;
   }
 
   private $id;
