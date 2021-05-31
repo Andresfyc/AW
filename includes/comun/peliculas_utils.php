@@ -281,3 +281,8 @@ function delActorDirectorFav($id, $user)
     ActorDirector::delActorDirectorFav($id, $user);
 }
 
+function existeReviewUsuarioPelicula($id, $user) 
+{
+    return Pelicula::existeReviewUsuarioPelicula($id, $user);
+}
+

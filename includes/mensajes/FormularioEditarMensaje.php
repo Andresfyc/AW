@@ -40,7 +40,7 @@ class FormularioEditarMensaje extends Form
           <input class="control" type="hidden" name="name" value="$name" readonly/>
           <input class="control" type="hidden" name="time" value="$time" readonly/>
           <div class="grupo-control">
-              <label>Mensaje:</label> <input class="control" type="text" name="text" value="$text" />$errorText
+              <label>Mensaje:</label> <textarea class="control" type="text" name="text" value="$text" />$text</textarea>$errorText
           </div>
           
           <div class="grupo-control"><button type="submit" name="editar">Confirmar</button></div>

@@ -30,7 +30,7 @@ class FormularioNuevaReview extends Form
                 $htmlErroresGlobales
                 <div class="grupo-control">
                     <input class="control" type="hidden" name="id" value="$id" readonly/>
-                    <label>Review:</label> <input class="control" type="text" name="review" value="$review" />$errorReview
+                    <label>Review:</label> <textarea class="control" type="text" name="review" value="$review" />$review</textarea>$errorReview
                     <label>Puntuación:</label> <input class="control" type="number" name="rating" value="$rating" />$errorRating
                 </div>
                 <div class="grupo-control"><button type="submit" name="nuevaReview">Publicar</button></div>

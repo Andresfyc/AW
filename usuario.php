@@ -14,20 +14,20 @@ function mostrarPerfil($user, $isSelf) {
         $html=<<<EOS
             <h1> Tú perfil</h1>
             $divUsuario
-            <p><a href="actoresFavoritos.php?id={$user}">Ver tus actores favoritos</a></p>
-            <p><a href="directoresFavoritos.php?id={$user}">Ver tus directores favoritos</a></p>
-            <p><a href="swappers.php?id={$user}">Ver todos los swappers a los que sigues</a></p>
-            <p><a href="reviews.php?id={$user}"> Ver todas tus reviews de películas </a></p>
+            <p><a href="actoresDirectoresFavoritos.php?user={$user}&ad=0">Ver tus actores favoritos</a></p>
+            <p><a href="actoresDirectoresFavoritos.php?user={$user}&ad=1">Ver tus directores favoritos</a></p>
+            <p><a href="swappers.php?user={$user}">Ver todos los swappers a los que sigues</a></p>
+            <p><a href="reviews.php?user={$user}"> Ver todas tus reviews de películas </a></p>
         EOS;
         return $html;
     } else {
         $html=<<<EOS
         <h1> Perfil de {$user}</h1>
             $divUsuario
-            <p><a href="actoresFavoritos.php?id={$user}">Ver sus actores favoritos</a></p>
-            <p><a href="directoresFavoritos.php?id={$user}">Ver sus directores favoritos</a></p>
-            <p><a href="swappers.php?id={$user}">Ver todos los swappers a los que sigue</a></p>
-            <p><a href="reviews.php?id={$user}"> Ver todas sus reviews de películas </a></p>
+            <p><a href="actoresDirectoresFavoritos.php?user={$user}&ad=0">Ver sus actores favoritos</a></p>
+            <p><a href="actoresDirectoresFavoritos.php?user={$user}&ad=1">Ver sus directores favoritos</a></p>
+            <p><a href="swappers.php?user={$user}">Ver todos los swappers a los que sigue</a></p>
+            <p><a href="reviews.php?user={$user}"> Ver todas sus reviews de películas </a></p>
         EOS;
         return $html;
     }

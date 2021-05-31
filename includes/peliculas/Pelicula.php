@@ -340,6 +340,15 @@ class Pelicula
     return $result;
   }
 
+  public static function existeReviewUsuarioPelicula($id, $user)
+  {
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+    $query = sprintf("SELECT * FROM reviews WHERE film_id = %d and user = '%s'", $id, $user);
+    $rs = $conn->query($query);
+    return $rs->num_rows;
+  }
+
   private $id;
 
   private $title;

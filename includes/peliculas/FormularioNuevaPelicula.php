@@ -84,7 +84,7 @@ class FormularioNuevaPelicula extends Form
                     <label>País:</label> <input class="control" type="text" name="country" value="$country"/>$errorCountry
                 </div>
                 <div class="grupo-control">
-                    <label>Trama:</label> <input class="control" type="text" name="plot" value="$plot" />$errorPlot
+                    <label>Trama:</label> <textarea class="control" type="text" name="plot" value="$plot" />$plot</textarea>$errorPlot
                 </div>
                 <div class="grupo-control">
                     <label>Géneros:</label> <select name="genres[]" multiple>

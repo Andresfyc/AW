@@ -42,7 +42,7 @@ class FormularioEditarEventoTema extends Form
                 <label>Nombre del evento/tema:</label> <input class="control" type="text" name="name" value="$name" />$errorName
             </div>
             <div class="grupo-control">
-                <label>Descripción:</label> <input class="control" type="text" name="description" value="$description" />$errorDescription
+                <label>Descripción:</label> <textarea class="control" type="text" name="description" value="$description" />$description</textarea>$errorDescription
             </div>
             <div class="grupo-control">
                 <label>Fecha y hora:</label> <input class="control" type="date" name="date" value="$date" />$errorDate

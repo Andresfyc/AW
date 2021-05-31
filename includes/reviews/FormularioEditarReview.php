@@ -38,7 +38,7 @@ class FormularioEditarReview extends Form
         <input class="control" type="hidden" name="id" value="$id" readonly/>
         <input class="control" type="hidden" name="filmId" value="$filmId" readonly/>
         <div class="grupo-control">
-            <label>Review:</label> <input class="control" type="text" name="reviewStr" value="$reviewStr" />$errorReview
+            <label>Review:</label> <textarea class="control" type="text" name="reviewStr" value="$reviewStr" />$reviewStr</textarea>$errorReview
             <label>Review:</label> <input class="control" type="number" name="rating" value="$rating" />$errorRating
         </div>
         

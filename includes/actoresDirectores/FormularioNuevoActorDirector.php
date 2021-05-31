@@ -54,7 +54,7 @@ class FormularioNuevoActorDirector extends Form
                 <label>Imagen:</label> <input class="control" type="file" name="image" value="$image" />$errorImage
             </div>
             <div class="grupo-control">
-                <label>Descripción:</label> <input class="control" type="text" name="description" value="$description" />$errorDescription
+                <label>Descripción:</label> <textarea class="control" type="text" name="description" value="$description" />$description</textarea>$errorDescription
             </div>
             <div class="grupo-control">
                 <label>Fecha de nacimiento:</label> <input class="control" type="date" name="birth_date" value="$birth_date" />$errorBirth_date

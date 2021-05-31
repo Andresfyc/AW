@@ -37,7 +37,7 @@ class FormularioNuevoMensaje extends Form
                     <input class="control" type="hidden" name="id" value="$id" readonly/>
                     <input class="control" type="hidden" name="name" value="$name" readonly/>
                     <input class="control" type="hidden" name="time" value="$time" readonly/>
-                    <label>Mensaje:</label> <input class="control" type="text" name="text" value="$mensaje" />$errorText
+                    <label>Mensaje:</label> <textarea class="control" type="text" name="text" value="$mensaje" />$mensaje</textarea>$errorText
                 </div>
                 <div class="grupo-control"><button type="submit" name="nuevoMensaje">Publicar</button></div>
             </fieldset>
