@@ -213,19 +213,19 @@ CREATE TABLE `usuarios` (
 CREATE TABLE `usuarios_actores_directores` (
   `id` int(11) NOT NULL,
   `user` varchar(45) NOT NULL,
-  `actores_directores_id` int(11) NOT NULL
+  `actor_director_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios_peliculasfav`
+-- Estructura de tabla para la tabla `usuarios_peliculas_ver`
 --
 
-CREATE TABLE `usuarios_peliculasfav` (
-  `ID` int(11) NOT NULL,
-  `user` varchar(11) NOT NULL,
-  `id_pelicula` int(11) NOT NULL
+CREATE TABLE `usuarios_peliculas_ver` (
+  `id` int(11) NOT NULL,
+  `user` varchar(45) NOT NULL,
+  `film_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -360,16 +360,16 @@ ALTER TABLE `usuarios_actores_directores`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id_UNIQUE` (`id`),
   ADD KEY `fk_actores_directores_usuarios_idx` (`user`),
-  ADD KEY `fk_usuarios_actores_directores_idx` (`actores_directores_id`);
+  ADD KEY `fk_usuarios_actores_directores_idx` (`actor_director_id`);
 
 --
--- Indices de la tabla `usuarios_peliculasfav`
+-- Indices de la tabla `usuarios_peliculas_ver`
 --
-ALTER TABLE `usuarios_peliculasfav`
-  ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `ID` (`ID`),
-  ADD KEY `fk_usuarios_peliculasFav` (`id_pelicula`),
-  ADD KEY `fk_peliculasFav_usuarios` (`user`);
+ALTER TABLE `usuarios_peliculas_ver`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id_UNIQUE` (`id`),
+  ADD KEY `fk_usuarios_peliculas_ver` (`film_id`),
+  ADD KEY `fk_peliculas_ver_usuarios` (`user`);
 
 --
 -- Indices de la tabla `usuarios_peliculas_vistas`
@@ -463,10 +463,10 @@ ALTER TABLE `usuarios_actores_directores`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `usuarios_peliculasfav`
+-- AUTO_INCREMENT de la tabla `usuarios_peliculas_ver`
 --
-ALTER TABLE `usuarios_peliculasfav`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `usuarios_peliculas_ver`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios_peliculas_vistas`
@@ -540,14 +540,14 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `usuarios_actores_directores`
   ADD CONSTRAINT `fk_actores_directores_usuarios` FOREIGN KEY (`user`) REFERENCES `usuarios` (`user`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_usuarios_actores_directores` FOREIGN KEY (`actores_directores_id`) REFERENCES `actores_directores` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_usuarios_actores_directores` FOREIGN KEY (`actor_director_id`) REFERENCES `actores_directores` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `usuarios_peliculasfav`
+-- Filtros para la tabla `usuarios_peliculas_ver`
 --
-ALTER TABLE `usuarios_peliculasfav`
-  ADD CONSTRAINT `fk_peliculasFav_usuarios` FOREIGN KEY (`user`) REFERENCES `usuarios` (`user`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_usuarios_peliculasFav` FOREIGN KEY (`id_pelicula`) REFERENCES `peliculas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `usuarios_peliculas_ver`
+  ADD CONSTRAINT `fk_peliculas_ver_usuarios` FOREIGN KEY (`user`) REFERENCES `usuarios` (`user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_usuarios_peliculas_ver` FOREIGN KEY (`film_id`) REFERENCES `peliculas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usuarios_peliculas_vistas`

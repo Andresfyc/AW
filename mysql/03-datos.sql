@@ -275,7 +275,7 @@ INSERT INTO `usuarios` (`user`, `password`, `name`, `image`, `date_joined`, `wat
 -- Volcado de datos para la tabla `usuarios_actores_directores`
 --
 
-INSERT INTO `usuarios_actores_directores` (`id`, `user`, `actores_directores_id`) VALUES
+INSERT INTO `usuarios_actores_directores` (`id`, `user`, `actor_director_id`) VALUES
 (4, 'userPrueba', 12),
 (5, 'userPrueba', 25),
 (6, 'userPrueba', 16),
@@ -294,10 +294,10 @@ INSERT INTO `usuarios_actores_directores` (`id`, `user`, `actores_directores_id`
 (19, 'Yaiza', 14);
 
 --
--- Volcado de datos para la tabla `usuarios_peliculasfav`
+-- Volcado de datos para la tabla `usuarios_peliculas_ver`
 --
 
-INSERT INTO `usuarios_peliculasfav` (`ID`, `user`, `id_pelicula`) VALUES
+INSERT INTO `usuarios_peliculas_ver` (`id`, `user`, `film_id`) VALUES
 (1, 'Abart', 3),
 (2, 'AndresYunda', 16),
 (3, 'charlyvary', 14),

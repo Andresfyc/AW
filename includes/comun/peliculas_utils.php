@@ -49,7 +49,7 @@ function mostrarPeliculasFav($user, $limit=NULL) {
     $ultimasPeliculasFavoritas= listaPeliculasFav($user, $limit);
 
     $html=<<<EOS
-        <h3> Peliculas Favoritas </h3>
+        <h3> Ver más tarde: </h3>
         $ultimasPeliculasFavoritas
 
     EOS;
@@ -250,5 +250,20 @@ function eliminarReviewPorId($id)
 function getReviewPorIdPelicula($id)
 {
     return Review::buscaReviewsPorIdPeli($id);
+}
+
+function isPeliculaEnLista($id, $user) 
+{
+    return Pelicula::isPeliculaEnLista($id, $user);
+}
+
+function addListaVer($id, $user)
+{
+    Pelicula::addListaVer($id, $user);
+}
+
+function delListaVer($id, $user)
+{
+    Pelicula::delListaVer($id, $user);
 }
 

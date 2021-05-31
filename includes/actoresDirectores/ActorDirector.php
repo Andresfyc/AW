@@ -149,7 +149,7 @@ class ActorDirector
     $app = App::getSingleton();
     $conn = $app->conexionBd();
 		$query = sprintf("SELECT actores_directores.* FROM usuarios join usuarios_actores_directores ON usuarios.user = usuarios_actores_directores.user 
-		join actores_directores ON usuarios_actores_directores.actores_directores_id = actores_directores.id where usuarios.user= '%s' AND 
+		join actores_directores ON usuarios_actores_directores.actor_director_id = actores_directores.id where usuarios.user= '%s' AND 
 		actores_directores.actor_director= '%d'", $user, $actorDirector);
 		if($limit) {
 		  $query = $query . ' LIMIT %d';

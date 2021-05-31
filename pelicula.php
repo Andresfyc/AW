@@ -32,6 +32,27 @@ if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
     EOS;
 }
 
+if(array_key_exists('addListaVer', $_POST)) {
+    addListaVer($id, $app->user());
+    header("Refresh:0");
+} else if(array_key_exists('delListaVer', $_POST)) {
+    delListaVer($id, $app->user());
+    header("Refresh:0");
+}
+
+$peliculaLista = '';
+if ($app->usuarioLogueado()) {
+    if (isPeliculaEnLista($id, $app->user())) {
+        $peliculaLista = '<form method="post">
+            <input type="submit" name="delListaVer" class="button" value="Eliminar de Ver más tarde"/>
+            </form>';
+    } else {
+        $peliculaLista = '<form method="post">
+            <input type="submit" name="addListaVer" class="button" value="Añadir a Ver más tarde"/>
+            </form>';
+    }
+}
+
 $contenidoPrincipal.=<<<EOS
     <div class="pagina-pelicula">
     <img id="imagen-pelicula" src="img/peliculas/{$pelicula->image()}" alt="pelicula" >
@@ -42,6 +63,7 @@ $contenidoPrincipal.=<<<EOS
     <p> País: {$pelicula->country()} </p>
     <p> Puntuación: {$pelicula->rating()}/5 </p>
     <p> Sinopsis: {$pelicula->plot()} </p>
+    $peliculaLista
     </div>
     </div>
     $plataformas

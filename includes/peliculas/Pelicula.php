@@ -62,7 +62,7 @@ class Pelicula
 
     $app = App::getSingleton();
     $conn = $app->conexionBd();
-    $query = sprintf("INSERT INTO Peliculas(title, image, date_released, duration,country,plot) VALUES('%s', '%s','%s', %d, '%s','%s')"
+    $query = sprintf("INSERT INTO peliculas (title, image, date_released, duration,country,plot) VALUES('%s', '%s','%s', %d, '%s','%s')"
     , $conn->real_escape_string($pelicula->title)
     , $conn->real_escape_string($pelicula->image)
     , $conn->real_escape_string($pelicula->date_released)
@@ -173,7 +173,7 @@ class Pelicula
 	$result = [];
     $app = App::getSingleton();
     $conn = $app->conexionBd();
-		$query = sprintf("SELECT p.* FROM peliculas p JOIN usuarios_peliculasfav f ON p.id = f.id_pelicula WHERE f.user = '%s'", $user);
+		$query = sprintf("SELECT p.* FROM peliculas p JOIN usuarios_peliculas_ver v ON p.id = v.film_id WHERE v.user = '%s'", $user);
 		if($limit) {
 		  $query = $query . ' LIMIT %d';
 		  $query = sprintf($query, $limit);
@@ -293,6 +293,49 @@ class Pelicula
 		  }
 		  $rs->free();
 		}
+
+    return $result;
+  }
+
+  public static function isPeliculaEnLista($id, $user)
+  {
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+    $query = sprintf("SELECT * FROM usuarios_peliculas_ver WHERE film_id = %d and user = '%s'", $id, $user);
+    $rs = $conn->query($query);
+    return $rs->num_rows;
+  }
+
+  public static function addListaVer($id, $user)
+  {
+    $result = false;
+
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+    $query = sprintf("INSERT INTO usuarios_peliculas_ver(film_id, user) VALUES(%d, '%s')"
+    , $id
+    , $conn->real_escape_string($user));
+    $result = $conn->query($query);
+    if (!$result) {
+      error_log($conn->error);  
+    }
+
+    return $result;
+  }
+
+  public static function delListaVer($id, $user)
+  {
+    $result = false;
+
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+    $query = sprintf("DELETE FROM usuarios_peliculas_ver WHERE film_id = %d and user = '%s'", $id, $user);
+    $result = $conn->query($query);
+    if (!$result) {
+      error_log($conn->error);
+    } else if ($conn->affected_rows != 1) {
+      error_log("Se han borrado '$conn->affected_rows' !");
+    }
 
     return $result;
   }
