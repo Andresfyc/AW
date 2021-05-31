@@ -39,7 +39,6 @@ if(array_key_exists('addListaVer', $_POST)) {
     delListaVer($id, $app->user());
     header("Refresh:0");
 }
-
 $peliculaLista = '';
 if ($app->usuarioLogueado()) {
     if (isPeliculaEnLista($id, $app->user())) {

@@ -15,6 +15,26 @@ if($actorDirector->actor_director()){
 
 $peliculas = listaPelis_ActorDirector($id);
 
+if(array_key_exists('addActorDirectorFav', $_POST)) {
+    addActorDirectorFav($id, $app->user());
+    header("Refresh:0");
+} else if(array_key_exists('delActorDirectorFav', $_POST)) {
+    delActorDirectorFav($id, $app->user());
+    header("Refresh:0");
+}
+$actorDirectorFav = '';
+if ($app->usuarioLogueado()) {
+    if (isActorDirectorFav($id, $app->user())) {
+        $actorDirectorFav = '<form method="post">
+            <input type="submit" name="delActorDirectorFav" class="button" value="Eliminar de Favoritos"/>
+            </form>';
+    } else {
+        $actorDirectorFav = '<form method="post">
+            <input type="submit" name="addActorDirectorFav" class="button" value="Añadir a Favoritos"/>
+            </form>';
+    }
+}
+
 $tituloPagina = $actorDirector->name();
 $href = '';
 $contenidoPrincipal=<<<EOS
@@ -26,7 +46,7 @@ $contenidoPrincipal=<<<EOS
     <p> Fecha de nacimiento: {$actorDirector->birth_date()} </p>
     <p> Nacionalidad: {$actorDirector->nationality()} </p>
     <p> Descripción: {$actorDirector->description()} </p>
-    <p> </p>
+    $actorDirectorFav
     </div>
     </div>
     $peliculas

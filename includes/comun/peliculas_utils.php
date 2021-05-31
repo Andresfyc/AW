@@ -266,3 +266,18 @@ function delListaVer($id, $user)
     Pelicula::delListaVer($id, $user);
 }
 
+function isActorDirectorFav($id, $user) 
+{
+    return ActorDirector::isActorDirectorFav($id, $user);
+}
+
+function addActorDirectorFav($id, $user) 
+{
+    ActorDirector::addActorDirectorFav($id, $user);
+}
+
+function delActorDirectorFav($id, $user) 
+{
+    ActorDirector::delActorDirectorFav($id, $user);
+}
+

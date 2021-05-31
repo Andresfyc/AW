@@ -206,6 +206,49 @@ class ActorDirector
 		return $result;
   }
 
+  public static function isActorDirectorFav($id, $user) 
+  {
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+    $query = sprintf("SELECT * FROM usuarios_actores_directores WHERE actor_director_id = %d and user = '%s'", $id, $user);
+    $rs = $conn->query($query);
+    return $rs->num_rows;
+  }
+
+  public static function addActorDirectorFav($id, $user) 
+  {
+    $result = false;
+
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+    $query = sprintf("INSERT INTO usuarios_actores_directores(actor_director_id, user) VALUES(%d, '%s')"
+    , $id
+    , $conn->real_escape_string($user));
+    $result = $conn->query($query);
+    if (!$result) {
+      error_log($conn->error);  
+    }
+
+    return $result;
+  }
+
+  public static function delActorDirectorFav($id, $user) 
+  {
+    $result = false;
+
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+    $query = sprintf("DELETE FROM usuarios_actores_directores WHERE actor_director_id = %d and user = '%s'", $id, $user);
+    $result = $conn->query($query);
+    if (!$result) {
+      error_log($conn->error);
+    } else if ($conn->affected_rows != 1) {
+      error_log("Se han borrado '$conn->affected_rows' !");
+    }
+
+    return $result;
+  }
+
   private $id;
 
   private $actor_director;
