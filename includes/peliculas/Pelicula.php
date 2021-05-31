@@ -167,7 +167,7 @@ class Pelicula
 		return $result;
 	}
 	
-	public static function listaPeliculasFavoritas($user, $limit=NULL)
+	public static function listaPeliculasVer($user, $limit=NULL)
 	{
 
 	$result = [];

@@ -45,13 +45,12 @@ function mostrarPortadaPeliculas($limit=NULL) {
 
     return $html;
 }
-function mostrarPeliculasFav($user, $limit=NULL) {
-    $ultimasPeliculasFavoritas= listaPeliculasFav($user, $limit);
+function mostrarPeliculasVer($user, $limit=NULL) {
+    $peliculasVer= listaPeliculasVer($user, $limit);
 
     $html=<<<EOS
         <h3> Ver más tarde: </h3>
-        $ultimasPeliculasFavoritas
-
+        $peliculasVer
     EOS;
 
     return $html;
@@ -206,9 +205,9 @@ function listaPeliculas($order, $ascdesc, $limit=NULL)
     return getDivPeliculas($peliculas, $limit);
 }
 
-function listaPeliculasFav($user, $limit=NULL)
+function listaPeliculasVer($user, $limit=NULL)
 {
-    $peliculas = Pelicula::listaPeliculasFavoritas($user, $limit);
+    $peliculas = Pelicula::listaPeliculasVer($user, $limit);
 
     return getDivPeliculas($peliculas, $limit);
 }

@@ -11,20 +11,24 @@ use es\ucm\fdi\aw\peliculas\Pelicula;
  */
 
  
-function getDivUsuario() {
+function getDivUsuario($user, $isSelf) {
     $RUTA_APP = RUTA_APP;
 	$app = Aplicacion::getSingleton();
-    $usuario = getUsuarioPorUser($app->user());
-    if ($app->usuarioLogueado()) {
+    $usuario = getUsuarioPorUser($user);
+    $perfil = '';
+    if ($isSelf) {
+        $perfil = '<p><a href="'.$RUTA_APP.'editarPerfil.php?user='.$usuario->user().'">Editar Perfil</a></p>';
+    }
+    if ($app->usuarioLogueado() || !$isSelf) {
         $html=<<<EOS
             <div class="div-perfil">
-            <img id="film_pic" src="img/usuarios/{$app->image()}" alt="user" >
+            <img id="film_pic" src="img/usuarios/{$usuario->image()}" alt="user" >
             <div>
             <p>Usuario: {$usuario->user()}</p>
             <p>Nombre completo: {$usuario->name()}</p>
             <p>Correo electrónico: </p>
             <p>Fecha de registro: {$usuario->date_joined()}</p>
-            <p><a href="{$RUTA_APP}editarPerfil.php?user={$usuario->user()}">Editar Perfil</a></p>
+            $perfil
             </div>
             </div>
         EOS;
@@ -32,42 +36,14 @@ function getDivUsuario() {
     }
 }
 
-function getDivAmigo($amigo) {
- //   $RUTA_APP = RUTA_APP;
-//	$app = Aplicacion::getSingleton();
-  //  $usuario = getUsuarioPorUser($amigo);
-    
-        $html=<<<EOS
-            <div class="div-perfil">
-            <img id="film_pic" src="img/usuarios/{$amigo->image()}" alt="user" >
-            <div>
-            <p>Usuario: {$amigo->user()}</p>
-            <p>Nombre completo: {$amigo->name()}</p>
-            <p>Correo electrónico: </p>
-            <p>Fecha de registro: {$amigo->date_joined()}</p>
-            </div>
-            </div>
-        EOS;
-        return $html;
-    
-}
-
-function getUsuario() {
-    $RUTA_APP = RUTA_APP;
-	$app = Aplicacion::getSingleton();
-    $usuario = getUsuarioPorUser($app->user());
-	return $usuario;
-}
-
 function listaAmigos($user, $limit=NULL)
 {
     $usuarios = Usuario::listaAmigos($user, $limit);
     $html = '<div>';
     foreach($usuarios as $usuario) {
-        $href = RUTA_APP.'usuarios.php?id=' . $usuario->user();
         $peliculaWatching = $usuario->film();
         $watching = '';
-        $swapper='<p><a href="perfilAmigo.php?id='.$usuario->user().'"> Swapper: '.$usuario->user().' </a></p>';
+        $swapper='<p><a href="perfil.php?user='.$usuario->user().'"> Swapper: '.$usuario->user().' </a></p>';
         if ($peliculaWatching) {
             $watching .= '<p><a href="'.RUTA_APP.'pelicula.php?id='.$peliculaWatching->id().'"> Viendo: '.$peliculaWatching->title().' </a></p>';
         }
