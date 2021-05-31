@@ -14,11 +14,33 @@ use es\ucm\fdi\aw\peliculas\Pelicula;
 function getDivUsuario($user, $isSelf) {
     $RUTA_APP = RUTA_APP;
 	$app = Aplicacion::getSingleton();
-    $usuario = getUsuarioPorUser($user);
+    $usuario = getUsuarioPorUser($user);    
+
     $perfil = '';
+    $usuarioAmigo = '';
     if ($isSelf) {
         $perfil = '<p><a href="'.$RUTA_APP.'editarPerfil.php?user='.$usuario->user().'">Editar Perfil</a></p>';
+    } else {
+        if(array_key_exists('addAmigo', $_POST)) {
+            addAmigo($app->user(), $user);
+            header("Refresh:0");
+        } else if(array_key_exists('delAmigo', $_POST)) {
+            delAmigo($app->user(), $user);
+            header("Refresh:0");
+        }
+        if ($app->usuarioLogueado()) {
+            if (isUsuarioAmigo($app->user(), $user)) {
+                $usuarioAmigo = '<form method="post">
+                    <input type="submit" name="delAmigo" class="button" value="Eliminar Swapper"/>
+                    </form>';
+            } else {
+                $usuarioAmigo = '<form method="post">
+                    <input type="submit" name="addAmigo" class="button" value="Añadir Swapper"/>
+                    </form>';
+            }
+        }
     }
+
     if ($app->usuarioLogueado() || !$isSelf) {
         $html=<<<EOS
             <div class="div-perfil">
@@ -29,6 +51,7 @@ function getDivUsuario($user, $isSelf) {
             <p>Correo electrónico: </p>
             <p>Fecha de registro: {$usuario->date_joined()}</p>
             $perfil
+            $usuarioAmigo
             </div>
             </div>
         EOS;
@@ -43,7 +66,7 @@ function listaAmigos($user, $limit=NULL)
     foreach($usuarios as $usuario) {
         $peliculaWatching = $usuario->film();
         $watching = '';
-        $swapper='<p><a href="perfil.php?user='.$usuario->user().'"> Swapper: '.$usuario->user().' </a></p>';
+        $swapper='<p><a href="usuario.php?user='.$usuario->user().'"> Swapper: '.$usuario->user().' </a></p>';
         if ($peliculaWatching) {
             $watching .= '<p><a href="'.RUTA_APP.'pelicula.php?id='.$peliculaWatching->id().'"> Viendo: '.$peliculaWatching->title().' </a></p>';
         }
@@ -133,7 +156,7 @@ function busquedaUsuarios($search)
         $html .= '<h3> Usuarios: </h3>';
         $html .= '<ul>';
         foreach($usuarios as $usuario) {
-            $html .= '<p><a href="'.RUTA_APP.'usuario.php?id='.$usuario->user().'">'.$usuario->name().' ('.$usuario->user().')</a></p>';
+            $html .= '<p><a href="'.RUTA_APP.'usuario.php?user='.$usuario->user().'">'.$usuario->name().' ('.$usuario->user().')</a></p>';
         }
         $html .= '</ul>';
     }
@@ -149,4 +172,19 @@ function getUsuarioPorUser($user)
 function getReviewPorUser($user)
 {
     return Review::buscaReviewsPorIdUser($user);
+}
+
+function isUsuarioAmigo($user, $amigo) 
+{
+    return Usuario::isUsuarioAmigo($user, $amigo);
+}
+
+function addAmigo($user, $amigo) 
+{
+    Usuario::addAmigo($user, $amigo);
+}
+
+function delAmigo($user, $amigo) 
+{
+    Usuario::delAmigo($user, $amigo);
 }

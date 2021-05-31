@@ -338,8 +338,9 @@ header {
         display: flex;
     }
 
-    .div-perfil > div > p {
-        padding-left: 15px;
+    .div-perfil > div {
+        margin-left: 20px;
+        margin-right: 20px;
     }
 
     .div-actoresDirectores {

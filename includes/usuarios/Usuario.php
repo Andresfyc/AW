@@ -182,6 +182,49 @@ class Usuario
 		return $result;
 	}
 
+    public static function isUsuarioAmigo($user, $amigo)
+    {
+      $app = App::getSingleton();
+      $conn = $app->conexionBd();
+      $query = sprintf("SELECT * FROM amigos WHERE user = '%s' and friend = '%s'", $user, $amigo);
+      $rs = $conn->query($query);
+      return $rs->num_rows;
+    }
+  
+    public static function addAmigo($user, $amigo)
+    {
+      $result = false;
+  
+      $app = App::getSingleton();
+      $conn = $app->conexionBd();
+      $query = sprintf("INSERT INTO amigos(user, friend) VALUES('%s', '%s')"
+      , $conn->real_escape_string($user)
+      , $conn->real_escape_string($amigo));
+      $result = $conn->query($query);
+      if (!$result) {
+        error_log($conn->error);  
+      }
+  
+      return $result;
+    }
+  
+    public static function delAmigo($user, $amigo)
+    {
+      $result = false;
+  
+      $app = App::getSingleton();
+      $conn = $app->conexionBd();
+      $query = sprintf("DELETE FROM amigos WHERE user = '%s' and friend = '%s'", $user, $amigo);
+      $result = $conn->query($query);
+      if (!$result) {
+        error_log($conn->error);
+      } else if ($conn->affected_rows != 1) {
+        error_log("Se han borrado '$conn->affected_rows' !");
+      }
+  
+      return $result;
+    }
+
     private $user;
 
     private $password;
