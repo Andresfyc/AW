@@ -32,8 +32,9 @@ function listaPelis_ActorDirector($id){
 }
 
 function mostrarPortadaPeliculas($limit=NULL) {
-    $ultimasPeliculasEstrenadas = listaPeliculas('date_released', 0, $limit);
-    $listaUltimasPeliculasAnadidas = listaPeliculas('id', 0, $limit);
+    $ultimasPeliculasEstrenadas = listaPeliculas('date_released', 0, $limit, 'peliculas', 'date_released');
+    $listaUltimasPeliculasAnadidas = listaPeliculas('id', 0, $limit, 'peliculas', 'id');
+	$prueba = listaPeliculasGen(1, $limit);
 
     $html=<<<EOS
         <h1>Página principal</h1>
@@ -41,6 +42,8 @@ function mostrarPortadaPeliculas($limit=NULL) {
         $ultimasPeliculasEstrenadas
         <h3> Últimas películas añadidas </h3>
         $listaUltimasPeliculasAnadidas
+        <h3> Últimas películas añadidas </h3>
+        $prueba
     EOS;
 
     return $html;
@@ -56,7 +59,19 @@ function mostrarPeliculasVer($user, $limit=NULL) {
     return $html;
 }
 
-function getDivPeliculas($peliculas, $limit=NULL) {
+function mostrarPeliculasGen($id, $limit=NULL) {
+    $peliculasGen= listaPeliculasGenre($id, $limit);
+
+    $html=<<<EOS
+        <h3> Ver más tarde: </h3>
+        $peliculasGen
+    EOS;
+
+    return $html;
+}
+
+
+function getDivPeliculas($peliculas, $limit=NULL, $table, $value) {
 	$app = Aplicacion::getSingleton();
     $html = '<div class="div-peliculas">';
     foreach($peliculas as $pelicula) {
@@ -83,7 +98,7 @@ function getDivPeliculas($peliculas, $limit=NULL) {
     if ($limit != NULL && count($peliculas) > 1) {
         $html .=<<<EOS
             <div class="div-pelicula-last">
-            <p><a href="./peliculas.php">Ver todas</a></p>
+            <p><a href="./peliculas.php?table={$table}&value={$value}">Ver todas</a></p>
             </div>
         EOS;
     }
@@ -198,18 +213,25 @@ function busquedaPeliculas($search)
     return $html;
 }
 
-function listaPeliculas($order, $ascdesc, $limit=NULL)
+function listaPeliculas($order, $ascdesc, $limit=NULL, $table, $value)
 {
     $peliculas = Pelicula::listaPeliculas($order, $ascdesc, $limit);
 
-    return getDivPeliculas($peliculas, $limit);
+    return getDivPeliculas($peliculas, $limit, $table, $value);
 }
 
 function listaPeliculasVer($user, $limit=NULL)
 {
     $peliculas = Pelicula::listaPeliculasVer($user, $limit);
 
-    return getDivPeliculas($peliculas, $limit);
+    return getDivPeliculas($peliculas, $limit, null, null);
+}
+
+function listaPeliculasGen($id, $limit=NULL)
+{
+    $peliculas = Pelicula::listaPeliculasGen($id, $limit);
+
+    return getDivPeliculas($peliculas, $limit, 'genre', $id);
 }
 
 function buscaPeliculaPorId($id)

@@ -14,43 +14,43 @@ $pelicula = buscaPeliculaPorId($id);
 $tituloPagina = $pelicula->title();
 
 $href = '';
-if ($app->usuarioLogueado()) {
-    $href .= '<a href="nuevaReview.php?id='.$pelicula->id().'">Escribir nueva review</a>';
-}
+	if ($app->usuarioLogueado()) {
+		$href .= '<a href="nuevaReview.php?id='.$pelicula->id().'">Escribir nueva review</a>';
+	}
 
-$plataformas = listaPlataformas($pelicula->plataformas(),$pelicula->peliculasPlataformas());
-$actores = listaActoresDirectores($pelicula->actors(), 0);
-$directores = listaActoresDirectores($pelicula->directors(), 1);
-$reviews = listaReviews($pelicula->reviews());
+	$plataformas = listaPlataformas($pelicula->plataformas(),$pelicula->peliculasPlataformas());
+	$actores = listaActoresDirectores($pelicula->actors(), 0);
+	$directores = listaActoresDirectores($pelicula->directors(), 1);
+	$reviews = listaReviews($pelicula->reviews());
 
-$contenidoPrincipal = '';
+	$contenidoPrincipal = '';
 
-if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
-    $contenidoPrincipal .=<<<EOS
-        <a href="./editarPelicula.php?id={$pelicula->id()}&prevPage=pelicula&prevId={$pelicula->id()}">Editar</a>
-        <a href="./eliminarPelicula.php?id={$pelicula->id()}&prevPage=pelicula&prevId={$pelicula->id()}">Eliminar</a>
-    EOS;
-}
+	if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
+		$contenidoPrincipal .=<<<EOS
+			<a href="./editarPelicula.php?id={$pelicula->id()}&prevPage=pelicula&prevId={$pelicula->id()}">Editar</a>
+			<a href="./eliminarPelicula.php?id={$pelicula->id()}&prevPage=pelicula&prevId={$pelicula->id()}">Eliminar</a>
+		EOS;
+	}
 
-if(array_key_exists('addListaVer', $_POST)) {
-    addListaVer($id, $app->user());
-    header("Refresh:0");
-} else if(array_key_exists('delListaVer', $_POST)) {
-    delListaVer($id, $app->user());
-    header("Refresh:0");
-}
-$peliculaLista = '';
-if ($app->usuarioLogueado()) {
-    if (isPeliculaEnLista($id, $app->user())) {
-        $peliculaLista = '<form method="post">
-            <input type="submit" name="delListaVer" class="button" value="Eliminar de Ver más tarde"/>
-            </form>';
-    } else {
-        $peliculaLista = '<form method="post">
-            <input type="submit" name="addListaVer" class="button" value="Añadir a Ver más tarde"/>
-            </form>';
-    }
-}
+	if(array_key_exists('addListaVer', $_POST)) {
+		addListaVer($id, $app->user());
+		header("Refresh:0");
+	} else if(array_key_exists('delListaVer', $_POST)) {
+		delListaVer($id, $app->user());
+		header("Refresh:0");
+	}
+	$peliculaLista = '';
+	if ($app->usuarioLogueado()) {
+		if (isPeliculaEnLista($id, $app->user())) {
+			$peliculaLista = '<form method="post">
+				<input type="submit" name="delListaVer" class="button" value="Eliminar de Ver más tarde"/>
+				</form>';
+		} else {
+			$peliculaLista = '<form method="post">
+				<input type="submit" name="addListaVer" class="button" value="Añadir a Ver más tarde"/>
+				</form>';
+		}
+	}
 
 $contenidoPrincipal.=<<<EOS
     <div class="pagina-pelicula">

@@ -189,6 +189,29 @@ class Pelicula
 
 		return $result;
 	}	
+	
+	public static function listaPeliculasGen($id, $limit=NULL)
+	{
+
+	$result = [];
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+		$query = sprintf("SELECT p.* FROM peliculas p JOIN peliculas_generos v ON p.id = v.film_id WHERE v.genre_id = '%s'", $id);
+		if($limit) {
+		  $query = $query . ' LIMIT %d';
+		  $query = sprintf($query, $limit);
+		}
+
+		$rs = $conn->query($query);
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			$result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating']);
+		  }
+		  $rs->free();
+		}
+
+		return $result;
+	}
 
 
   public static function actualizarGeneros($peliculaIn, $generos)
