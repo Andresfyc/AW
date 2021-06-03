@@ -34,7 +34,6 @@ function listaPelis_ActorDirector($id){
 function mostrarPortadaPeliculas($limit=NULL) {
     $ultimasPeliculasEstrenadas = listaPeliculas('date_released', 0, $limit, 'peliculas', 'date_released');
     $listaUltimasPeliculasAnadidas = listaPeliculas('id', 0, $limit, 'peliculas', 'id');
-	$prueba = listaPeliculasGen(1, $limit);
 
     $html=<<<EOS
         <h1>Página principal</h1>
@@ -42,14 +41,13 @@ function mostrarPortadaPeliculas($limit=NULL) {
         $ultimasPeliculasEstrenadas
         <h3> Últimas películas añadidas </h3>
         $listaUltimasPeliculasAnadidas
-        <h3> Últimas películas añadidas </h3>
-        $prueba
+
     EOS;
 
     return $html;
 }
 function mostrarPeliculasVer($user, $limit=NULL) {
-    $peliculasVer= listaPeliculasVer($user, $limit);
+    $peliculasVer= listaPeliculasVer('title',null,$user, $limit);
 
     $html=<<<EOS
         <h3> Ver más tarde: </h3>
@@ -60,7 +58,7 @@ function mostrarPeliculasVer($user, $limit=NULL) {
 }
 
 function mostrarPeliculasGen($id, $limit=NULL) {
-    $peliculasGen= listaPeliculasGenre($id, $limit);
+    $peliculasGen= listaPeliculasGen('id', 0, $id, $limit);
 
     $html=<<<EOS
         <h3> Ver más tarde: </h3>
@@ -220,16 +218,16 @@ function listaPeliculas($order, $ascdesc, $limit=NULL, $table, $value)
     return getDivPeliculas($peliculas, $limit, $table, $value);
 }
 
-function listaPeliculasVer($user, $limit=NULL)
+function listaPeliculasVer($order, $ascdesc, $user, $limit=NULL)
 {
-    $peliculas = Pelicula::listaPeliculasVer($user, $limit);
+    $peliculas = Pelicula::listaPeliculasVer($order, $ascdesc ,$user, $limit);
 
-    return getDivPeliculas($peliculas, $limit, null, null);
+    return getDivPeliculas($peliculas, $limit, 'ver_tarde' ,$user);
 }
 
-function listaPeliculasGen($id, $limit=NULL)
+function listaPeliculasGen($order, $ascdesc, $id, $limit=NULL)
 {
-    $peliculas = Pelicula::listaPeliculasGen($id, $limit);
+    $peliculas = Pelicula::listaPeliculasGen($order, $ascdesc, $id, $limit);
 
     return getDivPeliculas($peliculas, $limit, 'genre', $id);
 }

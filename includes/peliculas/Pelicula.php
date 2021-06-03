@@ -141,11 +141,11 @@ class Pelicula
 
     return $result;
   }
+  
 	
 	public static function listaPeliculas($order, $ascdesc, $limit=NULL)
 	{
     $asds = $ascdesc ? 'ASC' : 'DESC';
-
 		$result = [];
 
     $app = App::getSingleton();
@@ -167,13 +167,13 @@ class Pelicula
 		return $result;
 	}
 	
-	public static function listaPeliculasVer($user, $limit=NULL)
+	public static function listaPeliculasVer($order, $ascdesc,$user, $limit=NULL)
 	{
-
+    $asds = $ascdesc ? 'ASC' : 'DESC';
 	$result = [];
     $app = App::getSingleton();
     $conn = $app->conexionBd();
-		$query = sprintf("SELECT p.* FROM peliculas p JOIN usuarios_peliculas_ver v ON p.id = v.film_id WHERE v.user = '%s'", $user);
+		$query = sprintf("SELECT p.* FROM peliculas p JOIN usuarios_peliculas_ver v ON p.id = v.film_id WHERE v.user = '%s'  ORDER BY %s %s", $user,$order, $asds);
 		if($limit) {
 		  $query = $query . ' LIMIT %d';
 		  $query = sprintf($query, $limit);
@@ -190,8 +190,11 @@ class Pelicula
 		return $result;
 	}	
 	
-	public static function listaPeliculasGen($id, $limit=NULL)
+	public static function listaPeliculasGen($order, $ascdesc, $id, $limit=NULL)
 	{
+		//$asds = $ascdesc ? 'ASC' : 'DESC';
+		
+		//$order = orderParse($order);
 
 	$result = [];
     $app = App::getSingleton();

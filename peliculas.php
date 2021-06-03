@@ -4,8 +4,6 @@ require_once __DIR__.'/includes/comun/peliculas_utils.php';
 
 use es\ucm\fdi\aw\Aplicacion;
 
-
-
 function mostrarPeliculas() {
 	
 	$table = filter_input(INPUT_GET, 'table', FILTER_SANITIZE_STRING);
@@ -16,32 +14,70 @@ function mostrarPeliculas() {
 	if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
 		$html .= '<a href="'.RUTA_APP.'nuevaPelicula.php">Añadir película</a>';
 	}
-
 		if(isset($_POST['desplegable'])){
-		$tipoorden= $_POST['desplegable'];
-		switch ($tipoorden) {
-            case 1:
-                $html .= listaPeliculas('title', 'ASC', null, $table, $value);
-                break;
-            case 2:
-                $html .= listaPeliculas('date_released', 'DESC', null, $table, $value);
-                break;
-            case 3:
-                $html .= listaPeliculas('rating', 'DESC', null, $table, $value);
-                break;
-            case 4:
-                $html .= listaPeliculas('duration', 'DESC', null, $table, $value);
-                break;
-		}
-		
+			$tipoorden= $_POST['desplegable'];
+
+			switch ($tipoorden) {
+				case 1:
+					$order='title';
+					break;
+				case 2:
+					$order='date_released';
+					break;
+				case 3:
+					$order='rating';
+					break;
+				case 4:
+					$order='duration';
+					break;
+			}
+			$html .= ordenar($order,$table,$value);
 		}
 		else{
-		
-		$html .= listaPeliculas('title', 'ASC', null, null, null);
-		
+			$html .= ordenar($value,$table,$value);
 		}
 
 	return $html;
+}
+
+function ordenar($aux,$table,$value){
+	
+	switch($table){
+		case 'genero':
+			return listaPeliculasGen('title', 'ASC', $value, null);
+			break;
+		case 'peliculas':
+			if($value=='title'){
+				return listaPeliculas($aux, 'ASC',null, $table,$value);
+			} else{
+				return listaPeliculas($aux, null,null, $table,$value);
+			}
+			break;
+		case 'ver_tarde':
+
+			if($aux==$value){
+				return  listaPeliculasVer('title','ASC',$value, null);
+			} else {
+				if($aux=='title'){
+					return listaPeliculasVer('title','ASC',$value, null);
+				} else{
+					return listaPeliculasVer($aux,null,$value, null);
+				}
+			}	
+			break;
+
+		default:
+			if($aux==null){
+				return listaPeliculas('title', null,null, null,null);
+			} else{
+				if($aux=='title'){
+					return listaPeliculas($aux, 'ASC',null, null,null);
+				} else{
+					return listaPeliculas($aux, null ,null, null,null);
+				}
+			}	
+			break;
+		}
 }
 function dropdown_ordenacion() {
 
