@@ -32,8 +32,24 @@ function listaPelis_ActorDirector($id){
 }
 
 function mostrarPortadaPeliculas($limit=NULL) {
+	$app = Aplicacion::getSingleton();
+	
+	$user = $app->user();
+	
     $ultimasPeliculasEstrenadas = listaPeliculas('date_released', 0, $limit, 'peliculas', 'date_released');
     $listaUltimasPeliculasAnadidas = listaPeliculas('id', 0, $limit, 'peliculas', 'id');
+	$pelicula = Pelicula::ultimaPeliculaWatching($user, $limit);
+
+	 if($app->usuarioLogueado()){
+           foreach($pelicula as $peli){
+           foreach($peli->genres() as $genre){
+			   
+			   $aux = listaPeliculasGen('rating', null, $genre->id(), $limit);
+			   
+			   }
+            }
+          }
+     }
 
     $html=<<<EOS
         <h1>Página principal</h1>
@@ -41,8 +57,14 @@ function mostrarPortadaPeliculas($limit=NULL) {
         $ultimasPeliculasEstrenadas
         <h3> Últimas películas añadidas </h3>
         $listaUltimasPeliculasAnadidas
-
+        <h3> Peliculas basadas en  </h3>
+        $aux
+       
     EOS;
+	
+
+
+
 
     return $html;
 }
@@ -228,6 +250,7 @@ function listaPeliculasVer($order, $ascdesc, $user, $limit=NULL)
 function listaPeliculasGen($order, $ascdesc, $id, $limit=NULL)
 {
     $peliculas = Pelicula::listaPeliculasGen($order, $ascdesc, $id, $limit);
+	
 
     return getDivPeliculas($peliculas, $limit, 'genre', $id);
 }
