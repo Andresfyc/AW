@@ -104,7 +104,7 @@ class FormularioEditarUsuario extends Form
     if (count($result) === 0) {
         $usuario = Usuario::buscaUsuario($user);
         if ($app->usuarioLogueado() && $app->user() == $usuario->user()) {
-            $usuario = Usuario::editar($user, $password, $passwordComprobar, $name, $_FILES['image']['name'], null, null, null);
+            $usuario = Usuario::editar($user, $password, $passwordComprobar, $name, $_FILES['image']['name'], null, null, null, null);
             if ( ! $usuario  ) {
                 $result[] = "El usuario ya existe";
             } else {

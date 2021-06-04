@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-05-2021 a las 12:42:59
--- Versión del servidor: 10.4.17-MariaDB
--- Versión de PHP: 7.4.15
+-- Tiempo de generación: 04-06-2021 a las 13:43:54
+-- Versión del servidor: 10.4.19-MariaDB
+-- Versión de PHP: 8.0.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -233,6 +233,15 @@ INSERT INTO `peliculas_plataformas` (`id`, `film_id`, `platform_id`, `link`) VAL
 (53, 12, 5, 'https://es.hboespana.com/');
 
 --
+-- Volcado de datos para la tabla `planes`
+--
+
+INSERT INTO `planes` (`id`, `meses`, `precio`) VALUES
+(1, 1, 1.99),
+(2, 2, 4.99),
+(3, 6, 8.99);
+
+--
 -- Volcado de datos para la tabla `plataformas`
 --
 
@@ -256,20 +265,20 @@ INSERT INTO `reviews` (`id`, `user`, `film_id`, `review`, `stars`, `time_created
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`user`, `password`, `name`, `image`, `date_joined`, `watching`, `admin`, `content_manager`, `moderator`) VALUES
-('Abart', '$2y$10$5zI7DgRddbEBqD9jTZUZfu/PhyZDtdMmjvhVxH.NTrku7/nKLflQu', 'Aser Bartolomé', 'aserimage.jpg', '2021-05-14', 11, 1, 0, 0),
-('AndresYunda', '$2y$10$VAi05OvJBsPhz1qouNn8T.EOTXaLbO7Hl84wE6ehi6i.oKLEBGaFK', 'Andres Yunda', 'andresimage.jpg', '2021-05-14', 6, 0, 1, 0),
-('charlyvary', '$2y$10$LoJ.u7/PtUgDGD6S8if8Xufp89neFLl2a8wafnQ54Af2dWDs2S.D.', 'Carlos Varela', 'carlosimage.jpg', '2021-05-14', 14, 0, 0, 1),
-('Ditochoza', '$2y$10$2J3rT2Y3MFbZzl3HRQ2BFe79b7xfo5BaX5jXSpzSviqF.8cBk5rOm', 'Víctor Choza', 'victorcimage.jpg', '2021-05-14', 16, 1, 1, 1),
-('Lolita', '$2y$10$l4MxYoqJlwKKBSF.Ef4/K.UCjmXMBB6Kz2Dj7NtSOuhUW1wGNtAha', 'Lolita Davis', 'user_logged.png', '2021-05-13', NULL, 0, 0, 0),
-('María', '$2y$10$s6EphqO5qS5Lrda0EXwnPuNjjlSIIk3DOgYW5QDJXvPtRw1C2FAlm', 'María Sánchez', 'user_logged.png', '2021-05-13', 2, 0, 0, 0),
-('Paco123', '$2y$10$9B3hkr7QvzjoHSyKEaH1D.vO7TJPa2jX7WTnGDofBNNxOnyZEG6Bm', 'Paco López', 'user_logged.png', '2021-05-13', NULL, 0, 0, 0),
-('userAdmin', '$2y$10$4XWfC7h2/m74aIi.iPdMFeciNcat0sGQxa7o2ZFQ2uCHpavX67r2O', 'userAdmin', 'user_logged.png', '2021-05-13', NULL, 1, 0, 0),
-('userGestor', '$2y$10$DUtfatkTvdvWXLbnZmV7Eux7OvDUp7c/Xhyy7tAjMhtp8qZPw0OTy', 'userGestor', 'user_logged.png', '2021-05-13', 13, 0, 1, 0),
-('userModerador', '$2y$10$OZttXem0XvM006BJ/gzeDOcIS7URd1GIZyj.G5njaOkeiHoxcj8Oi', 'userModerador', 'user_logged.png', '2021-05-13', NULL, 0, 0, 1),
-('userPrueba', '$2y$10$chV7iF0WazYj.hrPr0opaud2F8AzbTFF52.IHAwO3pk/yyvNuINaK', 'Nombre de Usuario', 'andresimage.jpg', '2021-05-13', NULL, 0, 0, 0),
-('VictorRuiz', '$2y$10$bCibIZPjee.LuJDbZ1cxM.T56s3JMEGE.NdDq5sRT2h.eInfxyWWS', 'Victor Ruiz', 'victorrimage.jpg', '2021-05-14', 3, 1, 1, 0),
-('Yaiza', '$2y$10$.L60ULCR0tvQ1G8iQWm.C.SPO1kCmiuTc5rpwnT4SCQwaEHf23NJ.', 'Yaiza López', 'yaizaimage.jpg', '2021-05-14', 7, 0, 1, 1);
+INSERT INTO `usuarios` (`user`, `password`, `name`, `image`, `date_joined`, `watching`, `admin`, `content_manager`, `moderator`, `premium`, `premium_validity`) VALUES
+('Abart', '$2y$10$5zI7DgRddbEBqD9jTZUZfu/PhyZDtdMmjvhVxH.NTrku7/nKLflQu', 'Aser Bartolomé', 'aserimage.jpg', '2021-05-14', 11, 1, 0, 0, 0, NULL),
+('AndresYunda', '$2y$10$VAi05OvJBsPhz1qouNn8T.EOTXaLbO7Hl84wE6ehi6i.oKLEBGaFK', 'Andres Yunda', 'andresimage.jpg', '2021-05-14', 6, 1, 1, 0, 1, '2021-12-01'),
+('charlyvary', '$2y$10$LoJ.u7/PtUgDGD6S8if8Xufp89neFLl2a8wafnQ54Af2dWDs2S.D.', 'Carlos Varela', 'carlosimage.jpg', '2021-05-14', 14, 0, 0, 1, 0, NULL),
+('Ditochoza', '$2y$10$2J3rT2Y3MFbZzl3HRQ2BFe79b7xfo5BaX5jXSpzSviqF.8cBk5rOm', 'Víctor Choza', 'victorcimage.jpg', '2021-05-14', 16, 1, 1, 1, 1, '2021-08-03'),
+('Lolita', '$2y$10$l4MxYoqJlwKKBSF.Ef4/K.UCjmXMBB6Kz2Dj7NtSOuhUW1wGNtAha', 'Lolita Davis', 'user_logged.png', '2021-05-13', NULL, 0, 0, 0, 0, NULL),
+('María', '$2y$10$s6EphqO5qS5Lrda0EXwnPuNjjlSIIk3DOgYW5QDJXvPtRw1C2FAlm', 'María Sánchez', 'user_logged.png', '2021-05-13', 2, 0, 0, 0, 0, NULL),
+('Paco123', '$2y$10$9B3hkr7QvzjoHSyKEaH1D.vO7TJPa2jX7WTnGDofBNNxOnyZEG6Bm', 'Paco López', 'user_logged.png', '2021-05-13', NULL, 0, 0, 0, 0, NULL),
+('userAdmin', '$2y$10$4XWfC7h2/m74aIi.iPdMFeciNcat0sGQxa7o2ZFQ2uCHpavX67r2O', 'userAdmin', 'user_logged.png', '2021-05-13', NULL, 1, 0, 0, 0, NULL),
+('userGestor', '$2y$10$DUtfatkTvdvWXLbnZmV7Eux7OvDUp7c/Xhyy7tAjMhtp8qZPw0OTy', 'userGestor', 'user_logged.png', '2021-05-13', 13, 0, 1, 0, 0, NULL),
+('userModerador', '$2y$10$OZttXem0XvM006BJ/gzeDOcIS7URd1GIZyj.G5njaOkeiHoxcj8Oi', 'userModerador', 'user_logged.png', '2021-05-13', NULL, 0, 0, 1, 0, NULL),
+('userPrueba', '$2y$10$chV7iF0WazYj.hrPr0opaud2F8AzbTFF52.IHAwO3pk/yyvNuINaK', 'Nombre de Usuario', 'andresimage.jpg', '2021-05-13', NULL, 0, 0, 0, 0, NULL),
+('VictorRuiz', '$2y$10$bCibIZPjee.LuJDbZ1cxM.T56s3JMEGE.NdDq5sRT2h.eInfxyWWS', 'Victor Ruiz', 'victorrimage.jpg', '2021-05-14', 3, 1, 1, 0, 0, NULL),
+('Yaiza', '$2y$10$.L60ULCR0tvQ1G8iQWm.C.SPO1kCmiuTc5rpwnT4SCQwaEHf23NJ.', 'Yaiza López', 'yaizaimage.jpg', '2021-05-14', 7, 0, 1, 1, 0, NULL);
 
 --
 -- Volcado de datos para la tabla `usuarios_actores_directores`

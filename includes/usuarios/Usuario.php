@@ -4,6 +4,7 @@ namespace es\ucm\fdi\aw\usuarios;
 use es\ucm\fdi\aw\Aplicacion as App;
 use es\ucm\fdi\aw\peliculas\Pelicula;
 
+
 class Usuario
 {
 
@@ -26,7 +27,7 @@ class Usuario
         if ($rs) {
             if ( $rs->num_rows == 1) {
                 $fila = $rs->fetch_assoc();
-                $usuario = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator']);
+                $usuario = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator'], $fila['premium']);
                 $result = $usuario;
             }
             $rs->free();
@@ -50,7 +51,7 @@ class Usuario
 		$rs = $conn->query($query);
 		if ($rs) {
 		  while($fila = $rs->fetch_assoc()) {
-			$result[] = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator']);
+			$result[] = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator'],$fila['premium']);
 		  }
 		  $rs->free();
 		}
@@ -66,7 +67,7 @@ class Usuario
         $rs = $conn->query($query);
         if ($rs && $rs->num_rows == 1) {
             $fila = $rs->fetch_assoc();
-            $user = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator']);
+            $user = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator'],$fila['premium']);
             $rs->free();
     
             return $user;
@@ -74,18 +75,18 @@ class Usuario
         return false;
     }
     
-    public static function crea($user, $password, $name, $image, $date_joined, $watching, $admin, $content_manager, $moderator)
+    public static function crea($user, $password, $name, $image, $date_joined, $watching, $admin, $content_manager, $moderator,$premium)
     {
         $usuario = self::buscaUsuario($user);
         if ($usuario) {
             return false;
         }
         $image = $image == NULL ? "user_logged.png" : $image;
-        $usuario = new Usuario($user, self::hashPassword($password), $name, $image, $date_joined, $watching, $admin, $content_manager, $moderator);
+        $usuario = new Usuario($user, self::hashPassword($password), $name, $image, $date_joined, $watching, $admin, $content_manager, $moderator, $premium);
         return self::guarda($usuario);
     }
 
-    public static function editar($user, $password, $passwordComprobar, $name, $image, $admin, $content_manager, $moderator)
+    public static function editar($user, $password, $passwordComprobar, $name, $image, $admin, $content_manager, $moderator,$premium)
     {
         $usuario = self::buscaUsuario($user);
         if ($usuario && $usuario->compruebaPassword($passwordComprobar)) {
@@ -94,8 +95,8 @@ class Usuario
             $admin = $admin ?? $usuario->admin;
             $content_manager = $content_manager ??  $usuario->content_manager;
             $moderator = $moderator ?? $usuario->moderator;
-            
-            $usuario = new Usuario($user, $password, $name, $image, null, null, $admin, $content_manager, $moderator);
+            $premium = $premium ?? $usuario-> premium;
+            $usuario = new Usuario($user, $password, $name, $image, null, null, $admin, $content_manager, $moderator, $premium);
 
             return self::guarda($usuario);
         }
@@ -174,7 +175,7 @@ class Usuario
 		$rs = $conn->query($query);
 		if ($rs) {
 		  while($fila = $rs->fetch_assoc()) {
-			$result[] = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator']);
+			$result[] = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator'], $fila['premium']);
 		  }
 		  $rs->free();
 		}
@@ -225,6 +226,26 @@ class Usuario
       return $result;
     }
 
+
+    public static function acPremium($meses, $user)
+    {
+        $result = false;
+
+        $app = App::getSingleton();
+        $conn = $app->conexionBd();
+
+        $query = sprintf("UPDATE usuarios SET premium_validity = DATE_ADD(NOW(), INTERVAL %d *30 DAY) , premium = 1  WHERE `user` = '%s' "
+            , $meses
+            , $user);
+        $result = $conn->query($query);
+        if (!$result) {
+            error_log($conn->error);
+        }
+
+        return $result;
+    }
+
+
     private $user;
 
     private $password;
@@ -245,7 +266,9 @@ class Usuario
 	
 	private $film;
 
-    private function __construct($user, $password, $name, $image, $date_joined, $watching, $admin, $content_manager, $moderator)
+    private $premium;
+
+    private function __construct($user, $password, $name, $image, $date_joined, $watching, $admin, $content_manager, $moderator, $premium)
     {
         $this->user= $user;
         $this->password = $password;
@@ -256,8 +279,12 @@ class Usuario
         $this->admin = $admin;
         $this->content_manager = $content_manager;
         $this->moderator = $moderator;
+        $this->premium = $premium;
 		$this->film = Pelicula::buscaPorId($this->watching);
+
     }
+
+
 
     public function film()
     {
@@ -302,6 +329,11 @@ class Usuario
     public function moderator()
     {
         return $this->moderator;
+    }
+
+    public function premium()
+    {
+        return $this->premium;
     }
 
     public function compruebaPassword($password)

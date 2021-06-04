@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-05-2021 a las 12:43:55
--- Versión del servidor: 10.4.17-MariaDB
--- Versión de PHP: 7.4.15
+-- Tiempo de generación: 04-06-2021 a las 13:41:52
+-- Versión del servidor: 10.4.19-MariaDB
+-- Versión de PHP: 8.0.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -162,6 +162,18 @@ CREATE TABLE `peliculas_plataformas` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `planes`
+--
+
+CREATE TABLE `planes` (
+  `id` int(11) NOT NULL,
+  `meses` int(11) NOT NULL,
+  `precio` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `plataformas`
 --
 
@@ -201,7 +213,9 @@ CREATE TABLE `usuarios` (
   `watching` int(11) DEFAULT NULL,
   `admin` tinyint(4) NOT NULL DEFAULT 0,
   `content_manager` tinyint(4) NOT NULL DEFAULT 0,
-  `moderator` tinyint(4) NOT NULL DEFAULT 0
+  `moderator` tinyint(4) NOT NULL DEFAULT 0,
+  `premium` tinyint(1) NOT NULL,
+  `premium_validity` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='La columna ''watching'' hará la función de estado del usuario. En caso de que esté viendo una película, el id de esta aparecerá en este campo. En caso de no estar viendo nada, este campo estará en NULL';
 
 -- --------------------------------------------------------
@@ -329,6 +343,12 @@ ALTER TABLE `peliculas_plataformas`
   ADD KEY `fk_plataforma_pelicula` (`film_id`);
 
 --
+-- Indices de la tabla `planes`
+--
+ALTER TABLE `planes`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `plataformas`
 --
 ALTER TABLE `plataformas`
@@ -442,6 +462,12 @@ ALTER TABLE `peliculas_generos`
 -- AUTO_INCREMENT de la tabla `peliculas_plataformas`
 --
 ALTER TABLE `peliculas_plataformas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `planes`
+--
+ALTER TABLE `planes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

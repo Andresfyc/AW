@@ -145,6 +145,7 @@ class Aplicacion
 	  $_SESSION['esAdmin'] = $usuario->admin();
 	  $_SESSION['esGestor'] = $usuario->content_manager();
 	  $_SESSION['esModerador'] = $usuario->moderator();
+	  $_SESSION['esPremium'] = $usuario->premium();
 	  $_SESSION['image'] = $usuario->image();
     }
 
@@ -158,6 +159,7 @@ class Aplicacion
       unset($_SESSION['esAdmin']);
       unset($_SESSION['esGestor']);
       unset($_SESSION['esModerador']);
+      unset($_SESSION['esPremium']);
       unset($_SESSION['image']);
   
   
@@ -207,4 +209,10 @@ class Aplicacion
       return $_SESSION['esGestor'];
     }
 
+    public function esPremium()
+    {
+        $this->compruebaInstanciaInicializada();
+        return $_SESSION['esPremium'];
+
+    }
 }

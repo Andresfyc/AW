@@ -5,17 +5,19 @@ require_once __DIR__ . '/includes/comun/suscripcion_utils.php';
 use es\ucm\fdi\aw\Aplicacion;
 
 
-
 function mostrarPlanes() {
 
-    $table = filter_input(INPUT_GET, 'table', FILTER_SANITIZE_STRING);
-    $value = filter_input(INPUT_GET, 'value', FILTER_SANITIZE_STRING);
-
     $app = Aplicacion::getSingleton();
-    $html = "<h1>Planes</h1>";
-    if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
+
+    if ($app->usuarioLogueado() && ($app->esPremium())) {
+        $html = "<h1>Socio</h1>";
+        $html .= "<a class='premium' ><i class='fa fa-star' ></i> Premium </a>";
+
+    }else{
+        $html = "<h1>Planes</h1>";
+        $html .= listaPlanes();
     }
-    $html .= listaPlanes();
+//    $html .= listaPlanes();
 
     return $html;
 }

@@ -1,8 +1,9 @@
 <?php
 
-
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\suscripcion\Suscripcion;
+use es\ucm\fdi\aw\usuarios\Usuario;
+
 
 
 function getDivPlanes($planes)
@@ -61,53 +62,59 @@ function eliminarPlanPorId($id)
 
 function pagarPaypal($plan)
 {
+    $app = Aplicacion::getSingleton();
     $total = $plan->precio();
+    $meses = $plan->meses();
+    $user = $app->user();
+
     $html = '<div id="paypal-button"></div>';
 
 
     $html .= <<<EOS
-    <script>
-        paypal.Button.render({
-    // Configure environment
-    env: 'sandbox',
-    client: {
-      sandbox: 'ARQl_tpu0jLSamyry95i9aHyXWF3O6byxfEfrUq_KGHVHNp9othxvOYoPSQcDXOm2sDHwrJWH450V405',
-      production: 'demo_production_client_id'
-    },
-    // Customize button (optional)
-    locale: 'es_ES',
-    style: {
-      size: 'small',
-      color: 'gold',
-      shape: 'pill',
-    },
+        <script>
+            paypal.Button.render({
+            // Configure environment
+        env: 'sandbox',
+        client: {
+        sandbox: 'ARQl_tpu0jLSamyry95i9aHyXWF3O6byxfEfrUq_KGHVHNp9othxvOYoPSQcDXOm2sDHwrJWH450V405',
+        production: 'demo_production_client_id'
+        },
+        // Customize button (optional)
+        locale: 'es_ES',
+        style: {
+            size: 'small',
+            color: 'gold',
+            shape: 'pill',
+        },
 
-    // Enable Pay Now checkout flow (optional)
-    commit: true,
+           // Enable Pay Now checkout flow (optional)
+        commit: true,
 
-    // Set up a payment
-    payment: function(data, actions) {
-      return actions.payment.create({
-        transactions: [{
-          amount: {
-            total: '$total',
-            currency: 'EUR'
-          }
-        }]
-      });
-    },
-    // Execute the payment
-    onAuthorize: function(data, actions) {
-      return actions.payment.execute().then(function() {
-        // Show a confirmation message to the buyer
-        window.alert('Thank you for your purchase!');
-        window.location="/FilmSwap3/premium.php";
-      });
-    }
-    }, '#paypal-button');
+        // Set up a payment
+        payment: function(data, actions) {
+          return actions.payment.create({
+            transactions: [{
+              amount: {
+                total: '$total',
+                currency: 'EUR'
+              }
+            }]
+          });
+        },
+        // Execute the payment
+        onAuthorize: function(data, actions) {
+          return actions.payment.execute().then(function() {
+            // Show a confirmation message to the buyer
+            window.alert('Thank you for your purchase!');
+        EOS;
+        Usuario::acPremium($meses, $user );
 
-    </script>
+        $html .= ' window.location="/FilmSwap3/premium.php"; ';
+        $html .= ' }); ';
+        $html .= ' } ';
+        $html .= ' }, "#paypal-button"); ';
+        $html .= ' </script> ';
 
-    EOS;
+
     return $html;
 }

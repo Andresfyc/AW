@@ -57,7 +57,6 @@ class Suscripcion
         $app = App::getSingleton();
         $conn = $app->conexionBd();
 
-        echo "$plan->id";
         $query = sprintf("UPDATE planes P SET meses = %d, precio=%d WHERE P.id=%d"
             , $plan->meses
             , $plan->precio
