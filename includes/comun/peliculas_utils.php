@@ -40,16 +40,17 @@ function mostrarPortadaPeliculas($limit=NULL) {
     $listaUltimasPeliculasAnadidas = listaPeliculas('id', 0, $limit, 'peliculas', 'id');
 	$pelicula = Pelicula::ultimaPeliculaWatching($user, $limit);
 
+    $aux = "";
 	 if($app->usuarioLogueado()){
-           foreach($pelicula as $peli){
+        foreach($pelicula as $peli){
            foreach($peli->genres() as $genre){
-			   
-			   $aux = listaPeliculasGen('rating', null, $genre->id(), $limit);
-			   
-			   }
-            }
-          }
-     }
+               
+			   $aux = listaPeliculasGen('rating', null, $genre->id(), $limit);   
+			}
+        }
+    
+    }
+     
 
     $html=<<<EOS
         <h1>Página principal</h1>
@@ -57,15 +58,13 @@ function mostrarPortadaPeliculas($limit=NULL) {
         $ultimasPeliculasEstrenadas
         <h3> Últimas películas añadidas </h3>
         $listaUltimasPeliculasAnadidas
-        <h3> Peliculas basadas en  </h3>
+        <h3> Peliculas basadas en</h3>
         $aux
-       
+        
     EOS;
+
+
 	
-
-
-
-
     return $html;
 }
 function mostrarPeliculasVer($user, $limit=NULL) {
