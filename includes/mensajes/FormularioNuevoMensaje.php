@@ -31,16 +31,17 @@ class FormularioNuevoMensaje extends Form
 
 
         $camposFormulario = <<<EOF
-            <fieldset>
+            <div class="grupo-fomulario">
                 $htmlErroresGlobales
-                <div class="grupo-control">
-                    <input class="control" type="hidden" name="id" value="$id" readonly/>
-                    <input class="control" type="hidden" name="name" value="$name" readonly/>
-                    <input class="control" type="hidden" name="time" value="$time" readonly/>
-                    <label>Mensaje:</label> <textarea class="control" type="text" name="text" value="$mensaje" />$mensaje</textarea>$errorText
+                <h1>Añadir Mensaje</h1>
+                    <input type="hidden" name="id" value="$id" readonly/>
+                    <input  type="hidden" name="name" value="$name" readonly/>
+                    <input  type="hidden" name="time" value="$time" readonly/>
+                    <textarea class="control" type="text" name="text" value="$mensaje" placeholder="Mensaje..." required />$mensaje</textarea>$errorText
+                
+                <button type="submit" name="nuevoMensaje">Publicar</button>
                 </div>
-                <div class="grupo-control"><button type="submit" name="nuevoMensaje">Publicar</button></div>
-            </fieldset>
+            
         EOF;
         return $camposFormulario;
     }

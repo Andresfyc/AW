@@ -28,20 +28,23 @@ class FormularioNuevoEventoTema extends Form
 
         $camposFormulario = <<<EOF
             <fieldset>
+                <div class="grupo-editar">
                 $htmlErroresGlobales
-                <div class="grupo-control">
-                    <label>Nombre del evento/tema:</label> <input class="control" type="text" name="name" value="$name" />$errorName
+                
+                    <div class="col-25"><label>Evento/tema:</label> </div>
+                    <div class="col-75"><input class="control" type="text" name="name" value="$name" />$errorName</div>
+                
+                    <div class="col-25"><label>Descripción:</label> </div>
+                    <div class="col-75"> <textarea class="control" type="text" name="description" value="$description" />$description</textarea>$errorDescription</div>
+            
+                    <div class="col-25"><label>Fecha (Evento):</label> </div>
+                    <div class="col-75"><input class="control" type="date" name="date" value="$date" />$errorDate</div>
+             
+                    <div class="col-25"><label>Hora (Evento):</label> </div>
+                    <div class="col-75"><input class="control" type="time" name="time" value="$time" />$errorTime</div>
+                
+                <div><button type="submit" name="nueva">Añadir</button></div>
                 </div>
-                <div class="grupo-control">
-                    <label>Descripción:</label> <textarea class="control" type="text" name="description" value="$description" />$description</textarea>$errorDescription
-                </div>
-                <div class="grupo-control">
-                    <label>Fecha (Si es evento):</label> <input class="control" type="date" name="date" value="$date" />$errorDate
-                </div>
-                <div class="grupo-control">
-                    <label>Hora (Si es evento):</label> <input class="control" type="time" name="time" value="$time" />$errorTime
-                </div>
-                <div class="grupo-control"><button type="submit" name="nueva">Añadir</button></div>
             </fieldset>
         EOF;
         return $camposFormulario;

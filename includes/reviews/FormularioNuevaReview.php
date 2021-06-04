@@ -26,15 +26,17 @@ class FormularioNuevaReview extends Form
 
 
         $camposFormulario = <<<EOF
-            <fieldset>
+              <div class="grupo-fomulario">
                 $htmlErroresGlobales
-                <div class="grupo-control">
+                <h1>Añadir Review</h1>
                     <input class="control" type="hidden" name="id" value="$id" readonly/>
-                    <label>Review:</label> <textarea class="control" type="text" name="review" value="$review" />$review</textarea>$errorReview
-                    <label>Puntuación:</label> <input class="control" type="number" name="rating" value="$rating" />$errorRating
-                </div>
-                <div class="grupo-control"><button type="submit" name="nuevaReview">Publicar</button></div>
-            </fieldset>
+                    
+                    <textarea class="control" type="text" name="review" value="$review" placeholder="Review..." required/>$review</textarea>$errorReview
+                    
+                    <input class="control" type="number" name="rating" value="$rating" placeholder="Puntuación"/>$errorRating
+                
+                <button type="submit" name="nuevaReview">Publicar</button>
+            </div>
         EOF;
         return $camposFormulario;
     }

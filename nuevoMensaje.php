@@ -12,7 +12,7 @@ $htmlFormNuevoMensaje = $form->gestiona();
 $tituloPagina = 'Añadir Mensaje';
 
 $contenidoPrincipal = <<<EOS
-    <h4>Añadir Mensaje</h4>
+<!--    <h4>Añadir Mensaje</h4>-->
     $htmlFormNuevoMensaje
 EOS;
 

@@ -18,7 +18,7 @@ $htmlFormNuevoGenero = $form->gestiona();
 $tituloPagina = 'Añadir Género';
 
 $contenidoPrincipal = <<<EOS
-    <h1>Añadir Género</h1>
+<!--    <h1>Añadir Género</h1>-->
     $htmlFormNuevoGenero
 EOS;
 

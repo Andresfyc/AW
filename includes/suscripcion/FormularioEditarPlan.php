@@ -34,16 +34,20 @@ class FormularioEditarPlan extends Form
 
         $camposFormulario = <<<EOF
         <fieldset>
+            <div class="grupo-editar">
             $htmlErroresGlobales
                  <input class="control" type="hidden" name="id" value="$id" readonly/>
-            <div class="grupo-control">
-                <label>Meses:</label> <input class="control" type="text" name="meses" value="$meses" />$errorMeses
-            </div>
-            <div class="grupo-control">
-                <label>Precio:</label> <input class="control" type="text" name="precio" value="$precio" /> $errorPrecio
-            </div>
+            
+                <div class="col-25"><label>Meses:</label> </div>
+                 <div class="col-75"><input class="control" type="text" name="meses" value="$meses" />$errorMeses</div>
+            
+            
+                <div class="col-25"><label>Precio:</label> </div>
+                <div class="col-75"> <input class="control" type="text" name="precio" value="$precio" /> $errorPrecio</div>
+            
          
-            <div class="grupo-control"><button type="submit" name="registro">Actualizar</button></div>
+                <div> <button type="submit" name="registro">Actualizar</button></div>
+            </div>
         </fieldset>
     EOF;
         return $camposFormulario;

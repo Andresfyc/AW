@@ -171,9 +171,14 @@ div.saludo {
 
 fieldset {
     border: 1px solid #666666;
-    width: 15em;
+    width: 35em;
     margin: 0 auto;
     background: #373737;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    flex-direction: column;
+
 }
 
 legend {
@@ -572,7 +577,7 @@ figure:hover > figcaption {
 }
 
 .plan {
-    margin: 5px auto ;
+    margin: 5px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -588,7 +593,6 @@ figure:hover > figcaption {
 .plan > p {
     text-align: center;
 }
-
 
 
 .plan a {
@@ -618,38 +622,51 @@ figure:hover > figcaption {
     border-color: #1C1C1C;
 }
 
-/*** Login ***/
+/*** Formularios  ***/
 
-.login{
+.grupo-fomulario {
     justify-content: center;
     grid-gap: 2px;
-    margin: 5% auto ;
+    margin: 5% auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 350px;
-    width: 380px;
+    width: 300px;
     border-style: solid;
     border-color: #666666; /**/
     border-width: 0.5px;
     background-color: #373737; /**/
 }
 
-#imgLogin{
+.grupo-fomulario #imgLogin {
     width: 50%;
 }
 
-.inputLogin{
+.grupo-fomulario > input {
     padding: 10px 10px;
     border-radius: 5px;
     font-size: 100%;
+    margin-top: 5px;
+    width: 52%;
 }
 
-.login > p{
-    margin-top: 0px;
+.grupo-fomulario > input[type=password]{
+    padding: 10px 10px;
+    border-radius: 5px;
+    margin-top: 5px;
+    width: 52%;
 }
 
-.login > button {
+.grupo-fomulario > textarea{
+    padding: 10px 10px;
+    border-radius: 5px;
+    font-size: 100%;
+    margin-top: 5px;
+    width: 52%;
+    height: 80px;
+}
+
+.grupo-fomulario > button {
     background-color: #666666;
     color: white;
     border: 1px solid #373737;
@@ -658,11 +675,85 @@ figure:hover > figcaption {
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 20px;
     font-size: 100%;
-    width: 45%;
+    width: 50%;
 }
 
-.login > button:hover {
+.grupo-fomulario > button:hover {
     background-color: #1DB954;
     color: white;
+}
+
+/*** Formularios Editar ***/
+
+.grupo-editar {
+    border-radius: 5px;
+    background-color: #373737;
+    padding: 20px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-evenly;
+
+}
+
+.grupo-editar div > button {
+    background-color: #666666;
+    color: white;
+    border: 1px solid #373737;
+    border-radius: 5px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 100%;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.grupo-editar div > button:hover {
+    background-color: #1DB954;
+    color: white;
+}
+
+.grupo-editar .col-25 > label {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+    font-size: medium;
+}
+
+.grupo-editar > a {
+    resize: vertical;
+    margin-top: 6px;
+}
+
+.col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+}
+
+.grupo-editar .col-75 > input[type=text], input[type=date], input[type=time], input[type=password], select , textarea {
+    border: 2px solid #666666;
+    resize: vertical;
+    padding: 5px 20px;
+    border-radius: 5px;
+    width: 220px;
+}
+
+.col-75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+}
+
+.grupo-editar .col-75 > textarea {
+    height: 160px;
 }

@@ -121,71 +121,76 @@ class FormularioEditarPelicula extends Form
 
     $camposFormulario = <<<EOF
         <fieldset>
+            <div class="grupo-editar">
             $htmlErroresGlobales
             <input class="control" type="hidden" name="id" value="$id" readonly/>
             <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
-            <div class="grupo-control">
-                <label>Nombre de la película:</label> <input class="control" type="text" name="title" value="$title" />$errorTitle
-            </div>
-            <div class="grupo-control">
-                <label>Imagen:</label> <input class="control" type="file" name="image" value="$image" />$errorImage
-            </div>
-            <div class="grupo-control">
-                <label>Fecha publicación:</label> <input class="control" type="date" name="date_released" value="$date_released" />$errorDate_released
-            </div>
-            <div class="grupo-control">
-                <label>Duración:</label> <input class="control" type="text" name="duration" value="$duration" />$errorDuration
-            </div>
-            <div class="grupo-control">
-                <label>País:</label> <input class="control" type="text" name="country" value="$country"/>$errorCountry
-            </div>
-            <div class="grupo-control">
-                <label>Trama:</label> <textarea class="control" type="text" name="plot" value="$plot" />$plot</textarea>$errorPlot
-            </div>
-            <div class="grupo-control">
-                <label>Plataformas:</label>
-                <ul>
+            
+                <div class="col-25"><label>Película:</label> </div>
+                <div class="col-75"><input class="control" type="text" name="title" value="$title" />$errorTitle </div>
+          
+            
+                <div class="col-25"><label>Imagen:</label> </div>
+                 <div class="col-75"><input class="control" type="file" name="image" value="$image" />$errorImage</div>
+         
+               <div class="col-25"> <label>Publicación:</label> </div>
+               <div class="col-75"><input class="control" type="date" name="date_released" value="$date_released" />$errorDate_released</div>
+            
+                <div class="col-25"><label>Duración:</label> </div>
+                <div class="col-75"><input class="control" type="text" name="duration" value="$duration" />$errorDuration</div>
+          
+                <div class="col-25"><label>País:</label></div>
+                 <div class="col-75"><input class="control" type="text" name="country" value="$country"/>$errorCountry</div>
+           
+                <div class="col-25"><label>Trama:</label></div>
+                <div class="col-75"><textarea class="control" type="text" name="plot" value="$plot" />$plot</textarea>$errorPlot </div>
+           
+               <div class="col-25"> <label>Plataformas:</label></div>
+               <div class="col-75"> <ul>
     EOF;
 
     $camposFormulario .= self::platforms();
 
     $camposFormulario .= <<<EOF
                 </ul>
-            </div>
-            <a href="{$RUTA_APP}nuevaPeliculaPlataforma.php?id=$id&prevPage=editarPelicula&prevId=$id">Añadir Plataforma</a>
-            <div class="grupo-control">
-                <label>Géneros:</label> <select name="genres[]" multiple>
+           
+                 <div><a href="{$RUTA_APP}nuevaPeliculaPlataforma.php?id=$id&prevPage=editarPelicula&prevId=$id">Añadir Plataforma</a> </div></div>
+            
+                <div class="col-25"><label>Géneros:</label></div> 
+                <div class="col-75"><select name="genres[]" multiple>
     EOF;
 
     $camposFormulario .= self::genres();
 
     $camposFormulario .= <<<EOF
                 </select>
-            </div>
-            <a href="{$RUTA_APP}nuevoGenero.php?prevPage=editarPelicula&prevId=$id">Añadir Género</a>
-            <div class="grupo-control">
-                <label>Actores:</label> <select name="actors[]" multiple>
+            
+                <div><a href="{$RUTA_APP}nuevoGenero.php?prevPage=editarPelicula&prevId=$id">Añadir Género</a></div></div>
+           
+               <div class="col-25"> <label>Actores:</label></div> 
+               <div class="col-75"><select name="actors[]" multiple>
     EOF;
 
     $camposFormulario .= self::actors();
 
     $camposFormulario .= <<<EOF
                 </select>
-            </div>
-            <a href="{$RUTA_APP}nuevoActorDirector.php?ad=0&prevPage=editarPelicula&prevId=$id">Añadir Actor</a>
+           
+                 <div><a href="{$RUTA_APP}nuevoActorDirector.php?ad=0&prevPage=editarPelicula&prevId=$id">Añadir Actor</a></div></div>
             
-            <div class="grupo-control">
-                <label>Directores:</label> <select name="directors[]" multiple>
+            
+                <div class="col-25"><label>Directores:</label> </div>
+                <div class="col-75"><select name="directors[]" multiple>
     EOF;
 
     $camposFormulario .= self::directors();
 
     $camposFormulario .= <<<EOF
                 </select>
-            </div>
-            <a href="{$RUTA_APP}nuevoActorDirector.php?ad=1&prevPage=editarPelicula&prevId=$id">Añadir Director</a>
-            <div class="grupo-control"><button type="submit" name="editar">Confirmar</button></div>
-        </fieldset>
+                 <div> <a href="{$RUTA_APP}nuevoActorDirector.php?ad=1&prevPage=editarPelicula&prevId=$id">Añadir Director</a></div></div>
+                <div><button type="submit" name="editar">Confirmar</button></div>
+                </div>
+    </fieldset>
     EOF;
     return $camposFormulario;
   }

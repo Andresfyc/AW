@@ -34,16 +34,18 @@ class FormularioEditarMensaje extends Form
     //TODO Añadir lo de la imagen
     $camposFormulario = <<<EOF
       <fieldset>
+        <div class="grupo-editar">
           $htmlErroresGlobales
           <input class="control" type="hidden" name="id" value="$id" readonly/>
           <input class="control" type="hidden" name="id2" value="$id2" readonly/>
           <input class="control" type="hidden" name="name" value="$name" readonly/>
           <input class="control" type="hidden" name="time" value="$time" readonly/>
-          <div class="grupo-control">
-              <label>Mensaje:</label> <textarea class="control" type="text" name="text" value="$text" />$text</textarea>$errorText
-          </div>
           
-          <div class="grupo-control"><button type="submit" name="editar">Confirmar</button></div>
+             <div class="col-25"><label>Mensaje:</label> </div>
+             <div class="col-75"> <textarea class="control" type="text" name="text" value="$text" />$text</textarea>$errorText</div>
+
+                <div><button type="submit" name="editar">Confirmar</button></div>
+          </div>
       </fieldset>
     EOF;
     return $camposFormulario;

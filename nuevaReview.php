@@ -19,7 +19,7 @@ $reviews = getReviewPorIdPelicula($idPelicula);
 
 if(!existeReviewUsuarioPelicula($idPelicula, $user)){
     $contenidoPrincipal = <<<EOS
-        <h1>Añadir Review</h1>
+    <!--       <h1>Añadir Review</h1>-->
         $htmlFormNuevaReview
     EOS;
 }  else{

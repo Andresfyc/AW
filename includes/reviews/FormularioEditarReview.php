@@ -34,15 +34,20 @@ class FormularioEditarReview extends Form
 
     $camposFormulario = <<<EOF
     <fieldset>
+        <div class="grupo-editar">
         $htmlErroresGlobales
         <input class="control" type="hidden" name="id" value="$id" readonly/>
         <input class="control" type="hidden" name="filmId" value="$filmId" readonly/>
-        <div class="grupo-control">
-            <label>Review:</label> <textarea class="control" type="text" name="reviewStr" value="$reviewStr" />$reviewStr</textarea>$errorReview
-            <label>Review:</label> <input class="control" type="number" name="rating" value="$rating" />$errorRating
-        </div>
         
-        <div class="grupo-control"><button type="submit" name="editar">Confirmar</button></div>
+             <div class="col-25"><label>Review:</label> </div>
+             <div class="col-75"> <textarea class="control" type="text" name="reviewStr" value="$reviewStr" />$reviewStr</textarea>$errorReview</div>
+            
+             <div class="col-25"><label>Review:</label> </div>
+             <div class="col-75"><input class="control" type="number" name="rating" value="$rating" />$errorRating</div>
+       
+        
+            <div><button type="submit" name="editar">Confirmar</button></div>
+        </div>
     </fieldset>
     EOF;
     return $camposFormulario;

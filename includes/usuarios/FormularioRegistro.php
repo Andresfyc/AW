@@ -23,22 +23,20 @@ class FormularioRegistro extends Form
         $errorPassword2 = self::createMensajeError($errores, 'password2', 'span', array('class' => 'error'));
 
         $html = <<<EOF
-            <fieldset>
+            <div class="grupo-fomulario">
                 $htmlErroresGlobales
-                <div class="grupo-control">
-                    <label>Nombre de usuario:</label> <input class="control" type="text" name="user" value="$user" />$errorUser
-                </div>
-                <div class="grupo-control">
-                    <label>Nombre completo:</label> <input class="control" type="text" name="name" value="$name" />$errorName
-                </div>
-                <div class="grupo-control">
-                    <label>Password:</label> <input class="control" type="password" name="password" />$errorPassword
-                </div>
-                <div class="grupo-control">
-                    <label>Vuelve a introducir el Password:</label> <input class="control" type="password" name="password2" />$errorPassword2
-                </div>
-                <div class="grupo-control"><button type="submit" name="registro">Registrar</button></div>
-            </fieldset>
+                <h1>Regístrate</h1>
+                
+                     <input  type="text" name="user" value="$user" placeholder="Usuario" required/>$errorUser
+                
+                     <input  type="text" name="name" value="$name"  placeholder="Nombre" required/>$errorName
+              
+                    <input  type="password" name="password" placeholder="Password" required/>$errorPassword
+                
+                    <input  type="password" name="password2" placeholder="Password" required/>$errorPassword2
+                
+                <button type="submit" name="registro">Registrar</button>
+            </div>
         EOF;
         return $html;
     }

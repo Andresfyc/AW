@@ -44,25 +44,28 @@ class FormularioNuevoActorDirector extends Form
 
         $camposFormulario = <<<EOF
         <fieldset>
+            <div class="grupo-editar">
             $htmlErroresGlobales
             <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
             <input class="control" type="hidden" name="actor_director" value="$actor_director" readonly/>
-            <div class="grupo-control">
-                <label>Nombre del $adString:</label> <input class="control" type="text" name="name" value="$name" />$errorName
+            
+                <div class="col-25"><label>$adString:</label> </div>
+                <div class="col-75"><input class="control" type="text" name="name" value="$name" placeholder="Nombre" required  />$errorName</div>
+            
+                <div class="col-25"><label>Imagen:</label> </div>
+                <div class="col-75"><input class="control" type="file" name="image" value="$image" />$errorImage</div>
+          
+                <div class="col-25"><label>Descripción:</label></div>
+                <div class="col-75"> <textarea class="control" type="text" name="description" value="$description" placeholder="Descripción..." required />$description</textarea>$errorDescription</div>
+            
+                <div class="col-25"><label>Nacimiento:</label> </div>
+                <div class="col-75"><input class="control" type="date" name="birth_date" value="$birth_date" required />$errorBirth_date</div>
+           
+                <div class="col-25"><label>Nacionalidad:</label> </div>
+                <div class="col-75"><input class="control" type="text" name="nationality" value="$nationality" required/>$errorNationality</div>
+            
+                <div><button type="submit" name="editar">Confirmar</button></div>
             </div>
-            <div class="grupo-control">
-                <label>Imagen:</label> <input class="control" type="file" name="image" value="$image" />$errorImage
-            </div>
-            <div class="grupo-control">
-                <label>Descripción:</label> <textarea class="control" type="text" name="description" value="$description" />$description</textarea>$errorDescription
-            </div>
-            <div class="grupo-control">
-                <label>Fecha de nacimiento:</label> <input class="control" type="date" name="birth_date" value="$birth_date" />$errorBirth_date
-            </div>
-            <div class="grupo-control">
-                <label>Nacionalidad:</label> <input class="control" type="text" name="nationality" value="$nationality"/>$errorNationality
-            </div>
-            <div class="grupo-control"><button type="submit" name="editar">Confirmar</button></div>
         </fieldset>
         EOF;
         return $camposFormulario;

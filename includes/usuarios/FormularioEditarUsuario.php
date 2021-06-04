@@ -36,26 +36,29 @@ class FormularioEditarUsuario extends Form
 
     $camposFormulario = <<<EOF
         <fieldset>
+        
+            <div class="grupo-editar">
             $htmlErroresGlobales
             
                 <input class="control" type="hidden" name="user" value="$user"  readonly/>$errorUser
         
-            <div class="grupo-control">
-                <label>Nombre completo:</label> <input class="control" type="text" name="name" value="$name" />$errorName
-            </div>
-            <div class="grupo-control">
-                <label>Imagen:</label> <input class="control" type="file" name="image" value="$image" />$errorImage
-            </div>
-            <div class="grupo-control">
-                <label>Password Actual:</label> <input class="control" type="password" name="passwordComprobar" />$errorPasswordComprobar
-            </div>
-            <div class="grupo-control">
-                <label>Password Nueva:</label> <input class="control" type="password" name="password" />$errorPassword
-            </div>
-            <div class="grupo-control">
-                <label>Repetir Password Nueva:</label> <input class="control" type="password" name="password2" />$errorPassword2
-            </div>
-            <div class="grupo-control"><button type="submit" name="registro">Actualizar</button></div>
+                <div class="col-25"><label>Nombre:</label> </div>
+                <div class="col-75"><input class="control" type="text" name="name" value="$name" />$errorName</div>
+           
+                <div class="col-25"><label>Imagen:</label> </div>
+                <div class="col-75"><input class="control" type="file" name="image" value="$image" />$errorImage</div>
+           
+                <div class="col-25"><label>Password Actual:</label> </div>
+                <div class="col-75"><input  type="password" name="passwordComprobar" />$errorPasswordComprobar</div>
+            
+                <div class="col-25"><label>Password Nueva:</label> </div>
+                <div class="col-75"><input  type="password" name="password" />$errorPassword</div>
+           
+                <div class="col-25"><label>Repetir Password Nueva:</label> </div>
+                <div class="col-75"><input  type="password" name="password2" />$errorPassword2</div>
+            
+                <div><button type="submit" name="registro">Actualizar</button></div>    
+           </div>
         </fieldset>
     EOF;
     return $camposFormulario;

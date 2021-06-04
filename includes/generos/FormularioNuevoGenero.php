@@ -24,14 +24,16 @@ class FormularioNuevoGenero extends Form
 
 
         $camposFormulario = <<<EOF
-            <fieldset>
+            <div class="grupo-fomulario">
                 $htmlErroresGlobales
+                <h1>Añadir Género</h1>
                 <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
-                <div class="grupo-control">
-                    <label>Nombre del género:</label> <input class="control" type="text" name="name" value="$name" />$errorName
-                </div>
-                <div class="grupo-control"><button type="submit" name="nueva">Añadir</button></div>
-            </fieldset>
+                
+             
+                    <input class="control" type="text" name="name" value="$name" placeholder="Género..." required />$errorName
+                <button type="submit" name="nueva">Añadir</button>
+                
+           </div>
         EOF;
         return $camposFormulario;
     }

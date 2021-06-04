@@ -50,12 +50,14 @@ class FormularioEditarPeliculaPlataforma extends Form
 
     $camposFormulario = <<<EOF
         <fieldset>
+            <div class="grupo-editar">
             $htmlErroresGlobales
             <input class="control" type="hidden" name="id" value="$id" readonly/>
             <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
             
-            <div class="grupo-control">
-            <label>Plataforma:</label> <select name="platform">
+            
+            <div class="col-25"><label>Plataforma:</label> </div>
+             <div class="col-75"><select name="platform">
     EOF;
 
     $camposFormulario .= self::platforms();
@@ -63,11 +65,13 @@ class FormularioEditarPeliculaPlataforma extends Form
     $camposFormulario .= <<<EOF
             </select>
             </div>
-            <div class="grupo-control">
-                <label>Link:</label> <input class="control" type="text" name="link" value="$link" />$errorLink
-            </div>
             
-            <div class="grupo-control"><button type="submit" name="editar">Confirmar</button></div>
+               <div class="col-25"> <label>Link:</label> </div>
+                 <div class="col-75"><input class="control" type="text" name="link" value="$link" />$errorLink</div>
+            
+            
+                <div><button type="submit" name="editar">Confirmar</button></div>
+            </div>
         </fieldset>
     EOF;
     return $camposFormulario;
