@@ -490,8 +490,7 @@ figure:hover > figcaption {
 
 /*** Panel Izquierda ***/
 #sidebarIzq #logo {
-    width: 140px;
-    height: 115px;
+    width: 75%;
 }
 
 /*** usuario_utils.php ***/
@@ -619,3 +618,51 @@ figure:hover > figcaption {
     border-color: #1C1C1C;
 }
 
+/*** Login ***/
+
+.login{
+    justify-content: center;
+    grid-gap: 2px;
+    margin: 5% auto ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 350px;
+    width: 380px;
+    border-style: solid;
+    border-color: #666666; /**/
+    border-width: 0.5px;
+    background-color: #373737; /**/
+}
+
+#imgLogin{
+    width: 50%;
+}
+
+.inputLogin{
+    padding: 10px 10px;
+    border-radius: 5px;
+    font-size: 100%;
+}
+
+.login > p{
+    margin-top: 0px;
+}
+
+.login > button {
+    background-color: #666666;
+    color: white;
+    border: 1px solid #373737;
+    border-radius: 5px;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 100%;
+    width: 45%;
+}
+
+.login > button:hover {
+    background-color: #1DB954;
+    color: white;
+}
