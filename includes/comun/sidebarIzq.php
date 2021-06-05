@@ -13,14 +13,23 @@ function mostrarActoresDirectores($actorDirector) {
 		echo "<p>Inicia sesión para ver tus actores y directores</p>";
 	}
 }
+
+function mostrarMenuAdmin(){
+    $app = Aplicacion::getSingleton();
+    if ($app->usuarioLogueado() && $app->esAdmin()) {
+        require("includes/comun/menuAdmin_utils.php");
+    }
+}
+
 ?>
 <aside id="sidebarIzq">
 	<div id="topSide">
-		<img id="logo" src="img/logo2.png" alt="filmswap logo" >
-<!--		<form id="buscador" name="buscador" method="post" action="././buscar.php">-->
-<!--			<input id="buscar" name="buscar" type="text" placeholder="Buscar" autofocus>-->
-<!--		</form>-->
+        <a href="index.php"><img id="logo" src="img/logo2.png" alt="filmswap logo" ></a>
 	</div>
+    <div class="menuAdmin">
+        <?php
+            mostrarMenuAdmin();
+        ?>
 	<div id="contentSide">
 		<h3> Tus actores favoritos </h3>
 		<?php

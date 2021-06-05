@@ -15,6 +15,7 @@ class FormularioRegistro extends Form
         $user = $datos['user'] ?? '';
         $name = $datos['name'] ?? '';
 
+
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
         $errorUser = self::createMensajeError($errores, 'user', 'span', array('class' => 'error'));
@@ -23,7 +24,7 @@ class FormularioRegistro extends Form
         $errorPassword2 = self::createMensajeError($errores, 'password2', 'span', array('class' => 'error'));
 
         $html = <<<EOF
-            <div class="grupo-fomulario">
+                <div class="grupo-fomulario">
                 $htmlErroresGlobales
                 <h1>Regístrate</h1>
                 
@@ -34,10 +35,25 @@ class FormularioRegistro extends Form
                     <input  type="password" name="password" placeholder="Password" required/>$errorPassword
                 
                     <input  type="password" name="password2" placeholder="Password" required/>$errorPassword2
-                
+         EOF;
+
+        $app = Aplicacion::getSingleton();
+        if ($app->usuarioLogueado() && $app->esAdmin()) {
+            $html .= <<<EOF
+                      <div class="checkboxes">
+                        <label><input type="checkbox" name="manager" value="1">Cont. Manager</label>
+                        <label><input type="checkbox" name="moderador"value="1">Moderador </label>
+                        <label><input type="checkbox" name="admin" value="1">Admin </label>
+                     </div>
+            EOF;
+
+        }
+
+        $html .= <<<EOF
                 <button type="submit" name="registro">Registrar</button>
-            </div>
+           </div>
         EOF;
+
         return $html;
     }
     
@@ -64,15 +80,37 @@ class FormularioRegistro extends Form
         if ( empty($password2) || strcmp($password, $password2) !== 0 ) {
             $result['password2'] = "Los passwords deben coincidir";
         }
-        
+
+        $moderador = $datos['moderador']?? null;;
+        if ( empty($moderador) ) {
+            $moderador = 0;
+        }
+
+        $manager = $datos['manager']?? null;;
+        if ( empty($manager) ) {
+            $manager = 0;
+        }
+
+        $admin = $datos['admin'] ?? null;;
+        if ( empty($admin) ) {
+            $admin = 0;
+        }
+
+
         if (count($result) === 0) {
-            $usuario = Usuario::crea($user, $password, $name, '', '', null, 0, 0, 0,0);
+
+            $usuario = Usuario::crea($user, $password, $name, '', '', null, $admin, $manager, $moderador,0);
             if ( ! $usuario ) {
                 $result[] = "El usuario ya existe";
             } else {
                 $app = Aplicacion::getSingleton();
-                $app->login($usuario);
-                $result = RUTA_APP.'index.php';
+                if($app->esAdmin()){
+                    $result = RUTA_APP.'index.php';
+                }else{
+                    $app->login($usuario);
+                    $result = RUTA_APP.'index.php';
+                }
+
             }
         }
         return $result;

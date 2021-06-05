@@ -21,10 +21,8 @@ function mostrarPlanes() {
 
     return $html;
 }
-function dropdown_ordenacion() {
 
 
-}
 
 $tituloPagina = 'Premium';
 $contenidoPrincipal=mostrarPlanes();

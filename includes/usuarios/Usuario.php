@@ -77,6 +77,7 @@ class Usuario
     
     public static function crea($user, $password, $name, $image, $date_joined, $watching, $admin, $content_manager, $moderator,$premium)
     {
+
         $usuario = self::buscaUsuario($user);
         if ($usuario) {
             return false;
@@ -120,11 +121,14 @@ class Usuario
     {
         $app = App::getSingleton();
         $conn = $app->conexionBd();
-        $query=sprintf("INSERT INTO usuarios(user, password, name, image, date_joined) VALUES('%s', '%s', '%s', '%s', CURDATE())"
+        $query=sprintf("INSERT INTO usuarios(user, password, name, image, date_joined, admin, content_manager, moderator) VALUES('%s', '%s', '%s', '%s', CURDATE(), '%s', '%s', '%s')"
             , $conn->real_escape_string($usuario->user)
             , $conn->real_escape_string($usuario->password)
             , $conn->real_escape_string($usuario->name)
-            , $conn->real_escape_string($usuario->image));
+            , $conn->real_escape_string($usuario->image)
+            , $conn->real_escape_string($usuario->admin)
+            , $conn->real_escape_string($usuario->content_manager)
+            , $conn->real_escape_string($usuario->moderator));
         if ( $conn->query($query) ) {
             $usuario->id = $conn->insert_id;
         } else {

@@ -686,6 +686,20 @@ figure:hover > figcaption {
     color: white;
 }
 
+.checkboxes{
+    margin-top: 10px;
+}
+
+.checkboxes label {
+    display: inline-block;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+.checkboxes input {
+    vertical-align: middle;
+}
+
+
 /*** Formularios Editar ***/
 
 .grupo-editar {
@@ -756,4 +770,73 @@ figure:hover > figcaption {
 
 .grupo-editar .col-75 > textarea {
     height: 160px;
+}
+
+
+
+/****** Menu Admin ******/
+
+.menuAdmin{
+    margin-top: 20px;
+}
+
+ul.mAdmin,
+ul.mAdmin * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+ul.mAdmin {
+    margin: 10px auto;
+    padding: 0;
+    list-style: none;
+    width: 100%;
+    font-size: 18px;
+}
+ul.mAdmin li {
+    list-style: none;
+}
+ul.mAdmin li a {
+    display: block;
+    padding: 10px 10px 10px 20px;
+    background: #1C1C1C;
+    color: white;
+    border-bottom: 1px  solid #666;
+    /*border-top: 1px solid #666;*/
+    text-decoration: none;
+    box-sizing: border-box;
+}
+ul.mAdmin li ul {
+    max-height: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: hidden;
+    transition: .3s all ease-in;
+}
+ul.mAdmin li li a {
+    padding: 10px 10px 10px 40px;
+    background: #262626;
+    color: white;
+    font-size: 16px;
+    border: 0;
+    /*border-bottom: 1px solid #ccc;*/
+    box-sizing: border-box;
+}
+ul.mAdmin li li:last-child a {
+    border-bottom: 0;
+}
+ul.mAdmin li:hover ul {
+    max-height: 300px;
+    transition: .3s all ease-in;
+}
+ul.mAdmin li a:hover {
+    background: #1DB954;
+    color: white;
+}
+
+ul.mAdmin li:hover ul,
+ul.mAdmin li:target ul {
+    max-height: 300px;
+    transition: .3s all ease-in;
 }
