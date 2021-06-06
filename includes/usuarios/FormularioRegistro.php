@@ -96,10 +96,10 @@ class FormularioRegistro extends Form
             $admin = 0;
         }
 
-    $hash = crypt($password);
+    //$hash = crypt($password);
         if (count($result) === 0) {
 
-            $usuario = Usuario::crea($user, $hash, $name, '', '', null, $admin, $manager, $moderador,0);
+            $usuario = Usuario::crea($user, $password, $name, '', '', null, $admin, $manager, $moderador,0);
             if ( ! $usuario ) {
                 $result[] = "El usuario ya existe";
             } else {
