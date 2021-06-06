@@ -11,19 +11,20 @@ $app = Aplicacion::getSingleton();
 
 $plan = buscaMesesPorId($id);
 
+$usuario = $app->usuarioLogueado();
 
 $tituloPagina = 'Carrito';
 
 $contenidoPrincipal = <<<EOS
-        <h1 id="tpremium">¿Por qué pasarte a Premium?</h1>
-            <div class="pagina-carrito">
-                <fieldset>
-                <legend>Plan: </legend>
-                    <h3> Meses: {$plan->meses()}</h3>
-                    <h3> Precio: {$plan->precio()} <i class="fa fa-eur"></i></h3>
+            <!--        <h1 id="tpremium">¿Por qué pasarte a Premium?</h1>-->
+                <div class="grupo-fomulario">
+                <h1>Plan</h1>  
+                    <label> Meses: {$plan->meses()} </label> 
+                    <label> Precio: {$plan->precio()} <i class="fa fa-eur"></i></label>
         EOS;
+
 $contenidoPrincipal.= pagarPaypal($plan);
-$contenidoPrincipal.= '</fieldset>';
-$contenidoPrincipal.= '<div>';
+$contenidoPrincipal .=  '<div>';
+
 
 require __DIR__ . '/includes/plantillas/plantilla.php';

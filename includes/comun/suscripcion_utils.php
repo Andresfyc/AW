@@ -20,7 +20,7 @@ function getDivPlanes($planes)
 			<a class="eliminar" href="./eliminarPlan.php?id={$plan->id()}&prevPage=premium&prevId={$plan->id()}">Eliminar</a>
 		EOS;
         } else {
-            $html .= '<h1>Suscribete Gil</h1>';
+            $html .= '<h1>Suscríbete</h1>';
         }
         $textMeses = $plan->meses();
         $textMeses = strlen($textMeses) > 40 ? substr($textMeses, 0, 40) . '...' : $textMeses;
@@ -66,6 +66,7 @@ function pagarPaypal($plan)
     $total = $plan->precio();
     $meses = $plan->meses();
     $user = $app->user();
+    $productId = $plan->id();
 
     $html = '<div id="paypal-button"></div>';
 
@@ -97,7 +98,7 @@ function pagarPaypal($plan)
               amount: {
                 total: '$total',
                 currency: 'EUR'
-              }
+              },
             }]
           });
         },
@@ -105,16 +106,18 @@ function pagarPaypal($plan)
         onAuthorize: function(data, actions) {
           return actions.payment.execute().then(function() {
             // Show a confirmation message to the buyer
-            window.alert('Thank you for your purchase!');
+            
+            
         EOS;
         Usuario::acPremium($meses, $user );
 
-        $html .= ' window.location="/FilmSwap3/premium.php"; ';
-        $html .= ' }); ';
-        $html .= ' } ';
-        $html .= ' }, "#paypal-button"); ';
-        $html .= ' </script> ';
-
+    $html .= <<<EOS
+            window.location="/FilmSwap3/verificador.php?paymentID="+data.paymentID+"&payerID="+data.payerID+"&token="+data.paymentToken+"&pid=$productId";
+            }); 
+             } 
+         }, "#paypal-button"); 
+      </script> 
+    EOS;
 
     return $html;
 }

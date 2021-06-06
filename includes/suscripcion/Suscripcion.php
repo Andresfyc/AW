@@ -20,7 +20,6 @@ class Suscripcion
         $app = App::getSingleton();
         $conn = $app->conexionBd();
         $query = sprintf("SELECT * FROM planes ORDER BY meses ASC");
-
         $rs = $conn->query($query);
         if ($rs) {
             while($fila = $rs->fetch_assoc()) {
@@ -32,24 +31,20 @@ class Suscripcion
         return $result;
     }
 
-    public static function inserta($plan)
+    private static function inserta($plan)
     {
-        $result = false;
         $app = App::getSingleton();
         $conn = $app->conexionBd();
-        $query = sprintf("INSERT INTO planes (meses, precio) VALUES('%d', '%d')"
+        $query=sprintf(" INSERT INTO planes(meses, precio) VALUES (%d,%d)"
             , $plan->meses
-            , $plan->precio);
-        $result = $conn->query($query);
-        if ($result) {
-            $plan->meses = $conn->insert_id;
-            $plan->rating = $conn->insert_rating; //TODO Arreglar
-            $result = $plan;
+            , $conn->real_escape_string($plan->precio));
+        if ( $conn->query($query) ) {
+            $plan->id = $conn->insert_id;
         } else {
-            error_log($conn->error);
+            echo "Error al insertar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
+            exit();
         }
-
-        return $result;
+        return $plan;
     }
 
     public static function actualiza($plan)
@@ -78,9 +73,10 @@ class Suscripcion
 
     public static function guarda($plan)
     {
-        echo "$plan->id";
-        echo "$plan->meses";
-        if ($plan->meses !== null) {
+
+        echo "BD- Guardar";
+
+        if ($plan->id !== null) {
             return self::actualiza($plan);
         }
         return self::inserta($plan);

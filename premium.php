@@ -9,11 +9,16 @@ function mostrarPlanes() {
 
     $app = Aplicacion::getSingleton();
 
+    if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
+        $html = "<h1>Planes</h1>";
+        $html .= '<a href="'.RUTA_APP.'nuevoPlan.php">Añadir Plan</a>';
+        $html .= listaPlanes();
+    }
     if ($app->usuarioLogueado() && ($app->esPremium())) {
-        $html = "<h1>Socio</h1>";
         $html .= "<a class='premium' ><i class='fa fa-star' ></i> Premium </a>";
 
-    }else{
+    }
+    else{
         $html = "<h1>Planes</h1>";
         $html .= listaPlanes();
     }

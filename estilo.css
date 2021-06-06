@@ -681,6 +681,12 @@ figure:hover > figcaption {
     width: 50%;
 }
 
+
+.grupo-fomulario > label {
+    margin-bottom: 10px;
+    font-size: medium;
+}
+
 .grupo-fomulario > button:hover {
     background-color: #1DB954;
     color: white;

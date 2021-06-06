@@ -11,7 +11,7 @@
     </li>
     <li><a href="#">Suscripciones</a>
         <ul>
-            <li><a href="URL31">Añadir Plan</a></li>
+            <li><a href="nuevoPlan.php">Añadir Plan</a></li>
         </ul>
     </li>
 </ul>
