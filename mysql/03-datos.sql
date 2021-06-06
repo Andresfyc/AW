@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-06-2021 a las 13:43:54
--- Versión del servidor: 10.4.19-MariaDB
--- Versión de PHP: 8.0.6
+-- Tiempo de generación: 06-06-2021 a las 10:48:33
+-- Versión del servidor: 10.4.17-MariaDB
+-- Versión de PHP: 7.4.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -21,33 +21,34 @@ SET time_zone = "+00:00";
 -- Base de datos: `film_swap_2`
 --
 
+
 --
 -- Volcado de datos para la tabla `actores_directores`
 --
 
 INSERT INTO `actores_directores` (`id`, `actor_director`, `name`, `description`, `birth_date`, `nationality`, `image`) VALUES
-(11, 0, 'Leonardo Di Caprio', '', '1974-11-11', 'Estadounidense', 'leonardodicaprio.jpg'),
-(12, 0, 'Adam Sandler', '', '1966-09-09', 'Estadounidense', 'adamsandler.jpg'),
-(13, 0, 'Jeniffer Aniston', '', '1969-02-11', 'Estadounidense', 'jennifferaniston.jpg'),
-(14, 0, 'Javier Gutiérrez', '', '1971-01-17', 'Española', 'javiergutierrez.jpg'),
-(15, 0, 'Ryan Reynolds', '', '1976-10-23', 'Canadiense', 'ryanreynolds.jpg'),
-(16, 0, 'Chris Hemsworth', '', '1983-08-11', 'Australiano', 'chrishemsworth.jpg'),
-(17, 0, 'Karra Elejalde', '', '1960-10-10', 'Española', 'karraelejalde.jpg'),
-(18, 1, 'Joe Russo', '', '1971-07-18', 'Estadounidense', 'joerusso.jpg'),
-(19, 1, 'Anthony Russo', '', '1970-02-03', 'Estadounidense', 'anthonyrusso.jpg'),
-(20, 1, 'Emilio Martínez-Lázaro', '', '1945-11-30', 'Española', 'emiliomartinezlazaro.jpg'),
-(21, 1, 'Lluís Quílez', '', '1978-12-08', 'Española', 'lluisquilez.jpg'),
-(22, 1, 'Denis Dugan', '', '1946-09-05', 'Estadounidense', 'denisdugan.jpg'),
-(23, 1, 'Javier Fesser', '', '1964-02-15', 'Española', 'javierfesser.jpg'),
-(24, 1, 'Tim Miller', '', '1964-10-10', 'Estadounidense', 'timmiller.jpg'),
-(25, 1, 'Michael Bay', '', '1965-02-17', 'Estadounidense', 'michaelbay.jpg'),
-(26, 1, 'Susanne Bier', '', '1960-04-15', 'Danesa', 'sussanebier.jpg'),
-(27, 1, 'James Cameron', '', '1954-09-16', 'Canadiense', 'jamescameron.jpg'),
+(11, 0, 'Leonardo Di Caprio', '​ es un actor, productor de cine y ambientalista estadounidense. Ha recibido numerosos premios entre los que destacan un Óscar al mejor actor; un premio BAFTA al mejor actor por su actuación en El renacido (2015); dos Globos de Oro al mejor actor de drama por sus actuaciones en El aviador (2004) y El renacido; y un Globo de Oro al mejor actor de comedia o musical por El lobo de Wall Street (2013). Adicionalmente, ha ganado el premio del Sindicato de Actores, el Oso de Plata y un Premio Chlotrudis.3​', '1974-11-11', 'Estadounidense', 'leonardodicaprio.jpg'),
+(12, 0, 'Adam Sandler', 'es un actor, guionista y productor de cine estadounidense. Luego de convertirse en miembro del elenco de Saturday Night Live, ha protagonizado una gran cantidad de películas de Hollywood que han recaudado cerca de dos mil millones de dólares de taquilla.', '1966-09-09', 'Estadounidense', 'adamsandler.jpg'),
+(13, 0, 'Jeniffer Aniston', 'conocida artísticamente como Jennifer Aniston, es una actriz de cine y televisión, directora y productora de cine estadounidense. En la década de 1990 se ganó el reconocimiento mundial interpretando a Rachel Green en la serie de televisión Friends.2​3​ Dicho papel le hizo ganar un Premio Emmy, un Premio Globo de Oro y un Premio del Sindicato de Actores, y cobrar en las dos últimas temporadas un millón de dólares por capítulo.', '1969-02-11', 'Estadounidense', 'jennifferaniston.jpg'),
+(14, 0, 'Javier Gutiérrez', ' es un actor de teatro, cine y televisión español, ganador de dos Premios Goya por sus actuaciones en las películas La isla mínima (2015) y El autor (2017), y también conocido por sus interpretaciones en series de televisión y películas como Estoy vivo, Los Serrano, Campeones o Águila Roja.', '1971-01-17', 'Española', 'javiergutierrez.jpg'),
+(15, 0, 'Ryan Reynolds', 'es un actor, productor de cine y empresario canadiense-estadounidense.  El éxito y el reconocimiento le llegaron con su participación en la comedia titulada Two Guys and a Girl (1998-2001), antes de que iniciara su carrera de comediante y actor dramático para la industria de cine de Hollywood.', '1976-10-23', 'Canadiense', 'ryanreynolds.jpg'),
+(16, 0, 'Chris Hemsworth', ' conocido simplemente como Chris Hemsworth, es un actor, actor de voz y productor australiano. Criado en la comunidad de Bulman, al norte de Australia, Hemsworth mostró interés por la actuación a temprana edad e inició su carrera en 2002 con apariciones menores en series de televisión de su país. Años más tarde, se mudó a Sídney para conseguir mejores oportunidades y logró reconocimiento tras unirse al elenco principal de Home and Away, serie para la cual grabó 189 episodios en cuestión de tres años.', '1983-08-11', 'Australiano', 'chrishemsworth.jpg'),
+(17, 0, 'Karra Elejalde', 'Hijo de un músico y de un ama de casa, hasta los 14 años vivió en Salinas de Léniz (Guipúzcoa). Empezó a estudiar para ser electricista y también cursó estudios de pintura y escultura en la escuela de artes y oficios de Vitoria.1​  Elejalde cursó estudios dramáticos durante su periodo de Formación Profesional, e impartió cursos de interpretación en C. Molinuevo (Vitoria).', '1960-10-10', 'Española', 'karraelejalde.jpg'),
+(18, 1, 'Joe Russo', 'son dos hermanos directores, productores, guionistas y ocasionales actores de cine estadounidenses. Han dirigido la mayor parte de su trabajo en forma conjunta, y en ocasiones también trabajan como productores, guionistas, actores y editores. Ganaron un premio Emmy por su trabajo en la serie de comedia Arrested Development y un MTV Movie Award por mejor película con Avengers: Endgame. ', '1971-07-18', 'Estadounidense', 'joerusso.jpg'),
+(19, 1, 'Anthony Russo', 'son dos hermanos directores, productores, guionistas y ocasionales actores de cine estadounidenses. Han dirigido la mayor parte de su trabajo en forma conjunta, y en ocasiones también trabajan como productores, guionistas, actores y editores. Ganaron un premio Emmy por su trabajo en la serie de comedia Arrested Development y un MTV Movie Award por mejor película con Avengers: Endgame. ', '1970-02-03', 'Estadounidense', 'anthonyrusso.jpg'),
+(20, 1, 'Emilio Martínez-Lázaro', 'Nació en Madrid en 1945. Estudió en un colegio de jesuitas y más tarde empezó los estudios de ingeniería industrial, que abandonaría para dedicarse al cine.1​ Ejerció como crítico cinematográfico en revistas como Griffith y Nuestro cine hasta que decidió dirigir su primer trabajo, un cortometraje titulado Aspavientos (1969).1​ Le siguieron otros cortos como Camino al cielo (1970) y Amo mi cama rica (1970) —no debe confundirse con Amo tu cama rica de 1991—.', '1945-11-30', 'Española', 'emiliomartinezlazaro.jpg'),
+(21, 1, 'Lluís Quílez', 'Lluís Quílez Sala (Barcelona, 8 de diciembre de 1978) es un director, guionista y productor de cine español conocido por escribir y dirigir el largometraje Bajocero y el cortometraje Graffiti.', '1978-12-08', 'Española', 'lluisquilez.jpg'),
+(22, 1, 'Denis Dugan', 'es un actor, director de cine y televisión estadounidense, más conocido por su asociación con el actor cómico Adam Sandler, con quien dirigió las películas Happy Gilmore, Un papá genial, Los declaro marido y Larry, No te metas con Zohan, Grown Ups, Just Go With It, Jack y Jill y Grown Ups 2.', '1946-09-05', 'Estadounidense', 'denisdugan.jpg'),
+(23, 1, 'Javier Fesser', 'es un guionista y director de cine español, conocido por dirigir películas como El milagro de P. Tinto, dos adaptaciones de Mortadelo y Filemón, Camino y Campeones.', '1964-02-15', 'Española', 'javierfesser.jpg'),
+(24, 1, 'Tim Miller', 'más conocido como Tim Miller, es un director de cine y artista de efectos visuales estadounidense. Hizo su debut en la dirección de largometrajes con la película Deadpool, de 2016. Fue nominado al Óscar al mejor cortometraje animado como escritor y productor ejecutivo de Gopher Broke, de 2004. Miller también diseñó las secuencias del título de La chica del dragón tatuado, de 2011, y Thor: The Dark World, de 2013.', '1964-10-10', 'Estadounidense', 'timmiller.jpg'),
+(25, 1, 'Michael Bay', 'es un cineasta estadounidense conocido por dirigir y producir películas de acción de gran presupuesto caracterizadas por su corte rápido y el uso extensivo de efectos especiales, incluyendo frecuentemente explosiones.2​3​ Sus películas, que incluyen Armageddon (1998), Pearl Harbor (2001) y la franquicia de Transformers (2007-presente), han recaudado más de cinco mil millones de dólares en todo el mundo.4​', '1965-02-17', 'Estadounidense', 'michaelbay.jpg'),
+(26, 1, 'Susanne Bier', 'es una directora, guionista y productora de cine danesa. Se dio a conocer internacionalmente con películas realizadas bajo los parámetros del movimiento fílmico Dogma 95.', '1960-04-15', 'Danesa', 'sussanebier.jpg'),
+(27, 1, 'James Cameron', 'es un director, guionista, productor de cine, editor de cine, ingeniero, filántropo y explorador marino canadiense.1​2​  Empezó en la industria del cine como técnico en efectos especiales y después fue guionista y director de la película de acción y ciencia ficción The Terminator (1984). ', '1954-09-16', 'Canadiense', 'jamescameron.jpg'),
 (28, 0, 'Kyle Newacheck', '', '1984-01-23', 'Estadounidense', 'kylenewacheck.jpg'),
-(29, 0, 'Peter Berg', '', '1964-03-11', 'Estadounidense', 'peterberg.jpg'),
-(30, 0, 'Martin Scorsese', '', '1942-11-17', 'Estadounidense', 'martinscorsese.jpg'),
+(29, 0, 'Peter Berg', ' es un actor, productor y director de cine estadounidense. Hijo de padre judío y madre católica.', '1964-03-11', 'Estadounidense', 'peterberg.jpg'),
+(30, 0, 'Martin Scorsese', 'es un director, guionista y productor de cine estadounidense.1​ Con una trayectoria que abarca más de cincuenta años, las películas de Scorsese abordan temáticas relacionadas con el catolicismo, la identidad italoestadounidense o la criminalidad,2​ caracterizándose por su violencia, uso del lenguaje vulgar, estar ambientadas en la ciudad de Nueva York y la inclusión de canciones pop, rock y clásicas en la banda sonora.3', '1942-11-17', 'Estadounidense', 'martinscorsese.jpg'),
 (31, 0, 'Sam Hargrave', '', '1977-12-03', 'Estadounidense', 'samhargrave.jpg'),
-(32, 0, 'Jordan Peele', '', '1979-02-21', 'Estadounidense', 'jordanpeele.jpg'),
+(32, 0, 'Jordan Peele', 'es un actor, comediante, director y guionista estadounidense. Es conocido por protagonizar la serie de Comedy Central, Key & Peele y por ser parte del elenco de MADtv. En 2014 tuvo un rol recurrente en la serie de FX, Fargo.', '1979-02-21', 'Estadounidense', 'jordanpeele.jpg'),
 (33, 0, 'PEPEPPE', 'evento1 descripción', '2021-05-19', 'Francesa', 'endgame.jpg'),
 (34, 1, 'Lavavajillas', 'evento1 descripción', '2021-05-21', 'lala', 'endgame.jpg');
 
