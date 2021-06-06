@@ -43,7 +43,9 @@ class FormularioLogin extends Form
         $user =$datos['user'] ?? null;
         if ( empty($user) ) {
             $result['user'] = "El nombre de usuario no puede estar vacío";
-        }
+        }else if(Usuario::UsuarioRepetido($user)){
+			$result['user'] ="El nombre de usuario ya existe";
+		}
 
         $password = $datos['password'] ?? null;
         if ( empty($password) ) {
