@@ -37,7 +37,13 @@ class Usuario
         }
         return $result;
     }
-
+public static function UsuarioRepetido($user){
+		if(buscaUsuario($user)==false){
+		return false;
+		}else {
+			return true;
+		}
+	}
     public static function busqueda($search)
     {
 		$result = [];
