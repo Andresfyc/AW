@@ -10,11 +10,13 @@ class FormularioEditarPlan extends Form
 
     private $id;
     private $plan;
+    private $prevPage;
 
-    public function __construct($id)
+    public function __construct($id, $prevPage)
     {
         parent::__construct('formEditarPlan', $id);
         $this->id = $id;
+        $this->prevPage = $prevPage;
     }
 
     protected function generaCamposFormulario($datos, $errores = array())
@@ -23,7 +25,8 @@ class FormularioEditarPlan extends Form
         $id = $datos['id'] ?? $this->id;
         $this->plan = Suscripcion::buscaPorId($id);
         $meses = $datos['meses'] ?? $this->plan->meses();
-        $precio = $datos['precio'] ?? $this->plan->precio();;
+        $precio = $datos['precio'] ?? $this->plan->precio();
+        $prevPage = $datos['prevPage'] ?? $this->prevPage;
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
@@ -37,6 +40,7 @@ class FormularioEditarPlan extends Form
             <div class="grupo-editar">
             $htmlErroresGlobales
                  <input class="control" type="hidden" name="id" value="$id" readonly/>
+                 <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
             
                 <div class="col-25"><label>Meses:</label> </div>
                  <div class="col-75"><input class="control" type="text" name="meses" value="$meses" />$errorMeses</div>
@@ -73,18 +77,17 @@ class FormularioEditarPlan extends Form
         if ( empty($precio) || mb_strlen($precio) < 1 ) {
             $result['precio'] = "El precio tiene que tener una longitud de al menos 1 caracteres.";
         }
+        
+        $prevPage = $datos['prevPage'] ?? null;
 
 
         if (count($result) === 0) {
-            //$plan = Suscripcion::buscaPorId($meses);
             if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
-                echo "$id";
                 $plan = Suscripcion::editar($id, $meses, $precio);
                 if ( ! $plan  ) {
                     $result[] = "El plan ya existe";
                 } else {
-//                    $app->login($usuario);
-                    $result = RUTA_APP."premium.php";
+                    $result = "{$prevPage}";
                 }
             }
         }

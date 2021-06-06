@@ -196,6 +196,22 @@ button {
     /*margin-left: 100px;*/
 }
 
+.button-notif {
+    background-color: #1DB954;
+    margin-left: 10px;
+    border-radius: 8px;
+    border:none;
+}
+
+.button-notif:hover {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.button-notif:active {
+    background-color: #3e8e41;
+}
+
 #topSide {
     width: auto;
     height: 135px;
@@ -298,6 +314,15 @@ figure:hover > figcaption {
 }
 
 .row-mensaje > p {
+    padding-left: 15px;
+}
+
+.row-item {
+    width: 100%;
+    height: 25px;
+}
+
+.row-item > p {
     padding-left: 25px;
 }
 

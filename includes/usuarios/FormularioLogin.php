@@ -17,7 +17,7 @@ class FormularioLogin extends Form
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
-        $errorUser = self::createMensajeError($errores, 'user', 'span', array('class' => 'error'));
+        $errorUser = self::createMensajeError($errores, 'id', 'span', array('class' => 'error'));
         $errorPassword = self::createMensajeError($errores, 'password', 'span', array('class' => 'error'));
 
         // Se genera el HTML asociado a los campos del formulario y los mensajes de error.
@@ -43,9 +43,7 @@ class FormularioLogin extends Form
         $user =$datos['user'] ?? null;
         if ( empty($user) ) {
             $result['user'] = "El nombre de usuario no puede estar vacío";
-        }else if(Usuario::UsuarioRepetido($user)){
-			$result['user'] ="El nombre de usuario ya existe";
-		}
+        }
 
         $password = $datos['password'] ?? null;
         if ( empty($password) ) {

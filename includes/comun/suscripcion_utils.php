@@ -40,6 +40,25 @@ function getDivPlanes($planes)
     return $html;
 }
 
+function listadoPlanes()
+{
+	$app = Aplicacion::getSingleton();
+    $html = '<a href="'.RUTA_APP.'nuevoPlan.php">Añadir plan</a>';
+    $planes = Suscripcion::listaPlanes();
+    foreach($planes as $plan) {
+    
+        $html .= '<div class="row-item">';
+        $html .= "<p>Meses: {$plan->meses()} ({$plan->precio()}) ";
+        if ($app->usuarioLogueado() && ($app->esAdmin() || $app->esGestor())) {
+            $html .= '<a href="'.RUTA_APP.'editarPlan.php?id='.$plan->id().'&prevPage=planes">Editar</a>';
+            $html .= '<a href="'.RUTA_APP.'eliminarPlan.php?id='.$plan->id().'&prevPage=planes"> Eliminar</a>';
+        }
+        $html .= '</p></div>';
+    }
+
+    return $html;
+}
+
 
 function listaPlanes()
 {

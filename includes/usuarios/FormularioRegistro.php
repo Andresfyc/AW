@@ -18,7 +18,7 @@ class FormularioRegistro extends Form
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
-        $errorUser = self::createMensajeError($errores, 'user', 'span', array('class' => 'error'));
+        $errorUser = self::createMensajeError($errores, 'id', 'span', array('class' => 'error'));
         $errorName = self::createMensajeError($errores, 'name', 'span', array('class' => 'error'));
         $errorPassword = self::createMensajeError($errores, 'password', 'span', array('class' => 'error'));
         $errorPassword2 = self::createMensajeError($errores, 'password2', 'span', array('class' => 'error'));
@@ -81,20 +81,9 @@ class FormularioRegistro extends Form
             $result['password2'] = "Los passwords deben coincidir";
         }
 
-        $moderador = $datos['moderador']?? null;;
-        if ( empty($moderador) ) {
-            $moderador = 0;
-        }
-
-        $manager = $datos['manager']?? null;;
-        if ( empty($manager) ) {
-            $manager = 0;
-        }
-
-        $admin = $datos['admin'] ?? null;;
-        if ( empty($admin) ) {
-            $admin = 0;
-        }
+        $moderador = $datos['moderador']?? 0;
+        $manager = $datos['manager']?? 0;
+        $admin = $datos['admin'] ?? 0;
 
     //$hash = crypt($password);
         if (count($result) === 0) {

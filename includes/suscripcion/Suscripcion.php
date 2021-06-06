@@ -52,14 +52,18 @@ class Suscripcion
         $app = App::getSingleton();
         $conn = $app->conexionBd();
 
-        $query = sprintf("UPDATE planes P SET meses = %d, precio=%d WHERE P.id=%d"
+        $query = sprintf("UPDATE planes P SET meses = %d, precio=%g WHERE P.id=%d"
             , $plan->meses
             , $plan->precio
             , $plan->id);
-        if (!$conn->query($query)) {
-            error_log($conn->error);
-        } else if ($conn->affected_rows != 1) {
-            error_log("Se han actualizado '$conn->affected_rows' !");
+        if ($conn->query($query)) {
+            if ( $conn->affected_rows != 1) {
+                echo "No se ha podido actualizar el plan de meses: " . $plan->meses;
+                exit();
+            }
+        } else {
+            echo "Error al insertar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
+            exit();
         }
 
         return $plan;

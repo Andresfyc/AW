@@ -6,7 +6,7 @@ $tituloPagina = 'Swappers';
 $contenidoPrincipal='<h1>Swappers agregados</h1>';
 
 function mostrarSwappers() {
-	$userIn = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_STRING);
+	$userIn = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
 	$html="";
 	$html .= listaAmigos($userIn, null);
         

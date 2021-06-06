@@ -37,14 +37,7 @@ class Usuario
         }
         return $result;
     }
-public static function UsuarioRepetido($user){
-    /*
-		if(buscaUsuario($user)==false){
-		return false;
-		}else {
-			return true;
-		}*/
-	}
+    
     public static function busqueda($search)
     {
 		$result = [];
@@ -65,22 +58,6 @@ public static function UsuarioRepetido($user){
 
 		return $result;
     }
-
-    public static function buscaPorId($idUsuario)
-    {
-        $app = App::getSingleton();
-        $conn = $app->conexionBd();
-        $query = sprintf("SELECT * FROM usuarios WHERE id=%d", $idUsuario);
-        $rs = $conn->query($query);
-        if ($rs && $rs->num_rows == 1) {
-            $fila = $rs->fetch_assoc();
-            $user = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator'],$fila['premium']);
-            $rs->free();
-    
-            return $user;
-        }
-        return false;
-    }
     
     public static function crea($user, $password, $name, $image, $date_joined, $watching, $admin, $content_manager, $moderator,$premium)
     {
@@ -94,17 +71,17 @@ public static function UsuarioRepetido($user){
         return self::guarda($usuario);
     }
 
-    public static function editar($user, $password, $passwordComprobar, $name, $image, $admin, $content_manager, $moderator,$premium)
+    public static function editar($user, $password, $passwordComprobar, $name, $image, $admin, $content_manager, $moderator, $esAdmin)
     {
         $usuario = self::buscaUsuario($user);
-        if ($usuario && $usuario->compruebaPassword($passwordComprobar)) {
+        if ($usuario && $usuario->compruebaPassword($passwordComprobar) || $esAdmin) {
+            $name = $name ?? $usuario->name;
             $image = strlen($image) < 1 ? $usuario->image : $image;
             $password = strlen($password) < 1 ? $usuario->password : self::hashPassword($password);
             $admin = $admin ?? $usuario->admin;
             $content_manager = $content_manager ??  $usuario->content_manager;
             $moderator = $moderator ?? $usuario->moderator;
-            $premium = $premium ?? $usuario-> premium;
-            $usuario = new Usuario($user, $password, $name, $image, null, null, $admin, $content_manager, $moderator, $premium);
+            $usuario = new Usuario($user, $password, $name, $image, null, null, $admin, $content_manager, $moderator, $usuario-> premium);
 
             return self::guarda($usuario);
         }
@@ -178,6 +155,29 @@ public static function UsuarioRepetido($user){
         $app = App::getSingleton();
         $conn = $app->conexionBd();
 		$query = sprintf("SELECT u2.* FROM amigos u JOIN usuarios u1 ON u1.user = u.user JOIN usuarios u2 ON u2.user = u.friend WHERE u1.user = '%s'", $conn->real_escape_string($user));
+		if($limit) {
+		  $query = $query . ' LIMIT %d';
+		  $query = sprintf($query, $limit);
+		}
+
+		$rs = $conn->query($query);
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			$result[] = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator'], $fila['premium']);
+		  }
+		  $rs->free();
+		}
+
+		return $result;
+	}
+	
+	public static function listaUsuarios($limit=NULL)
+	{
+		$result = [];
+
+        $app = App::getSingleton();
+        $conn = $app->conexionBd();
+		$query = "SELECT * FROM usuarios";
 		if($limit) {
 		  $query = $query . ' LIMIT %d';
 		  $query = sprintf($query, $limit);

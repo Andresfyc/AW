@@ -10,11 +10,13 @@ class FormularioEditarEventoTema extends Form
 
     private $id;
     private $eventoTema;
+    private $prevPage;
 
-    public function __construct($id)
+    public function __construct($id, $prevPage)
     {
         parent::__construct('formEditarEventoTema', $id);
         $this->id = $id;
+        $this->prevPage = $prevPage;
     }
 
     protected function generaCamposFormulario($datos, $errores = array())
@@ -25,6 +27,7 @@ class FormularioEditarEventoTema extends Form
         $description = $datos['description'] ?? $this->eventoTema->description();
         $date = $datos['date'] ?? $this->eventoTema->timeDate();
         $time = $datos['time'] ?? $this->eventoTema->timeTime();
+        $prevPage = $datos['prevPage'] ?? $this->prevPage;
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
@@ -40,6 +43,7 @@ class FormularioEditarEventoTema extends Form
         <div class="grupo-editar">
             $htmlErroresGlobales
             <input class="control" type="hidden" name="id" value="$id" readonly/>
+            <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
             
                 <div class="col-25"><label>Evento/tema:</label> </div>
                 <div class="col-75"><input class="control" type="text" name="name" value="$name" />$errorName</div>
@@ -82,6 +86,8 @@ class FormularioEditarEventoTema extends Form
         if (empty($description)) {
             $result['description'] = "La descripción no puede quedar vacía.";
         }
+        
+        $prevPage = $datos['prevPage'] ?? null;
 
         $date = $datos['date'] ?? null;
         $time = $datos['time'] ?? null;
@@ -94,7 +100,7 @@ class FormularioEditarEventoTema extends Form
                 if (!$eventoTema) {
                     $result[] = "El evento/tema ya existe";
                 } else {
-                    $result = RUTA_APP . 'foro.php';
+                    $result = "{$prevPage}";
                 }
             }
         }

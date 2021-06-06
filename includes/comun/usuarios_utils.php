@@ -19,7 +19,7 @@ function getDivUsuario($user, $isSelf) {
     $perfil = '';
     $usuarioAmigo = '';
     if ($isSelf) {
-        $perfil = '<p><a href="'.$RUTA_APP.'editarPerfil.php?user='.$usuario->user().'">Editar Perfil</a></p>';
+        $perfil = '<p><a href="'.$RUTA_APP.'editarPerfil.php?id='.$usuario->user().'&prevPage=usuario&prevId='.$user.'&isSelf=1">Editar Perfil</a></p>';
     } else {
         if(array_key_exists('addAmigo', $_POST)) {
             addAmigo($app->user(), $user);
@@ -59,6 +59,10 @@ function getDivUsuario($user, $isSelf) {
     }
 }
 
+if(array_key_exists('notify', $_POST)) {
+    header("Refresh:0");
+}
+
 function listaAmigos($user, $limit=NULL)
 {
     $usuarios = Usuario::listaAmigos($user, $limit);
@@ -66,9 +70,11 @@ function listaAmigos($user, $limit=NULL)
     foreach($usuarios as $usuario) {
         $peliculaWatching = $usuario->film();
         $watching = '';
-        $swapper='<p><a href="usuario.php?user='.$usuario->user().'"> Swapper: '.$usuario->user().' </a></p>';
+        $swapper='<p><a href="usuario.php?id='.$usuario->user().'"> Swapper: '.$usuario->user().' </a></p>';
         if ($peliculaWatching) {
-            $watching .= '<p><a href="'.RUTA_APP.'pelicula.php?id='.$peliculaWatching->id().'"> Viendo: '.$peliculaWatching->title().' </a></p>';
+            $watching .= '<p><a href="'.RUTA_APP.'pelicula.php?id='.$peliculaWatching->id().'"> Viendo: '.$peliculaWatching->title().' </a> </p> <form method="post">
+            <input type="submit" name="notify" class="button-notif" value="Notificar"/>
+            </form>';
         }
 
         $html .=<<<EOS
@@ -133,8 +139,8 @@ function listaReviewsUser($user = NULL)
             $html .= "<p>{$review->time_created()}</p>";
             $html .= "<p>{$review->user()}</p><p>";
 			if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $review->user() == $app->user())) {
-                $html .= "<a href=\"./editarReview.php?id={$review->id()}\">Editar</a>";
-                $html .= "<a href=\"./eliminarReview.php?id={$review->id()}\"> Eliminar</a>";
+                $html .= "<a href=\"./editarReview.php?id={$review->id()}&prevPage=reviews&prevId={$user}\">Editar</a>";
+                $html .= "<a href=\"./eliminarReview.php?id={$review->id()}&prevPage=reviews&prevId={$user}\"> Eliminar</a>";
             }			
             $html .= '</p></div>';
             $html .= "<p>{$review->review()}</p>";
@@ -148,6 +154,25 @@ function listaReviewsUser($user = NULL)
     return $html;
 }
 
+function listadoUsuarios()
+{
+	$app = Aplicacion::getSingleton();
+    $html = '<a href="'.RUTA_APP.'registro.php">Registrar usuario</a>';
+    $usuarios = Usuario::listaUsuarios();
+    foreach($usuarios as $usuario) {
+        
+        $html .= '<div class="row-item">';
+        $html .= "<p>{$usuario->name()} ({$usuario->user()}) [{$usuario->date_joined()}]  ";
+        if ($app->usuarioLogueado() && $app->esAdmin()) {
+            $html .= '<a href="'.RUTA_APP.'editarPerfil.php?id='.$usuario->user().'&prevPage=usuarios&isSelf=0">Editar</a>';
+            $html .= '<a href="'.RUTA_APP.'eliminarUsuario.php?id='.$usuario->user().'&prevPage=usuarios"> Eliminar</a>';
+        }
+        $html .= '</p></div>';
+    }
+
+    return $html;
+}
+
 function busquedaUsuarios($search)
 {
     $usuarios = Usuario::busqueda($search);
@@ -156,7 +181,7 @@ function busquedaUsuarios($search)
         $html .= '<h3> Usuarios: </h3>';
         $html .= '<ul>';
         foreach($usuarios as $usuario) {
-            $html .= '<p><a href="'.RUTA_APP.'usuario.php?user='.$usuario->user().'">'.$usuario->name().' ('.$usuario->user().')</a></p>';
+            $html .= '<p><a href="'.RUTA_APP.'usuario.php?id='.$usuario->user().'">'.$usuario->name().' ('.$usuario->user().')</a></p>';
         }
         $html .= '</ul>';
     }

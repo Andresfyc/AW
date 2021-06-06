@@ -515,44 +515,6 @@ class Pelicula
       return $this->peliculasPlataformas;
   }
 
-  /*public function getId()
-  {
-    return $this->id;
-  }
-
-  public function getAutor()
-  {
-    if ($this->idAutor) {
-      $this->autor = Usuario::buscaPorId($this->idAutor);
-    }
-    return $this->autor;
-  }
-
-  public function setAutor($nuevoAutor)
-  {
-    $this->autor = $nuevoAutor;
-    $this->idAutor = $nuevoAutor->id();
-  }
-
-  public function getMensaje()
-  {
-    return $this->mensaje;
-  }
-
-  public function getMensajePadre()
-  {
-    if ($this->idMensajePadre) {
-      $this->mensajePadre = self::buscaPorId($this->idMensajePadre);
-    }
-    return $this->mensajePadre;
-  }
-
-  public function setMensajePadre($nuevoMensajePadre)
-  {
-    $this->mensajePadre = $nuevoMensajePadre;
-    $this->idMensajePadre = $nuevoMensajePadre->id();
-  }*/
-
   /* Métodos mágicos para que si existen métodos setPropiedad / getPropiedad se pueda hacer:
    *   $var->propiedad, que equivale a $var->getPropiedad()
    *   $var->propiedad = $valor, que equivale a $var->setPropiedad($valor)

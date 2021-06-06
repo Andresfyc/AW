@@ -6,6 +6,7 @@ use es\ucm\fdi\aw\peliculas\Pelicula;
 use es\ucm\fdi\aw\plataformas\Plataforma;
 use es\ucm\fdi\aw\plataformas\PeliculaPlataforma;
 use es\ucm\fdi\aw\reviews\Review;
+use es\ucm\fdi\aw\generos\Genero;
 
 /*
  * Funciones de apoyo
@@ -185,8 +186,8 @@ function listaReviews($reviews)
             $html .= "<p>{$review->time_created()}</p>";
             $html .= "<p>{$review->user()}</p><p>";
             if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $review->user() == $app->user())) {
-                $html .= "<a href=\"./editarReview.php?id={$review->id()}\">Editar</a>";
-                $html .= "<a href=\"./eliminarReview.php?id={$review->id()}\"> Eliminar</a>";
+                $html .= "<a href=\"./editarReview.php?id={$review->id()}&prevPage=pelicula&prevId={$review->film_id()}\">Editar</a>";
+                $html .= "<a href=\"./eliminarReview.php?id={$review->id()}&prevPage=pelicula&prevId={$review->film_id()}\"> Eliminar</a>";
             }
             $html .= '</p></div>';
             $html .= "<p>{$review->review()}</p>";
@@ -210,6 +211,63 @@ function busquedaActoresDirectores($search)
             $html .= "<p><a href=\"./actorDirector.php?id={$actorDirector->id()}\">{$actorDirector->name()} ({$text})</a></p>";
         }
         $html .= '</ul>';
+    }
+
+    return $html;
+}
+
+function listadoGeneros()
+{
+	$app = Aplicacion::getSingleton();
+    $html = '<a href="'.RUTA_APP.'nuevoGenero.php?prevPage=generos">Añadir género</a>';
+    $generos = Genero::listaGeneros();
+    foreach($generos as $genero) {
+    
+        $html .= '<div class="row-item">';
+        $html .= "<p>{$genero->name()} ";
+        if ($app->usuarioLogueado() && ($app->esAdmin() || $app->esGestor())) {
+            $html .= '<a href="'.RUTA_APP.'editarGenero.php?id='.$genero->id().'&prevPage=generos">Editar</a>';
+            $html .= '<a href="'.RUTA_APP.'eliminarGenero.php?id='.$genero->id().'&prevPage=generos"> Eliminar</a>';
+        }
+        $html .= '</p></div>';
+    }
+
+    return $html;
+}
+
+function listadoPlataformas()
+{
+	$app = Aplicacion::getSingleton();
+    $html = '<a href="'.RUTA_APP.'nuevaPlataforma.php?prevPage=plataformas">Añadir plataforma</a>';
+    $plataformas = Plataforma::listaPlataformas();
+    foreach($plataformas as $plataforma) {
+    
+        $html .= '<div class="row-item">';
+        $html .= "<p>{$plataforma->name()} ";
+        if ($app->usuarioLogueado() && ($app->esAdmin() || $app->esGestor())) {
+            $html .= '<a href="'.RUTA_APP.'editarPlataforma.php?id='.$plataforma->id().'&prevPage=plataformas">Editar</a>';
+            $html .= '<a href="'.RUTA_APP.'eliminarPlataforma.php?id='.$plataforma->id().'&prevPage=plataformas"> Eliminar</a>';
+        }
+        $html .= '</p></div>';
+    }
+
+    return $html;
+}
+
+function listadoActoresDirectores()
+{
+	$app = Aplicacion::getSingleton();
+    $html = '<a href="'.RUTA_APP.'nuevoActorDirector.php?prevPage=actoresDirectores">Añadir actor o director</a>';
+    $actoresDirectores = ActorDirector::listaActoresDirectores();
+    foreach($actoresDirectores as $actorDirector) {
+    
+        $html .= '<div class="row-item">';
+        $html .= "<p>{$actorDirector->name()} ";
+        if ($app->usuarioLogueado() && ($app->esAdmin() || $app->esGestor())) {
+            $html .= '<a href="'.RUTA_APP.'editarPlataforma.php?id='.$actorDirector->id().'&prevPage=actoresDirectores">Editar</a>';
+            $html .= '<a href="'.RUTA_APP.'eliminarPlataforma.php?id='.$actorDirector->id().'&prevPage=actoresDirectores"> Eliminar</a>';
+        }
+        $html .= '</p></div>';
     }
 
     return $html;

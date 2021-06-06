@@ -185,6 +185,29 @@ class ActorDirector
 
 		return $result;
   }
+	
+	public static function listaActoresDirectores($limit=NULL)
+	{
+		$result = [];
+
+        $app = App::getSingleton();
+        $conn = $app->conexionBd();
+		$query = "SELECT * FROM actores_directores";
+		if($limit) {
+		  $query = $query . ' LIMIT %d';
+		  $query = sprintf($query, $limit);
+		}
+
+		$rs = $conn->query($query);
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			$result[] = new ActorDirector($fila['id'], $fila['actor_director'], $fila['name'], $fila['description'], $fila['birth_date'], $fila['nationality'], $fila['image']);
+		  }
+		  $rs->free();
+		}
+
+		return $result;
+	}
 
 	public static function buscaActorDirectorPorPeliId ($id, $ad)
   {

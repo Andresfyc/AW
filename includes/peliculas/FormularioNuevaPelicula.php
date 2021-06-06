@@ -8,9 +8,11 @@ use es\ucm\fdi\aw\actoresDirectores\ActorDirector;
 
 class FormularioNuevaPelicula extends Form
 {
+    private $prevPage;
     
-    public function __construct() {
+    public function __construct($prevPage) {
         parent::__construct('formNuevaPelicula');
+        $this->prevPage = $prevPage;
     }
 
     protected function genres()
@@ -54,6 +56,7 @@ class FormularioNuevaPelicula extends Form
         $genres = $datos['genres'] ?? '';
         $actors = $datos['actors'] ?? '';
         $directors = $datos['directors'] ?? '';
+        $prevPage = $datos['prevPage'] ?? $this->prevPage;
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
@@ -70,6 +73,7 @@ class FormularioNuevaPelicula extends Form
                 <div class="grupo-editar">
                 $htmlErroresGlobales
                 
+                    <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
                      <div class="col-25"><label>Película:</label> </div>
                     <div class="col-75"><input class="control" type="text" name="title" value="$title" placeholder="Titulo..."/>$errorTitle</div>
           
@@ -167,6 +171,8 @@ class FormularioNuevaPelicula extends Form
         if (!move_uploaded_file($_FILES['image']['tmp_name'], $fichero_subido) && !empty($_FILES['image']['name'])) {
             $result['image'] = $_FILES['image']['name']."El fichero no se ha podido subir correctamente";
         }
+        
+        $prevPage = $datos['prevPage'] ?? null;
 
         $genres = $datos['genres'] ?? null;
         
@@ -184,7 +190,7 @@ class FormularioNuevaPelicula extends Form
                 if ( ! $pelicula ) {
                     $result[] = "La película ya existe";
                 } else {
-                    $result = RUTA_APP."peliculas.php";
+                    $result = "{$prevPage}";
                 }
             }
         

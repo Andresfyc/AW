@@ -132,6 +132,29 @@ class Genero
       }
       return $result;
   }
+	
+	public static function listaGeneros($limit=NULL)
+	{
+		$result = [];
+
+        $app = App::getSingleton();
+        $conn = $app->conexionBd();
+		$query = "SELECT * FROM generos";
+		if($limit) {
+		  $query = $query . ' LIMIT %d';
+		  $query = sprintf($query, $limit);
+		}
+
+		$rs = $conn->query($query);
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			  $result[] = new Genero($fila['id'], $fila['name']);
+		  }
+		  $rs->free();
+		}
+
+		return $result;
+	}
 
   public static function buscaPorPeliId ($id)
   {

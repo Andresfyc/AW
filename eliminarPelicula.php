@@ -28,7 +28,7 @@ else if(array_key_exists('eliminar', $_POST)) {
     $app = Aplicacion::getSingleton();
     if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
         eliminarPeliculaPorId($idPelicula);
-        header('Location: '.RUTA_APP.'peliculas.php');
+        header('Location: '.$prev);
     }
 }
 

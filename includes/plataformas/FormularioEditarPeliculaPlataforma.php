@@ -98,7 +98,7 @@ class FormularioEditarPeliculaPlataforma extends Form
     $prevPage = $datos['prevPage'] ?? null;
 
     if (count($result) === 0) {
-        if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin())) {
+        if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
             $peliculaPlataforma = PeliculaPlataforma::editar($id,null,$platform,$link);
             if ( ! $peliculaPlataforma  ) {
                 $result[] = "El link a la plataforma ya existe";

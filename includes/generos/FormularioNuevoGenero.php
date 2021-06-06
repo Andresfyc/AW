@@ -53,6 +53,7 @@ class FormularioNuevoGenero extends Form
 
         if (count($result) === 0) {
             if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin()))
+            {
                 $genero = Genero::crea($name);
                 if ( ! $genero ) {
                     $result[] = "El género ya existe";
@@ -60,7 +61,7 @@ class FormularioNuevoGenero extends Form
                     $result = "{$prevPage}";
                 }
             }
-        
+        }
         return $result;
     }
 }

@@ -8,15 +8,18 @@ use es\ucm\fdi\aw\Form;
 class FormularioNuevoPlan extends Form
 {
 
-    public function __construct() {
-        parent::__construct('formNuevoPlan');
+    private $prevPage;
 
+    public function __construct($prevPage) {
+        parent::__construct('formNuevoPlan');
+        $this->prevPage = $prevPage;
     }
 
     protected function generaCamposFormulario($datos, $errores = array())
     {
         $meses = $datos['meses'] ?? '';
         $precio = $datos['precio'] ?? '';
+        $prevPage = $datos['prevPage'] ?? $this->prevPage;
 
 
         // Se generan los mensajes de error si existen.
@@ -28,7 +31,8 @@ class FormularioNuevoPlan extends Form
         $html = <<<EOF
                 <div class="grupo-fomulario">
                 $htmlErroresGlobales
-                <h1>Nuevo PLan</h1>
+                <h1>Nuevo Plan</h1>
+                    <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
                 
                      <input  type="text" name="meses" value="$meses" placeholder="Meses..." required/>$errorMeses
                 
@@ -45,6 +49,7 @@ class FormularioNuevoPlan extends Form
     protected function procesaFormulario($datos)
     {
         $result = array();
+        $app = Aplicacion::getSingleton();
 
         $meses = $datos['meses'] ?? null;
         if ( empty($meses) ) {
@@ -55,15 +60,18 @@ class FormularioNuevoPlan extends Form
         if ( empty($precio) ) {
             $result['precio'] = "El precio de ser mayor que 0.";
         }
+        
+        $prevPage = $datos['prevPage'] ?? null;
 
 
         if (count($result) === 0) {
-
-            $plan = Suscripcion::crea($meses, $precio);
-            if ( ! $plan ) {
-                $result[] = "El Plan ya existe";
-            } else {
-                $result = RUTA_APP.'premium.php';
+            if ($app->esAdmin() || $app->esGestor()) {
+                $plan = Suscripcion::crea($meses, $precio);
+                if ( ! $plan ) {
+                    $result[] = "El Plan ya existe";
+                } else {
+                    $result = "{$prevPage}";
+                }
             }
         }
         return $result;

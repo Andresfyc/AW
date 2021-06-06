@@ -9,11 +9,13 @@ class FormularioEditarReview extends Form
 
   private $id;
   private $review;
+  private $prevPage;
 
-  public function __construct($id)
+  public function __construct($id, $prevPage)
   {
     parent::__construct('formEditarReview', $id);
     $this->id = $id;
+    $this->prevPage = $prevPage;
   }
 
   
@@ -24,6 +26,7 @@ class FormularioEditarReview extends Form
     $filmId = $datos['filmId'] ?? $this->review->film_id();
     $reviewStr = $datos['reviewStr'] ?? $this->review->review();
     $rating = $datos['rating'] ?? $this->review->stars();
+    $prevPage = $datos['prevPage'] ?? $this->prevPage;
       
 
     // Se generan los mensajes de error si existen.
@@ -36,6 +39,7 @@ class FormularioEditarReview extends Form
     <fieldset>
         <div class="grupo-editar">
         $htmlErroresGlobales
+        <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
         <input class="control" type="hidden" name="id" value="$id" readonly/>
         <input class="control" type="hidden" name="filmId" value="$filmId" readonly/>
         
@@ -74,6 +78,8 @@ class FormularioEditarReview extends Form
     if ( empty($rating) || $rating < 1 || $rating > 5 ) {
         $result['rating'] = "La puntuación debe estar entre 1 y 5";
     }
+        
+    $prevPage = $datos['prevPage'] ?? null;
 
     if (count($result) === 0) {
         $review = Review::buscaPorId($id);
@@ -82,7 +88,7 @@ class FormularioEditarReview extends Form
             if ( ! $review  ) {
                 $result[] = "La review ya existe";
             } else {
-                $result = RUTA_APP."pelicula.php?id={$filmId}";
+              $result = "{$prevPage}";";
             }
         }
     }

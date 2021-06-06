@@ -118,7 +118,7 @@ class Aplicacion
 	    $this->compruebaInstanciaInicializada();
 		if (! $this->conn ) {
 			$bdHost = $this->bdDatosConexion['host'];
-			$bdUser = $this->bdDatosConexion['user'];
+			$bdUser = $this->bdDatosConexion['id'];
 			$bdPass = $this->bdDatosConexion['pass'];
 			$bd = $this->bdDatosConexion['bd'];
 			

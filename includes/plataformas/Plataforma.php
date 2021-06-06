@@ -126,7 +126,30 @@ class Plataforma
   }
 
   return $result;
-  }
+}
+	
+	public static function listaPlataformas($limit=NULL)
+	{
+		$result = [];
+
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+		$query = "SELECT * FROM plataformas";
+		if($limit) {
+		  $query = $query . ' LIMIT %d';
+		  $query = sprintf($query, $limit);
+		}
+
+		$rs = $conn->query($query);
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			$result[] = new Plataforma($fila['id'], $fila['name'], $fila['image']);
+		  }
+		  $rs->free();
+		}
+
+		return $result;
+	}
 
   public static function plataformas()
   {

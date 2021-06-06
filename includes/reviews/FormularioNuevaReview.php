@@ -7,10 +7,12 @@ use es\ucm\fdi\aw\Form;
 class FormularioNuevaReview extends Form
 {
     private $id;
+    private $prevPage;
     
-    public function __construct($id) {
+    public function __construct($id, $prevPage) {
         parent::__construct('formNuevaReview');
         $this->id = $id;
+        $this->prevPage = $prevPage;
     }
 
     protected function generaCamposFormulario($datos, $errores = array())
@@ -18,6 +20,7 @@ class FormularioNuevaReview extends Form
         $id = $datos['id'] ?? $this->id;
         $review = $datos['review'] ?? '';
         $rating = $datos['rating'] ?? '';
+        $prevPage = $datos['prevPage'] ?? $this->prevPage;
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
@@ -29,6 +32,7 @@ class FormularioNuevaReview extends Form
               <div class="grupo-fomulario">
                 $htmlErroresGlobales
                 <h1>Añadir Review</h1>
+                    <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
                     <input class="control" type="hidden" name="id" value="$id" readonly/>
                     
                     <textarea class="control" type="text" name="review" value="$review" placeholder="Review..." required/>$review</textarea>$errorReview
@@ -58,6 +62,8 @@ class FormularioNuevaReview extends Form
         if ( empty($rating) || $rating < 1 || $rating > 5 ) {
             $result['rating'] = "La puntuación debe estar entre 1 y 5";
         }
+        
+        $prevPage = $datos['prevPage'] ?? null;
 
         if (count($result) === 0) {
             if ($app->usuarioLogueado())
@@ -65,7 +71,7 @@ class FormularioNuevaReview extends Form
                 if ( ! $review ) {
                     $result[] = "El género ya existe";
                 } else {
-                    $result = RUTA_APP."pelicula.php?id={$id}";
+                    $result = "{$prevPage}";
                 }
             }
         
