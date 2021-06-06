@@ -83,14 +83,14 @@ function dropdown_ordenacion() {
 
     $html='<form action="" method="post" id ="myForm">';
 
-		$html.='<select name="desplegable">';
+		$html.='<select name="desplegable" onChange="this.form.submit()";>';
 			$html.='<option value="1">Por orden alfabético</option>';
 			$html.='<option value="2">Por fecha de estreno</option>';
 			$html.='<option value="3">Por valoración</option>';
 			$html.='<option value="4">Por duración</option>';
 		$html.='</select>';
 
-	$html.='<input type="submit" value="Submit">';
+	//$html.='<input type="submit" value="Submit">';
 	$html.= '</form>';
 	
 	
