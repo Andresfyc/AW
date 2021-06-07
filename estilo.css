@@ -20,6 +20,7 @@ header {
 }
 
 
+
 /*MENU*/
 
 
@@ -106,10 +107,12 @@ a {
 
 a:hover {
     color: white;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
-
+* {
+    font-family: 'Nunito Sans', sans-serif;
+}
 /*aside {
     width: 15%;
     padding: 15px;
