@@ -103,7 +103,7 @@ class ActorDirector
   public static function editar($id, $actor_director, $name, $description, $birth_date, $nationality, $image)
   {
       $actorDirector = self::buscaPorId($id);
-      $image = $image ?? $actorDirector->image;
+      $image = strlen($image) < 1 ? $actorDirector->image : $image;
       $actor_director = $actor_director ?? $actorDirector->actor_director;
       $birth_date = $birth_date ?? $actorDirector->birth_date;
       

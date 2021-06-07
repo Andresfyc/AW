@@ -88,7 +88,7 @@ class FormularioEditarReview extends Form
             if ( ! $review  ) {
                 $result[] = "La review ya existe";
             } else {
-              $result = "{$prevPage}";";
+              $result = "{$prevPage}";
             }
         }
     }

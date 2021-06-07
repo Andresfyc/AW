@@ -43,7 +43,7 @@ class FormularioEditarUsuario extends Form
 
     $camposFormulario = <<<EOF
         <fieldset>
-        
+            <h2>{$this->usuario->name()}</h2>
             <div class="grupo-editar">
             $htmlErroresGlobales
             

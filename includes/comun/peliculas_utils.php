@@ -94,12 +94,13 @@ function mostrarPeliculasGen($id, $limit=NULL) {
 function getDivPeliculas($peliculas, $limit=NULL, $table, $value) {
 	$app = Aplicacion::getSingleton();
     $html = '<div class="div-peliculas">';
+    $prevLink = urlencode($_SERVER['REQUEST_URI']);
     foreach($peliculas as $pelicula) {
         $html .= '<div class="div-pelicula">';
         if ($limit == NULL && $app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
             $html .=<<<EOS
-                <p><a href="./editarPelicula.php?id={$pelicula->id()}&prevPage=peliculas">Editar</a></p>
-                <p><a href="./eliminarPelicula.php?id={$pelicula->id()}&prevPage=peliculas">Eliminar</a></p>
+                <p><a href="./editarPelicula.php?id={$pelicula->id()}&prevPage={$prevLink}">Editar</a></p>
+                <p><a href="./eliminarPelicula.php?id={$pelicula->id()}&prevPage={$prevLink}">Eliminar</a></p>
                 <img id="film_pic_small" src="img/peliculas/{$pelicula->image()}" alt="imagen" >
             EOS;
         } else {
@@ -179,6 +180,7 @@ function listaReviews($reviews)
     if (!empty($reviews)) {
         
         $html .= '<div>';
+        $prevLink = urlencode($_SERVER['REQUEST_URI']);
         foreach($reviews as $review) {
             $html .= '<div class="div-reviewsPeli">';
             $html .= '<div>';
@@ -186,8 +188,8 @@ function listaReviews($reviews)
             $html .= "<p>{$review->time_created()}</p>";
             $html .= "<p>{$review->user()}</p><p>";
             if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $review->user() == $app->user())) {
-                $html .= "<a href=\"./editarReview.php?id={$review->id()}&prevPage=pelicula&prevId={$review->film_id()}\">Editar</a>";
-                $html .= "<a href=\"./eliminarReview.php?id={$review->id()}&prevPage=pelicula&prevId={$review->film_id()}\"> Eliminar</a>";
+                $html .= "<a href=\"./editarReview.php?id={$review->id()}&prevPage={$prevLink}\">Editar</a>";
+                $html .= "<a href=\"./eliminarReview.php?id={$review->id()}&prevPage={$prevLink}\"> Eliminar</a>";
             }
             $html .= '</p></div>';
             $html .= "<p>{$review->review()}</p>";
@@ -219,15 +221,16 @@ function busquedaActoresDirectores($search)
 function listadoGeneros()
 {
 	$app = Aplicacion::getSingleton();
-    $html = '<a href="'.RUTA_APP.'nuevoGenero.php?prevPage=generos">Añadir género</a>';
+    $prevLink = urlencode($_SERVER['REQUEST_URI']);
+    $html = '<a href="'.RUTA_APP.'nuevoGenero.php?prevPage='.$prevLink.'">Añadir género</a>';
     $generos = Genero::listaGeneros();
     foreach($generos as $genero) {
     
         $html .= '<div class="row-item">';
         $html .= "<p>{$genero->name()} ";
         if ($app->usuarioLogueado() && ($app->esAdmin() || $app->esGestor())) {
-            $html .= '<a href="'.RUTA_APP.'editarGenero.php?id='.$genero->id().'&prevPage=generos">Editar</a>';
-            $html .= '<a href="'.RUTA_APP.'eliminarGenero.php?id='.$genero->id().'&prevPage=generos"> Eliminar</a>';
+            $html .= '<a href="'.RUTA_APP.'editarGenero.php?id='.$genero->id().'&prevPage='.$prevLink.'">Editar</a>';
+            $html .= '<a href="'.RUTA_APP.'eliminarGenero.php?id='.$genero->id().'&prevPage='.$prevLink.'"> Eliminar</a>';
         }
         $html .= '</p></div>';
     }
@@ -238,15 +241,16 @@ function listadoGeneros()
 function listadoPlataformas()
 {
 	$app = Aplicacion::getSingleton();
-    $html = '<a href="'.RUTA_APP.'nuevaPlataforma.php?prevPage=plataformas">Añadir plataforma</a>';
+    $prevLink = urlencode($_SERVER['REQUEST_URI']);
+    $html = '<a href="'.RUTA_APP.'nuevaPlataforma.php?prevPage='.$prevLink.'">Añadir plataforma</a>';
     $plataformas = Plataforma::listaPlataformas();
     foreach($plataformas as $plataforma) {
     
         $html .= '<div class="row-item">';
         $html .= "<p>{$plataforma->name()} ";
         if ($app->usuarioLogueado() && ($app->esAdmin() || $app->esGestor())) {
-            $html .= '<a href="'.RUTA_APP.'editarPlataforma.php?id='.$plataforma->id().'&prevPage=plataformas">Editar</a>';
-            $html .= '<a href="'.RUTA_APP.'eliminarPlataforma.php?id='.$plataforma->id().'&prevPage=plataformas"> Eliminar</a>';
+            $html .= '<a href="'.RUTA_APP.'editarPlataforma.php?id='.$plataforma->id().'&prevPage='.$prevLink.'">Editar</a>';
+            $html .= '<a href="'.RUTA_APP.'eliminarPlataforma.php?id='.$plataforma->id().'&prevPage='.$prevLink.'"> Eliminar</a>';
         }
         $html .= '</p></div>';
     }
@@ -257,15 +261,16 @@ function listadoPlataformas()
 function listadoActoresDirectores()
 {
 	$app = Aplicacion::getSingleton();
-    $html = '<a href="'.RUTA_APP.'nuevoActorDirector.php?prevPage=actoresDirectores">Añadir actor o director</a>';
+    $prevLink = urlencode($_SERVER['REQUEST_URI']);
+    $html = '<a href="'.RUTA_APP.'nuevoActorDirector.php?prevPage='.$prevLink.'">Añadir actor o director</a>';
     $actoresDirectores = ActorDirector::listaActoresDirectores();
     foreach($actoresDirectores as $actorDirector) {
     
         $html .= '<div class="row-item">';
         $html .= "<p>{$actorDirector->name()} ";
         if ($app->usuarioLogueado() && ($app->esAdmin() || $app->esGestor())) {
-            $html .= '<a href="'.RUTA_APP.'editarPlataforma.php?id='.$actorDirector->id().'&prevPage=actoresDirectores">Editar</a>';
-            $html .= '<a href="'.RUTA_APP.'eliminarPlataforma.php?id='.$actorDirector->id().'&prevPage=actoresDirectores"> Eliminar</a>';
+            $html .= '<a href="'.RUTA_APP.'editarActorDirector.php?id='.$actorDirector->id().'&prevPage='.$prevLink.'">Editar</a>';
+            $html .= '<a href="'.RUTA_APP.'eliminarActorDirector.php?id='.$actorDirector->id().'&prevPage='.$prevLink.'"> Eliminar</a>';
         }
         $html .= '</p></div>';
     }
@@ -327,6 +332,21 @@ function buscaActorDirectorPorId($id)
     return ActorDirector::buscaPorId($id);
 }
 
+function getGeneroPorId($id)
+{
+    return Genero::buscaPorId($id);
+}
+
+function getActorDirectorPorId($id)
+{
+    return ActorDirector::buscaPorId($id);
+}
+
+function getPlataformaPorId($id)
+{
+    return Plataforma::buscaPorId($id);
+}
+
 function eliminarPeliculaPorId($id)
 {
     return Pelicula::borraPorId($id);
@@ -384,5 +404,20 @@ function delActorDirectorFav($id, $user)
 function existeReviewUsuarioPelicula($id, $user) 
 {
     return Pelicula::existeReviewUsuarioPelicula($id, $user);
+}
+
+function eliminarGeneroPorId($id)
+{
+    return Genero::borraPorId($id);
+}
+
+function eliminarActorDirectorPorId($id)
+{
+    return ActorDirector::borraPorId($id);
+}
+
+function eliminarPlataformaPorId($id)
+{
+    return Plataforma::borraPorId($id);
 }
 

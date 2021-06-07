@@ -11,8 +11,9 @@ function mostrarPeliculas() {
 
 	$app = Aplicacion::getSingleton();
 	$html = "<h1>Películas</h1>";	
+	$prevLink = urlencode($_SERVER['REQUEST_URI']);
 	if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
-		$html .= '<a href="'.RUTA_APP.'nuevaPelicula.php">Añadir película</a>';
+		$html .= '<a href="'.RUTA_APP.'nuevaPelicula.php?prevPage='.$prevLink.'">Añadir película</a>';
 	}
 		if(isset($_POST['desplegable'])){
 			$tipoorden= $_POST['desplegable'];

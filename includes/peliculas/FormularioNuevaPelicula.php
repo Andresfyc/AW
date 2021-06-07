@@ -57,6 +57,7 @@ class FormularioNuevaPelicula extends Form
         $actors = $datos['actors'] ?? '';
         $directors = $datos['directors'] ?? '';
         $prevPage = $datos['prevPage'] ?? $this->prevPage;
+        $prevLink = urlencode($_SERVER['REQUEST_URI']);
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
@@ -103,7 +104,7 @@ class FormularioNuevaPelicula extends Form
         $camposFormulario .= <<<EOF
                     </select>
                
-                    <div><a href="{$RUTA_APP}nuevoGenero.php?prevPage=nuevaPelicula">Añadir Género</a> </div></div>
+                    <div><a href="{$RUTA_APP}nuevoGenero.php?prevPage={$prevLink}">Añadir Género</a> </div></div>
               
                      <div class="col-25"><label>Actores:</label> </div>
                    <div class="col-75"> <select name="actors[]" multiple>
@@ -114,7 +115,7 @@ class FormularioNuevaPelicula extends Form
         $camposFormulario .= <<<EOF
                     </select>
               
-                    <div><a href="{$RUTA_APP}nuevoActorDirector.php?ad=0&prevPage=nuevaPelicula">Añadir Actor</a>  </div></div>
+                    <div><a href="{$RUTA_APP}nuevoActorDirector.php?ad=0&prevPage={$prevLink}">Añadir Actor</a>  </div></div>
                 
                 
                      <div class="col-25"><label>Directores:</label> </div>
@@ -126,7 +127,7 @@ class FormularioNuevaPelicula extends Form
         $camposFormulario .= <<<EOF
                     </select>
                
-                    <div><a href="{$RUTA_APP}nuevoActorDirector.php?ad=1&prevPage=nuevaPelicula">Añadir Director</a> </div></div>
+                    <div><a href="{$RUTA_APP}nuevoActorDirector.php?ad=1&{$prevLink}">Añadir Director</a> </div></div>
                     <div><button type="submit" name="editar">Confirmar</button></div>
                 </div>
             </fieldset>

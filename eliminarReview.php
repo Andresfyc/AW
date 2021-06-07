@@ -7,18 +7,12 @@ use es\ucm\fdi\aw\Aplicacion;
 
 $idReview = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 $prevPag = filter_input(INPUT_GET, 'prevPage', FILTER_SANITIZE_STRING);
-$prevPageId = filter_input(INPUT_GET, 'prevId', FILTER_SANITIZE_NUMBER_INT);
-
-if (strlen($prevPageId) > 0) {
-    $prev = RUTA_APP . $prevPage . ".php?id=" . $prevPageId;
-} else {
-    $prev = RUTA_APP . $prevPage . ".php";
-}
 
 $review = getReviewPorId($idReview);
 
 $tituloPagina = 'Eliminar Review';
 
+$prev = urldecode($prevPage);
 if(array_key_exists('cancelar', $_POST)) {
     header('Location: '.$prev);
 }

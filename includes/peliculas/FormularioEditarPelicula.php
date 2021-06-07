@@ -5,7 +5,6 @@ use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\Form;
 use es\ucm\fdi\aw\generos\Genero;
 use es\ucm\fdi\aw\actoresDirectores\ActorDirector;
-use es\ucm\fdi\aw\plataformas\PeliculaPlataforma;
 
 class FormularioEditarPelicula extends Form
 {
@@ -82,12 +81,15 @@ class FormularioEditarPelicula extends Form
   {
       $RUTA_APP = RUTA_APP;
       $html = '';
-      foreach ($this->pelicula->peliculasPlataformas() as $filmPlatform) {
-        $html .= <<<EOS
-            <li> {$filmPlatform->platform()->name()}
-            <a href="{$RUTA_APP}editarPeliculaPlataforma.php?id={$filmPlatform->id()}&prevPage=editarPelicula&prevId={$this->id}">Editar</a>
-            <a href="{$RUTA_APP}eliminarPeliculaPlataforma.php?id={$filmPlatform->id()}&prevPage=editarPelicula&prevId={$this->id}"> Eliminar</a></li>
-        EOS;
+      if ($this->pelicula->peliculasPlataformas()) {
+        $prevLink = urlencode($_SERVER['REQUEST_URI']);
+        foreach ($this->pelicula->peliculasPlataformas() as $filmPlatform) {
+            $html .= <<<EOS
+                <li> {$filmPlatform->platform()->name()}
+                <a href="{$RUTA_APP}editarPeliculaPlataforma.php?id={$filmPlatform->id()}&prevPage={$prevLink}">Editar</a>
+                <a href="{$RUTA_APP}eliminarPeliculaPlataforma.php?id={$filmPlatform->id()}&prevPage={$prevLink}"> Eliminar</a></li>
+            EOS;
+        }
       }
       return $html;
   }
@@ -108,6 +110,7 @@ class FormularioEditarPelicula extends Form
     $genres = $datos['genres'] ?? $this->pelicula->genres();
     $actors = $datos['actors'] ?? $this->pelicula->actors();
     $directors = $datos['directors'] ?? $this->pelicula->directors();
+    $prevLink = urlencode($_SERVER['REQUEST_URI']);
 
     // Se generan los mensajes de error si existen.
     $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
@@ -154,7 +157,7 @@ class FormularioEditarPelicula extends Form
     $camposFormulario .= <<<EOF
                 </ul>
            
-                 <div><a href="{$RUTA_APP}nuevaPeliculaPlataforma.php?id=$id&prevPage=editarPelicula&prevId=$id">Añadir Plataforma</a> </div></div>
+                 <div><a href="{$RUTA_APP}nuevaPeliculaPlataforma.php?id=$id&prevPage={$prevLink}">Añadir Plataforma</a> </div></div>
             
                 <div class="col-25"><label>Géneros:</label></div> 
                 <div class="col-75"><select name="genres[]" multiple>
@@ -165,7 +168,7 @@ class FormularioEditarPelicula extends Form
     $camposFormulario .= <<<EOF
                 </select>
             
-                <div><a href="{$RUTA_APP}nuevoGenero.php?prevPage=editarPelicula&prevId=$id">Añadir Género</a></div></div>
+                <div><a href="{$RUTA_APP}nuevoGenero.php?prevPage={$prevLink}">Añadir Género</a></div></div>
            
                <div class="col-25"> <label>Actores:</label></div> 
                <div class="col-75"><select name="actors[]" multiple>
@@ -176,7 +179,7 @@ class FormularioEditarPelicula extends Form
     $camposFormulario .= <<<EOF
                 </select>
            
-                 <div><a href="{$RUTA_APP}nuevoActorDirector.php?ad=0&prevPage=editarPelicula&prevId=$id">Añadir Actor</a></div></div>
+                 <div><a href="{$RUTA_APP}nuevoActorDirector.php?ad=0&prevPage={$prevLink}">Añadir Actor</a></div></div>
             
             
                 <div class="col-25"><label>Directores:</label> </div>
@@ -187,7 +190,7 @@ class FormularioEditarPelicula extends Form
 
     $camposFormulario .= <<<EOF
                 </select>
-                 <div> <a href="{$RUTA_APP}nuevoActorDirector.php?ad=1&prevPage=editarPelicula&prevId=$id">Añadir Director</a></div></div>
+                 <div> <a href="{$RUTA_APP}nuevoActorDirector.php?ad=1&prevPage={$prevLink}">Añadir Director</a></div></div>
                 <div><button type="submit" name="editar">Confirmar</button></div>
                 </div>
     </fieldset>

@@ -8,16 +8,10 @@ use es\ucm\fdi\aw\Aplicacion;
 $idEventoTema = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 $nameEventoTema = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_STRING);
 $prevPag = filter_input(INPUT_GET, 'prevPage', FILTER_SANITIZE_STRING);
-$prevPageId = filter_input(INPUT_GET, 'prevId', FILTER_SANITIZE_NUMBER_INT);
-
-if (strlen($prevPageId) > 0) {
-    $prev = RUTA_APP . $prevPage . ".php?id=" . $prevPageId;
-} else {
-    $prev = RUTA_APP . $prevPage . ".php";
-}
 
 $tituloPagina = 'Eliminar Evento/Tema';
 
+$prev = urldecode($prevPage);
 if(array_key_exists('cancelar', $_POST)) {
     header('Location: '.$prev);
 }

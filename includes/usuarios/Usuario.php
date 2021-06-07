@@ -256,6 +256,23 @@ class Usuario
         return $result;
     }
 
+    public static function borraPorUser($user)
+    {
+      $result = false;
+  
+      $app = App::getSingleton();
+      $conn = $app->conexionBd();
+      $query = sprintf("DELETE FROM usuarios WHERE user = '%s'", $user);
+      $result = $conn->query($query);
+      if (!$result) {
+        error_log($conn->error);
+      } else if ($conn->affected_rows != 1) {
+        error_log("Se han borrado '$conn->affected_rows' !");
+      }
+  
+      return $result;
+    }
+
 
     private $user;
 

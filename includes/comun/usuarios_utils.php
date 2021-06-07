@@ -14,12 +14,13 @@ use es\ucm\fdi\aw\peliculas\Pelicula;
 function getDivUsuario($user, $isSelf) {
     $RUTA_APP = RUTA_APP;
 	$app = Aplicacion::getSingleton();
-    $usuario = getUsuarioPorUser($user);    
+    $usuario = getUsuarioPorUser($user);  
+    $prevLink = urlencode($_SERVER['REQUEST_URI']);  
 
     $perfil = '';
     $usuarioAmigo = '';
     if ($isSelf) {
-        $perfil = '<p><a href="'.$RUTA_APP.'editarPerfil.php?id='.$usuario->user().'&prevPage=usuario&prevId='.$user.'&isSelf=1">Editar Perfil</a></p>';
+        $perfil = '<p><a href="'.$RUTA_APP.'editarPerfil.php?id='.$usuario->user().'&prevPage='.$prevLink.'&isSelf=1">Editar Perfil</a></p>';
     } else {
         if(array_key_exists('addAmigo', $_POST)) {
             addAmigo($app->user(), $user);
@@ -127,6 +128,7 @@ function listaReviewsUser($user = NULL)
 	$app = Aplicacion::getSingleton();
 
     $reviews = Review::buscaReviewsPorIdUser($user);
+    $prevLink = urlencode($_SERVER['REQUEST_URI']);
 	$html = '<div>';
 	if($reviews !=null){
         
@@ -139,8 +141,8 @@ function listaReviewsUser($user = NULL)
             $html .= "<p>{$review->time_created()}</p>";
             $html .= "<p>{$review->user()}</p><p>";
 			if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $review->user() == $app->user())) {
-                $html .= "<a href=\"./editarReview.php?id={$review->id()}&prevPage=reviews&prevId={$user}\">Editar</a>";
-                $html .= "<a href=\"./eliminarReview.php?id={$review->id()}&prevPage=reviews&prevId={$user}\"> Eliminar</a>";
+                $html .= "<a href=\"./editarReview.php?id={$review->id()}&prevPage={$prevLink}\">Editar</a>";
+                $html .= "<a href=\"./eliminarReview.php?id={$review->id()}&prevPage={$prevLink}\"> Eliminar</a>";
             }			
             $html .= '</p></div>';
             $html .= "<p>{$review->review()}</p>";
@@ -158,14 +160,15 @@ function listadoUsuarios()
 {
 	$app = Aplicacion::getSingleton();
     $html = '<a href="'.RUTA_APP.'registro.php">Registrar usuario</a>';
+    $prevLink = urlencode($_SERVER['REQUEST_URI']);
     $usuarios = Usuario::listaUsuarios();
     foreach($usuarios as $usuario) {
         
         $html .= '<div class="row-item">';
         $html .= "<p>{$usuario->name()} ({$usuario->user()}) [{$usuario->date_joined()}]  ";
         if ($app->usuarioLogueado() && $app->esAdmin()) {
-            $html .= '<a href="'.RUTA_APP.'editarPerfil.php?id='.$usuario->user().'&prevPage=usuarios&isSelf=0">Editar</a>';
-            $html .= '<a href="'.RUTA_APP.'eliminarUsuario.php?id='.$usuario->user().'&prevPage=usuarios"> Eliminar</a>';
+            $html .= '<a href="'.RUTA_APP.'editarPerfil.php?id='.$usuario->user().'&prevPage='.$prevLink.'&isSelf=0">Editar</a>';
+            $html .= '<a href="'.RUTA_APP.'eliminarUsuario.php?id='.$usuario->user().'&prevPage='.$prevLink.'"> Eliminar</a>';
         }
         $html .= '</p></div>';
     }
@@ -212,4 +215,9 @@ function addAmigo($user, $amigo)
 function delAmigo($user, $amigo) 
 {
     Usuario::delAmigo($user, $amigo);
+}
+
+function eliminarUsuarioPorUser($user)
+{
+    return Usuario::borraPorUser($user);
 }

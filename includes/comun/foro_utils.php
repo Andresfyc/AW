@@ -49,8 +49,9 @@ function listaEventos() {
     foreach($eventos as $evento) {
         $href = RUTA_APP.'eventoTema.php?id=' . $evento->id() . '&name=' . $evento->name() . '&time=' . $evento->time();
         $editarEliminar = '';
+        $prevLink = urlencode($_SERVER['REQUEST_URI']);
         if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
-            $editarEliminar .= '<p><a href="'.RUTA_APP.'editarEventoTema.php?id='.$evento->id().'$prevPage=foro">Editar</a> <a href="'.RUTA_APP.'eliminarEventoTema.php?id='.$evento->id().'&name='.$evento->name().'&prevPage=foro">Eliminar</a></p>';
+            $editarEliminar .= '<p><a href="'.RUTA_APP.'editarEventoTema.php?id='.$evento->id().'$prevPage='.$prevLink.'">Editar</a> <a href="'.RUTA_APP.'eliminarEventoTema.php?id='.$evento->id().'&name='.$evento->name().'&prevPage='.$prevLink.'">Eliminar</a></p>';
         }
 
         $html.=<<<EOS
@@ -93,11 +94,12 @@ function listaTemas() {
     EOS;
 
     $temas = EventoTema::buscaTemas();
+    $prevLink = urlencode($_SERVER['REQUEST_URI']);
     foreach($temas as $tema) {
         $href = RUTA_APP.'eventoTema.php?id=' . $tema->id() . '&name=' . $tema->name() . '&time=' . $tema->time();
         $editarEliminar = '';
         if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
-            $editarEliminar .= '<p><a href="'.RUTA_APP.'editarEventoTema.php?id='.$tema->id().'&prevPage=foro">Editar</a> <a href="'.RUTA_APP.'eliminarEventoTema.php?id='.$tema->id().'&name='.$tema->name().'&prevPage=foro">Eliminar</a></p>';
+            $editarEliminar .= '<p><a href="'.RUTA_APP.'editarEventoTema.php?id='.$tema->id().'&prevPage='.$prevLink.'">Editar</a> <a href="'.RUTA_APP.'eliminarEventoTema.php?id='.$tema->id().'&name='.$tema->name().'&prevPage='.$prevLink.'">Eliminar</a></p>';
         }
 
         $html.=<<<EOS

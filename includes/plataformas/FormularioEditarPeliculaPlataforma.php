@@ -54,6 +54,7 @@ class FormularioEditarPeliculaPlataforma extends Form
             $htmlErroresGlobales
             <input class="control" type="hidden" name="id" value="$id" readonly/>
             <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
+            <p> {$this->prevPage}</p>
             
             
             <div class="col-25"><label>Plataforma:</label> </div>

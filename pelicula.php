@@ -25,10 +25,11 @@ $href = '';
 
 	$contenidoPrincipal = '';
 
+	$prevLink = urlencode($_SERVER['REQUEST_URI']);
 	if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
 		$contenidoPrincipal .=<<<EOS
-			<a href="./editarPelicula.php?id={$pelicula->id()}&prevPage=pelicula&prevId={$pelicula->id()}">Editar</a>
-			<a href="./eliminarPelicula.php?id={$pelicula->id()}&prevPage=pelicula&prevId={$pelicula->id()}">Eliminar</a>
+			<a href="./editarPelicula.php?id={$pelicula->id()}&prevPage={$prevLink}">Editar</a>
+			<a href="./eliminarPelicula.php?id={$pelicula->id()}&prevPage={$prevLink}">Eliminar</a>
 		EOS;
 	}
 

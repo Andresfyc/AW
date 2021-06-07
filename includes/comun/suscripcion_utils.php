@@ -11,13 +11,14 @@ function getDivPlanes($planes)
     $app = Aplicacion::getSingleton();
 
     $html = '<div class="planes">';
+    $prevLink = urlencode($_SERVER['REQUEST_URI']);
 
     foreach ($planes as $plan) {
         $html .= '<div class="plan">';
         if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
             $html .=<<<EOS
-			<a class="editar" href="./editarPlan.php?id={$plan->id()}&prevPage=premium&prevId={$plan->id()}">Editar</a>
-			<a class="eliminar" href="./eliminarPlan.php?id={$plan->id()}&prevPage=premium&prevId={$plan->id()}">Eliminar</a>
+			<a class="editar" href="./editarPlan.php?id={$plan->id()}&prevPage={$prevLink}">Editar</a>
+			<a class="eliminar" href="./eliminarPlan.php?id={$plan->id()}&prevPage={$prevLink}">Eliminar</a>
 		EOS;
         } else {
             $html .= '<h1>Suscríbete</h1>';
@@ -45,13 +46,14 @@ function listadoPlanes()
 	$app = Aplicacion::getSingleton();
     $html = '<a href="'.RUTA_APP.'nuevoPlan.php">Añadir plan</a>';
     $planes = Suscripcion::listaPlanes();
+    $prevLink = urlencode($_SERVER['REQUEST_URI']);
     foreach($planes as $plan) {
     
         $html .= '<div class="row-item">';
         $html .= "<p>Meses: {$plan->meses()} ({$plan->precio()}) ";
         if ($app->usuarioLogueado() && ($app->esAdmin() || $app->esGestor())) {
-            $html .= '<a href="'.RUTA_APP.'editarPlan.php?id='.$plan->id().'&prevPage=planes">Editar</a>';
-            $html .= '<a href="'.RUTA_APP.'eliminarPlan.php?id='.$plan->id().'&prevPage=planes"> Eliminar</a>';
+            $html .= '<a href="'.RUTA_APP.'editarPlan.php?id='.$plan->id().'&prevPage='.$prevLink.'">Editar</a>';
+            $html .= '<a href="'.RUTA_APP.'eliminarPlan.php?id='.$plan->id().'&prevPage='.$prevLink.'"> Eliminar</a>';
         }
         $html .= '</p></div>';
     }

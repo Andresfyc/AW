@@ -35,9 +35,19 @@ if ($app->usuarioLogueado()) {
     }
 }
 
+$contenidoPrincipal = '';
+
+$prevLink = urlencode($_SERVER['REQUEST_URI']);
+if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
+    $contenidoPrincipal .=<<<EOS
+        <a href="./editarActorDirector.php?id={$actorDirector->id()}&prevPage={$prevLink}">Editar</a>
+        <a href="./eliminarActorDirector.php?id={$actorDirector->id()}&prevPage={$prevLink}">Eliminar</a>
+    EOS;
+}
+
 $tituloPagina = $actorDirector->name();
 $href = '';
-$contenidoPrincipal=<<<EOS
+$contenidoPrincipal.=<<<EOS
 	<div class="pagina-pelicula">
     <img id="imagen-actordirector" src="img/actores_directores/{$actorDirector->image()}" alt="pelicula" >
     <div>

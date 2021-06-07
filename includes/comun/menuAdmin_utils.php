@@ -19,7 +19,7 @@
     </li>
     <li><a href="#">Suscripciones</a>
         <ul>
-            <li><a href="planes.php">Ver Planes</a></li>
+            <li><a href="premium.php">Ver Planes</a></li>
             <li><a href="nuevoPlan.php">Añadir Plan</a></li>
         </ul>
     </li>

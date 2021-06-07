@@ -5,14 +5,12 @@ require_once __DIR__.'/includes/comun/peliculas_utils.php';
 
 use es\ucm\fdi\aw\Aplicacion;
 
-$idPelicula = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+$idPlataforma = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 $prevPage = filter_input(INPUT_GET, 'prevPage', FILTER_SANITIZE_STRING);
 
-$pelicula = buscaPeliculaPorId($idPelicula);
+$plataforma = getPlataformaPorId($idPlataforma);
 
-$tituloPagina = 'Eliminar Película';
-
-$dateReleased = substr($pelicula->date_released(), 0, 4);
+$tituloPagina = 'Eliminar Plataforma';
 
 $prev = urldecode($prevPage);
 if(array_key_exists('cancelar', $_POST)) {
@@ -20,15 +18,15 @@ if(array_key_exists('cancelar', $_POST)) {
 }
 else if(array_key_exists('eliminar', $_POST)) {
     $app = Aplicacion::getSingleton();
-    if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
-        eliminarPeliculaPorId($idPelicula);
+    if ($app->usuarioLogueado() && ($app->esAdmin() || $app->esGestor())) {
+        eliminarPlataformaPorId($idPlataforma);
         header('Location: '.$prev);
     }
 }
 
 $contenidoPrincipal = <<<EOS
-    <h1>Eliminar Película</h1>
-    <p> ¿Quiere eliminar definitivamente la película "{$pelicula->title()} ({$dateReleased})"?</p>
+    <h1>Eliminar Plataforma</h1>
+    <p> ¿Quiere eliminar definitivamente la plataforma "{$plataforma->name()}"?</p>
     <form method="post">
         <input type="submit" name="cancelar"
                 class="button" value="Cancelar" />

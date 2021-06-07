@@ -6,14 +6,7 @@ require_once __DIR__.'/includes/comun/suscripcion_utils.php';
 use es\ucm\fdi\aw\Aplicacion;
 
 $idPlan = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-$prevPag = filter_input(INPUT_GET, 'prevPage', FILTER_SANITIZE_STRING);
-$prevPageId = filter_input(INPUT_GET, 'prevId', FILTER_SANITIZE_NUMBER_INT);
-
-if (strlen($prevPageId) > 0) {
-    $prev = RUTA_APP . $prevPag . ".php?id=" . $prevPageId;
-} else {
-    $prev = RUTA_APP . $prevPag . ".php";
-}
+$prevPage = filter_input(INPUT_GET, 'prevPage', FILTER_SANITIZE_STRING);
 
 $plan = buscaMesesPorId($idPlan);
 
@@ -21,6 +14,7 @@ $tituloPagina = 'Eliminar Plan';
 
 $precio= substr($plan->precio(), 0, 4);
 
+$prev = urldecode($prevPage);
 if(array_key_exists('cancelar', $_POST)) {
     header('Location: '.$prev);
 }

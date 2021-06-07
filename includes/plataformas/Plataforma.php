@@ -44,7 +44,7 @@ class Plataforma
 
     $app = App::getSingleton();
     $conn = $app->conexionBd();
-    $query = sprintf("INSERT INTO plataformas (name, image) VALUES (%d, '%s')"
+    $query = sprintf("INSERT INTO plataformas (name, image) VALUES ('%s', '%s')"
         , $conn->real_escape_string($plataforma->name)
         , $conn->real_escape_string($plataforma->image));
     $result = $conn->query($query);
@@ -64,8 +64,9 @@ class Plataforma
 
     $app = App::getSingleton();
     $conn = $app->conexionBd();
-    $query=sprintf("UPDATE plataformas P SET name = '%s' WHERE P.id=%d"
+    $query=sprintf("UPDATE plataformas P SET name = '%s', image='%s' WHERE P.id=%d"
     , $conn->real_escape_string($plataforma->name)
+    , $conn->real_escape_string($plataforma->image)
         , $plataforma->id);
     $result = $conn->query($query);
     if (!$result) {
@@ -103,7 +104,7 @@ class Plataforma
   {
       $plataforma = self::buscaPorId($id);
       $name = $name ?? $plataforma->name;
-      $image = $image ?? $plataforma->image;
+      $image = strlen($image) < 1 ? $plataforma->image : $image;
 
       $plataforma = new Plataforma($id,$name,$image);
       

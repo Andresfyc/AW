@@ -67,7 +67,7 @@ class Genero
 
     $app = App::getSingleton();
     $conn = $app->conexionBd();
-    $query=sprintf("UPDATE genero SET name = '%s' WHERE id=%d"
+    $query=sprintf("UPDATE generos SET name = '%s' WHERE id=%d"
     , $conn->real_escape_string($genero->name)
         , $genero->id);
     $result = $conn->query($query);
