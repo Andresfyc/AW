@@ -6,14 +6,19 @@ use es\ucm\fdi\aw\Aplicacion;
 
 class FormularioLogin extends Form
 {
-    public function __construct() {
+
+    private $prevPage;
+
+    public function __construct($prevPage) {
         parent::__construct('formLogin');
+        $this->prevPage = $prevPage;
     }
     
     protected function generaCamposFormulario($datos, $errores = array())
     {
         // Se reutiliza el nombre de usuario introducido previamente o se deja en blanco
         $user =$datos['user'] ?? '';
+        $prevPage = $datos['prevPage'] ?? $this->prevPage;
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
@@ -24,6 +29,7 @@ class FormularioLogin extends Form
         $html = <<<EOF
             <div class="grupo-fomulario">
                 $htmlErroresGlobales
+                <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
                 <img id="imgLogin" src="img/film.gif" alt="logo login" >
                 <input  type="text" name="user" placeholder="Usuario" value="$user" required/>$errorUser
                 <input type="password" placeholder="Password" name="password" required/>$errorPassword
@@ -50,6 +56,8 @@ class FormularioLogin extends Form
             $result['password'] = "El password no puede estar vacío.";
         }
         
+        $prevPage = $datos['prevPage'] ?? null;
+        
         if (count($result) === 0) {
             $usuario = Usuario::login($user, $password);
             if ( ! $usuario ) {
@@ -58,7 +66,7 @@ class FormularioLogin extends Form
             } else {
                 $app = Aplicacion::getSingleton();
                 $app->login($usuario);
-                $result = RUTA_APP.'index.php';
+                $result = "{$prevPage}";
             }
         }
         return $result;

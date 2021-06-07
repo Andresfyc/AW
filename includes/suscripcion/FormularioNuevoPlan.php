@@ -3,6 +3,7 @@
 namespace es\ucm\fdi\aw\suscripcion;
 
 use es\ucm\fdi\aw\Form;
+use es\ucm\fdi\aw\Aplicacion;
 
 
 class FormularioNuevoPlan extends Form

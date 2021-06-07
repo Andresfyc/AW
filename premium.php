@@ -8,10 +8,11 @@ use es\ucm\fdi\aw\Aplicacion;
 function mostrarPlanes() {
 
     $app = Aplicacion::getSingleton();
+    $prevLink = urlencode($_SERVER['REQUEST_URI']);
 
     if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
         $html = "<h1>Planes</h1>";
-        $html .= '<a href="'.RUTA_APP.'nuevoPlan.php">Añadir Plan</a>';
+        $html .= '<a href="'.RUTA_APP.'nuevoPlan.php?prevPage='.$prevLink.'">Añadir Plan</a>';
         $html .= listaPlanes();
     }
     if ($app->usuarioLogueado() && ($app->esPremium())) {
