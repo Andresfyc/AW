@@ -23,7 +23,16 @@ $contenidoPrincipal = <<<EOS
                     <label> Precio: {$plan->precio()} <i class="fa fa-eur"></i></label>
         EOS;
 
-$contenidoPrincipal.= pagarPaypal($plan);
+        $prevLink = urlencode($_SERVER['REQUEST_URI']);
+
+if($app->usuarioLogueado()) 
+{
+    $contenidoPrincipal.= pagarPaypal($plan);
+}else{
+
+    header("location:login.php?prevPage={$prevLink}");
+
+}
 $contenidoPrincipal .=  '<div>';
 
 
