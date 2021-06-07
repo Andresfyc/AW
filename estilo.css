@@ -22,9 +22,6 @@ header {
 
 /*MENU*/
 
-* {
-    font-family: 'Nunito Sans', sans-serif;
-}
 
 .navbar {
     overflow: hidden;
@@ -109,7 +106,7 @@ a {
 
 a:hover {
     color: white;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 
@@ -239,8 +236,6 @@ button {
 #contentSide {
     padding: 15px;
 }
-
-/*** foro ****/
 
 .row-top {
     justify-content: space-around;
@@ -680,8 +675,6 @@ figure:hover > figcaption {
     width: 52%;
 }
 
-
-
 .grupo-fomulario > input[type=password]{
     padding: 10px 10px;
     border-radius: 5px;
@@ -878,6 +871,3 @@ ul.mAdmin li:target ul {
     max-height: 300px;
     transition: .3s all ease-in;
 }
-
-
-
