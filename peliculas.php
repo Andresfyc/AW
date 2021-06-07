@@ -44,8 +44,12 @@ function mostrarPeliculas() {
 function ordenar($aux,$table,$value){
 	
 	switch($table){
-		case 'genero':
-			return listaPeliculasGen('title', 'ASC', $value, null);
+		case 'genre':
+			if($value==null){
+				return listaPeliculasGen('title', 'ASC', $value, null);
+			} else{
+				return listaPeliculasGen($aux, null, $value, null);
+			}
 			break;
 		case 'peliculas':
 			if($value=='title'){

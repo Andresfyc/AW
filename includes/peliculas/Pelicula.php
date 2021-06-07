@@ -194,11 +194,11 @@ class Pelicula
 	{
 		$asds = $ascdesc ? 'ASC' : 'DESC';
 
-	$result = [];
+	  $result = [];
     $app = App::getSingleton();
     $conn = $app->conexionBd();
 
-		$query = sprintf("SELECT p.* FROM peliculas p JOIN peliculas_generos v ON p.id = v.film_id WHERE v.genre_id = '%s'", $id);
+		$query = sprintf("SELECT p.* FROM peliculas p JOIN peliculas_generos v ON p.id = v.film_id WHERE v.genre_id = '%s' ORDER BY %s %s", $id,$order, $asds);
 		if($limit) {
 		  $query = $query . ' LIMIT %d';
 		  $query = sprintf($query, $limit);
