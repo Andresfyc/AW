@@ -5,6 +5,7 @@ use es\ucm\fdi\aw\usuarios\Usuario;
 use es\ucm\fdi\aw\actoresDirectores\ActorDirector;
 use es\ucm\fdi\aw\reviews\Review;
 use es\ucm\fdi\aw\peliculas\Pelicula;
+use es\ucm\fdi\aw\notificaciones\Notificacion;
 
 /*
  * Funciones de apoyo
@@ -61,6 +62,10 @@ function getDivUsuario($user, $isSelf) {
 }
 
 if(array_key_exists('notify', $_POST)) {
+    addNotificacion($_POST["user-notify"], $_POST["user-review"], $_POST["peliculaWatching"]);
+    header("Refresh:0");
+} else if (array_key_exists('no-notify', $_POST)) {
+    delNotificacion($_POST["notification_id"]);
     header("Refresh:0");
 }
 
@@ -73,9 +78,22 @@ function listaAmigos($user, $limit=NULL)
         $watching = '';
         $swapper='<p><a href="usuario.php?id='.$usuario->user().'"> Swapper: '.$usuario->user().' </a></p>';
         if ($peliculaWatching) {
-            $watching .= '<p><a href="'.RUTA_APP.'pelicula.php?id='.$peliculaWatching->id().'"> Viendo: '.$peliculaWatching->title().' </a> </p> <form method="post">
-            <input type="submit" name="notify" class="button-notif" value="Notificar"/>
-            </form>';
+            $watching .= '<p><a href="'.RUTA_APP.'pelicula.php?id='.$peliculaWatching->id().'"> Viendo: '.$peliculaWatching->title().' </a> </p>';
+            $notificacion = getNotificacion($user, $usuario->user(), $peliculaWatching->id());
+
+            if ($notificacion) {
+                $watching.= '<form method="post">
+                <input type="hidden" name="notification_id" value="'.$notificacion->id().'" readonly/>
+                <input type="submit" name="no-notify" class="button-notif" value="No Notificar"/>
+                </form>';
+            } else {
+                $watching.= '<form method="post">
+                <input type="hidden" name="user-review" value="'.$usuario->user().'" readonly/>
+                <input type="hidden" name="user-notify" value="'.$user.'" readonly/>
+                <input type="hidden" name="peliculaWatching" value="'.$peliculaWatching->id().'" readonly/>
+                <input type="submit" name="notify" class="button-notif" value="Notificar"/>
+                </form>';
+            }
         }
 
         $html .=<<<EOS
@@ -190,6 +208,27 @@ function busquedaUsuarios($search)
     }
 
     return $html;
+}
+
+function addNotificacion($user_notify, $user_review, $film_id)
+{
+    Notificacion::crea($user_review, $user_notify, $film_id);
+}
+
+function delNotificacion($id)
+{
+    Notificacion::borraPorId($id);
+}
+
+function getNotificacion($user_notify, $user_review, $film_id)
+{
+    return Notificacion::getNotificacion($user_notify, $user_review, $film_id);
+}
+
+function getNotificacionesCompletadas($user)
+{
+    $usuario = getUsuarioPorUser($user);
+    return $usuario->completedNotifications();
 }
 
 function getUsuarioPorUser($user)

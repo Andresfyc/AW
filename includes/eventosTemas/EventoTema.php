@@ -52,7 +52,6 @@ class EventoTema
     $result = $conn->query($query);
     if ($result) {
         $eventoTema->id = $conn->insert_id;
-        $eventoTema->num_messages = $conn->insert_num_messages; //TODO Arreglar
         $result = $eventoTema;
     } else {
       error_log($conn->error);  

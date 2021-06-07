@@ -6,7 +6,7 @@ require_once __DIR__.'/includes/comun/peliculas_utils.php';
 use es\ucm\fdi\aw\Aplicacion;
 
 $idReview = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-$prevPag = filter_input(INPUT_GET, 'prevPage', FILTER_SANITIZE_STRING);
+$prevPage = filter_input(INPUT_GET, 'prevPage', FILTER_SANITIZE_STRING);
 
 $review = getReviewPorId($idReview);
 

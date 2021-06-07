@@ -3,6 +3,7 @@ namespace es\ucm\fdi\aw\usuarios;
 
 use es\ucm\fdi\aw\Aplicacion as App;
 use es\ucm\fdi\aw\peliculas\Pelicula;
+use es\ucm\fdi\aw\notificaciones\Notificacion;
 
 
 class Usuario
@@ -291,10 +292,12 @@ class Usuario
     private $content_manager;
 	
 	private $moderator;
+
+    private $premium;
 	
 	private $film;
 
-    private $premium;
+    private $completedNotifications;
 
     private function __construct($user, $password, $name, $image, $date_joined, $watching, $admin, $content_manager, $moderator, $premium)
     {
@@ -309,6 +312,7 @@ class Usuario
         $this->moderator = $moderator;
         $this->premium = $premium;
 		$this->film = Pelicula::buscaPorId($this->watching);
+        $this->completedNotifications = Notificacion::getNotificacionesCompletadas($this->user);
 
     }
 
@@ -317,6 +321,11 @@ class Usuario
     public function film()
     {
         return $this->film;
+    }
+
+    public function completedNotifications()
+    {
+        return $this->completedNotifications;
     }
 
     public function user()

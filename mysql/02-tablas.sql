@@ -303,6 +303,7 @@ ALTER TABLE `generos`
 ALTER TABLE `notificaciones`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id_UNIQUE` (`id`),
+  ADD UNIQUE KEY `unique_index` (`user_notify`,`user_review`,`film_id`),
   ADD KEY `notificaciones_usuarios_comment_idx` (`user_review`),
   ADD KEY `notificaciones_usuarios_notify_idx` (`user_notify`),
   ADD KEY `notificaciones_peliculas_idx` (`film_id`),

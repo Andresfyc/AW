@@ -72,7 +72,6 @@ class Pelicula
     $result = $conn->query($query);
     if ($result) {
       $pelicula->id = $conn->insert_id;
-      $pelicula->rating = $conn->insert_rating; //TODO Arreglar
       $result = $pelicula;
     } else {
       error_log($conn->error);  

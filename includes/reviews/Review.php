@@ -45,15 +45,14 @@ class Review
     $conn = $app->conexionBd();
     $query = sprintf("INSERT INTO reviews (user, film_id, review, stars, time_created) VALUES ('%s', %d,'%s',%d, CURRENT_TIMESTAMP()) ON DUPLICATE KEY UPDATE review='%s', stars=%d"
         , $conn->real_escape_string($review->user)
-        , $conn->real_escape_string($review->film_id)
+        , $review->film_id
         , $conn->real_escape_string($review->review)
-        , $conn->real_escape_string($review->stars)
+        , $review->stars
         , $conn->real_escape_string($review->review)
-        , $conn->real_escape_string($review->stars));
+        , $review->stars);
     $result = $conn->query($query);
     if ($result) {
       $review->id = $conn->insert_id;
-      $review->time_created = $conn->insert_time_created;
       $result = $review;
     } else {
       error_log($conn->error);  

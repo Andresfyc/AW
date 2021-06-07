@@ -12,10 +12,11 @@ $app = Aplicacion::getSingleton();
 $pelicula = buscaPeliculaPorId($id);
 
 $tituloPagina = $pelicula->title();
+$prevLink = urlencode($_SERVER['REQUEST_URI']);
 
 $href = '';
 	if ($app->usuarioLogueado()) {
-		$href .= '<a href="nuevaReview.php?id='.$pelicula->id().'">Escribir nueva review</a>';
+		$href .= '<a href="nuevaReview.php?id='.$pelicula->id().'&prevPage='.$prevLink.'">Escribir nueva review</a>';
 	}
 
 	$plataformas = listaPlataformas($pelicula->plataformas(),$pelicula->peliculasPlataformas());

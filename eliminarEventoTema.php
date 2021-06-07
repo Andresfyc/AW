@@ -7,7 +7,7 @@ use es\ucm\fdi\aw\Aplicacion;
 
 $idEventoTema = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 $nameEventoTema = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_STRING);
-$prevPag = filter_input(INPUT_GET, 'prevPage', FILTER_SANITIZE_STRING);
+$prevPage = filter_input(INPUT_GET, 'prevPage', FILTER_SANITIZE_STRING);
 
 $tituloPagina = 'Eliminar Evento/Tema';
 

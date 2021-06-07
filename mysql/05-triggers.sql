@@ -42,3 +42,9 @@ CREATE TRIGGER `user_film_watched_AFTER_UPDATE` AFTER UPDATE ON `usuarios` FOR E
 END IF
 $$
 DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER `notify_AFTER_INSERT` AFTER INSERT ON `reviews`
+ FOR EACH ROW CALL insertNotificationReview(NEW.user, NEW.film_id, NEW.id)
+$$
+DELIMITER ;
