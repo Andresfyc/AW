@@ -9,21 +9,21 @@ class FormularioEditarMensaje extends Form
 
   private $id;
   private $mensaje;
+  private $prevPage;
 
-  public function __construct($id)
+  public function __construct($id, $prevPage)
   {
     parent::__construct('formEditarMensaje', $id);
     $this->id = $id;
+    $this->prevPage = $prevPage;
   }
   
   protected function generaCamposFormulario($datos, $errores = array())
   {
     $id = $datos['id'] ?? $this->id;
     $this->mensaje = Mensaje::buscaPorId($id);
-    $id2 = $datos['id2'] ?? $this->mensaje->evento_tema_obj()->id();
-    $name = $datos['name'] ?? $this->mensaje->evento_tema_obj()->name();
-    $time = $datos['time'] ?? $this->mensaje->evento_tema_obj()->time();
     $text = $datos['text'] ?? $this->mensaje->text();
+    $prevPage = $datos['prevPage'] ?? $this->prevPage;
       
 
     // Se generan los mensajes de error si existen.
@@ -37,9 +37,7 @@ class FormularioEditarMensaje extends Form
         <div class="grupo-editar">
           $htmlErroresGlobales
           <input class="control" type="hidden" name="id" value="$id" readonly/>
-          <input class="control" type="hidden" name="id2" value="$id2" readonly/>
-          <input class="control" type="hidden" name="name" value="$name" readonly/>
-          <input class="control" type="hidden" name="time" value="$time" readonly/>
+          <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
           
              <div class="col-25"><label>Mensaje:</label> </div>
              <div class="col-75"> <textarea class="control" type="text" name="text" value="$text" />$text</textarea>$errorText</div>
@@ -61,14 +59,13 @@ class FormularioEditarMensaje extends Form
     $app = Aplicacion::getSingleton();
         
     $id = $datos['id'] ?? null;
-    $id2 = $datos['id2'] ?? null;
-    $name = $datos['name'] ?? null;
-    $time = $datos['time'] ?? null;
 
     $text = $datos['text'] ?? null;
     if ( empty($text) ) {
         $result['text'] = "El mensaje no puede quedar vacío.";
     }
+        
+    $prevPage = $datos['prevPage'] ?? null;
 
     if (count($result) === 0) {
         $mensaje = Mensaje::buscaPorId($id);
@@ -78,7 +75,7 @@ class FormularioEditarMensaje extends Form
             if ( ! $mensaje ) {
                 $result[] = "El mensaje ya existe";
             } else {
-                $result = RUTA_APP."eventoTema.php?id={$id2}&nombre={$name}&time={$time}";
+              $result = "{$prevPage}";
             }
         }
     }

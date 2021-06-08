@@ -11,13 +11,14 @@ function listaMensajes($id) {
 	$app = Aplicacion::getSingleton();
     $html = '';
     $mensajes = Mensaje::buscaMensajesPorIdEventoTema($id);
+    $prevLink = urlencode($_SERVER['REQUEST_URI']);
     foreach($mensajes as $mensaje) {
     
         $html .= '<div class="row-mensaje">';
         $html .= "<p>{$mensaje->text()} ({$mensaje->user()}) [{$mensaje->time_created()}]  ";
         if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin()) || $mensaje->user() == $app->user()) {
-            $html .= '<a href="'.RUTA_APP.'editarMensaje.php?id='.$mensaje->id().'">Editar</a>';
-            $html .= '<a href="'.RUTA_APP.'eliminarMensaje.php?id='.$mensaje->id().'"> Eliminar</a>';
+            $html .= '<a href="'.RUTA_APP.'editarMensaje.php?id='.$mensaje->id().'&prevPage='.$prevLink.'">Editar</a>';
+            $html .= '<a href="'.RUTA_APP.'eliminarMensaje.php?id='.$mensaje->id().'&prevPage='.$prevLink.'"> Eliminar</a>';
         }
         $html .= '</p></div>';
     }
@@ -50,7 +51,7 @@ function listaEventos() {
         $href = RUTA_APP.'eventoTema.php?id=' . $evento->id() . '&name=' . $evento->name() . '&time=' . $evento->time();
         $editarEliminar = '';
         $prevLink = urlencode($_SERVER['REQUEST_URI']);
-        if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
+        if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin() || $app->esModerador())) {
             $editarEliminar .= '<p><a href="'.RUTA_APP.'editarEventoTema.php?id='.$evento->id().'$prevPage='.$prevLink.'">Editar</a> <a href="'.RUTA_APP.'eliminarEventoTema.php?id='.$evento->id().'&name='.$evento->name().'&prevPage='.$prevLink.'">Eliminar</a></p>';
         }
 
@@ -98,7 +99,7 @@ function listaTemas() {
     foreach($temas as $tema) {
         $href = RUTA_APP.'eventoTema.php?id=' . $tema->id() . '&name=' . $tema->name() . '&time=' . $tema->time();
         $editarEliminar = '';
-        if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
+        if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin() || $app->esModerador())) {
             $editarEliminar .= '<p><a href="'.RUTA_APP.'editarEventoTema.php?id='.$tema->id().'&prevPage='.$prevLink.'">Editar</a> <a href="'.RUTA_APP.'eliminarEventoTema.php?id='.$tema->id().'&name='.$tema->name().'&prevPage='.$prevLink.'">Eliminar</a></p>';
         }
 

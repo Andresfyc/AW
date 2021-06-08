@@ -36,13 +36,20 @@ class FormularioNuevoEventoTema extends Form
                 
                     <div class="col-25"><label>Descripción:</label> </div>
                     <div class="col-75"> <textarea class="control" type="text" name="description" value="$description" />$description</textarea>$errorDescription</div>
+        EOF;
             
+        $app = Aplicacion::getSingleton();
+        if ($app->usuarioLogueado() && ($app->esAdmin() || $app->esGestor() || $app->esModerador())) {
+            $camposFormulario .= <<<EOF
                     <div class="col-25"><label>Fecha (Evento):</label> </div>
                     <div class="col-75"><input class="control" type="date" name="date" value="$date" />$errorDate</div>
              
                     <div class="col-25"><label>Hora (Evento):</label> </div>
                     <div class="col-75"><input class="control" type="time" name="time" value="$time" />$errorTime</div>
-                
+            EOF;
+        }
+           
+        $camposFormulario .= <<<EOF
                 <div><button type="submit" name="nueva">Añadir</button></div>
                 </div>
             </fieldset>
@@ -71,7 +78,7 @@ class FormularioNuevoEventoTema extends Form
 
         if (count($result) === 0) {
             $dateTime = !empty($date) && empty($time) ? $date . ' 00:00:00' : $date . ' ' . $time;
-            if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin()))
+            if ($app->usuarioLogueado())
                 $eventoTema = EventoTema::crea($name, $description, $dateTime);
                 if ( ! $eventoTema ) {
                     $result[] = "El evento/tema ya existe";

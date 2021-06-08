@@ -3,10 +3,9 @@
 require_once __DIR__.'/includes/config.php';
 
 $idEventoTema = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-$nombreEventoTema = filter_input(INPUT_GET, 'nombre', FILTER_SANITIZE_STRING);
-$timeEventoTema = filter_input(INPUT_GET, 'time', FILTER_SANITIZE_STRING);
+$prevPage = filter_input(INPUT_GET, 'prevPage', FILTER_SANITIZE_STRING);
 
-$form = new es\ucm\fdi\aw\mensajes\FormularioNuevoMensaje($idEventoTema, $nombreEventoTema, $timeEventoTema);
+$form = new es\ucm\fdi\aw\mensajes\FormularioNuevoMensaje($idEventoTema, urldecode($prevPage));
 $htmlFormNuevoMensaje = $form->gestiona();
 
 $tituloPagina = 'Añadir Mensaje';

@@ -8,22 +8,19 @@ class FormularioNuevoMensaje extends Form
 {
 
     private $id;
-    private $name;
-    private $time;
+    private $prevPage;
     
-    public function __construct($id, $name, $time) {
+    public function __construct($id, $prevPage) {
         parent::__construct('formNuevoMensaje', $id);
         $this->id = $id;
-        $this->name = $name;
-        $this->time = $time;
+        $this->prevPage = $prevPage;
     }
 
     protected function generaCamposFormulario($datos, $errores = array())
     {
         $mensaje = $datos['text'] ?? '';
         $id = $datos['id'] ?? $this->id;
-        $name = $datos['name'] ?? $this->name;
-        $time = $datos['time'] ?? $this->time;
+        $prevPage = $datos['prevPage'] ?? $this->prevPage;
 
         // Se generan los mensajes de error si existen.
         $htmlErroresGlobales = self::generaListaErroresGlobales($errores);
@@ -35,8 +32,7 @@ class FormularioNuevoMensaje extends Form
                 $htmlErroresGlobales
                 <h1>Añadir Mensaje</h1>
                     <input type="hidden" name="id" value="$id" readonly/>
-                    <input  type="hidden" name="name" value="$name" readonly/>
-                    <input  type="hidden" name="time" value="$time" readonly/>
+                    <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
                     <textarea class="control" type="text" name="text" value="$mensaje" placeholder="Mensaje..." required />$mensaje</textarea>$errorText
                 
                 <button type="submit" name="nuevoMensaje">Publicar</button>
@@ -53,13 +49,13 @@ class FormularioNuevoMensaje extends Form
         $app = Aplicacion::getSingleton();
         
         $id = $datos['id'] ?? null;
-        $name = $datos['name'] ?? null;
-        $time = $datos['time'] ?? null;
 
         $text = $datos['text'] ?? null;
         if ( empty($text)  ) {
             $result['text'] = "El mensaje no puede estar vacío.";
         }
+        
+        $prevPage = $datos['prevPage'] ?? null;
 
         if (count($result) === 0) {
             if ($app->usuarioLogueado())
@@ -67,7 +63,7 @@ class FormularioNuevoMensaje extends Form
                 if ( ! $mensaje ) {
                     $result[] = "Error";
                 } else {
-                    $result = RUTA_APP."eventoTema.php?id={$id}&name={$name}&time={$time}";
+                    $result = "{$prevPage}";
                 }
             }
         

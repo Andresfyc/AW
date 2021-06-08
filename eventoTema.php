@@ -20,8 +20,9 @@ if ($timeEventoTema != NULL) {
 }
 
 $app = Aplicacion::getSingleton();
+$prevLink = urlencode($_SERVER['REQUEST_URI']);
 if ($app->usuarioLogueado()) {
-    $contenidoPrincipal .= '<h3><a href="'.RUTA_APP.'nuevoMensaje.php?id='.$idEventoTema.'&nombre='.$nameEventoTema.'&time='.$timeEventoTema.'">Escribir nuevo mensaje</a></h3>';
+    $contenidoPrincipal .= '<h3><a href="'.RUTA_APP.'nuevoMensaje.php?id='.$idEventoTema.'&prevPage='.$prevLink.'">Escribir nuevo mensaje</a></h3>';
 }
 
 $contenidoPrincipal .= listaMensajes($idEventoTema);

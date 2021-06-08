@@ -94,7 +94,7 @@ class FormularioEditarEventoTema extends Form
 
         if (count($result) === 0) {
             $dateTime = (!empty($date) && empty($time)) ? $date . ' 00:00:00' : $date . ' ' . $time;
-            if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
+            if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin() || $app->esModerador())) {
                 $eventoTema = EventoTema::editar($id, $name, $description, $dateTime);
 
                 if (!$eventoTema) {

@@ -17,8 +17,7 @@ function mostrarActoresDirectores($actorDirector) {
 
 function mostrarMenuAdmin(){
     $app = Aplicacion::getSingleton();
-    if ($app->usuarioLogueado() && ($app->esAdmin() || $app->esGestor())) {
-        //require("includes/comun/menuAdmin_utils.php");
+    if ($app->usuarioLogueado() && ($app->esAdmin() || $app->esGestor() || $app->esModerador())) {
 		echo mostrarMenuPro();
     }
 }

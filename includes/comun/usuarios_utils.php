@@ -155,6 +155,10 @@ function mostrarMenuPro()
                     <li><a href="nuevoPlan.php">Añadir Plan</a></li>
                 </ul>
             </li>
+        EOS;
+    }
+    if ($app->esAdmin() || $app->esGestor() || $app->esModerador()) {
+        $html .= <<<EOS
             <li><a href="#">Eventos y Temas</a>
                 <ul>
                     <li><a href="foro.php">Ver Eventos y Temas</a></li>
