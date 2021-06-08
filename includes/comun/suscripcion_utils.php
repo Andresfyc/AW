@@ -92,7 +92,8 @@ function pagarPaypal($plan)
     $html = '<div id="paypal-button"></div>';
 
 
-    $html .= <<<EOS
+        $html .= <<<EOS
+        
         <script>
             paypal.Button.render({
             // Configure environment
@@ -127,12 +128,11 @@ function pagarPaypal($plan)
         onAuthorize: function(data, actions) {
           return actions.payment.execute().then(function() {
             // Show a confirmation message to the buyer
-            
-            
+          
         EOS;
-        Usuario::acPremium($meses, $user );
+        Usuario::acPremium($meses, $user);
 
-    $html .= <<<EOS
+        $html .= <<<EOS
             window.location="/FilmSwap3/verificador.php?paymentID="+data.paymentID+"&payerID="+data.payerID+"&token="+data.paymentToken+"&pid=$productId";
             }); 
              } 
@@ -140,5 +140,6 @@ function pagarPaypal($plan)
       </script> 
     EOS;
 
-    return $html;
+        return $html;
+
 }

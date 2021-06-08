@@ -29,9 +29,7 @@ if($app->usuarioLogueado())
 {
     $contenidoPrincipal.= pagarPaypal($plan);
 }else{
-
     header("location:login.php?prevPage={$prevLink}");
-
 }
 $contenidoPrincipal .=  '<div>';
 

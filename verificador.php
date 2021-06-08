@@ -10,8 +10,12 @@ if(!empty($_GET['paymentID']) && !empty($_GET['payerID']) && !empty($_GET['token
     $token = $_GET['token'];
     $pid = $_GET['pid'];
 
+
+
 $contenidoPrincipal = <<<EOS
-    <h1>Verificacion</h1>
+
+      <script src="js/sweetAlert.js">  </script>
+            <h1>Verificacion</h1>
      <div class="alert alert-success">
         <strong>Success!</strong> Your order processed successfully.
      </div>
@@ -22,7 +26,12 @@ $contenidoPrincipal = <<<EOS
             <td>product Id: {$pid}</td>
         </tr>
     </table
+
+   
+
 EOS;
+
+
 }
 
 

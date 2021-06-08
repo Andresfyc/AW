@@ -1,5 +1,5 @@
 <header>
-    <h1>FilmSwap</h1>
+    <h1 class="titulo">FilmSwap</h1>
 
     <div class="navbar">
         <a class="active" href="index.php"><i class="fa fa-fw fa-home"></i> Inicio</a>

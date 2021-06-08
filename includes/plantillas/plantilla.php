@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lobster|Nunito|Pacifico|Kaushan" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title><?= $tituloPagina ?></title>
 </head>
@@ -25,5 +26,7 @@
     <?php
     require("includes/comun/sidebarDer.php");
     ?>
+
+
 </body>
 </html>

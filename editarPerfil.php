@@ -13,8 +13,11 @@ $htmlFormEditarUsuario = $form->gestiona();
 $tituloPagina = 'Editar Usuario';
 
 $contenidoPrincipal = <<<EOS
-    <h1>Editar Usuario</h1>
+    
+   
     $htmlFormEditarUsuario
+    
+    <script src="js/editarPerfil.js"> </script>
 EOS;
 
 require __DIR__.'/includes/plantillas/plantilla.php';
