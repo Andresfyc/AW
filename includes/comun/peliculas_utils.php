@@ -46,16 +46,23 @@ function mostrarPortadaPeliculas($limit=NULL) {
     EOS;
 
     $aux = "";
+    $aux2 = "";
+
 	 if($app->usuarioLogueado() && $pelicula!=null){
         foreach($pelicula as $peli){
            foreach($peli->genres() as $genre){
 			   $aux = listaPeliculasGen('rating', null, $genre->id(), $limit);   
 			}
-        
+            foreach($peli->actors() as $actor){
+                $aux2 = listadoPelisActoresVistos('title',null,$actor->id(),$limit);   
+             }
         }
+        if($aux!=null && $aux2!=null)
             $html .=<<<EOS
                 <h3> Porque has visto {$peli->title()}</h3>
                  $aux
+                 <h3> Peliculas de actores y directores que has visto</h3>
+                 $aux2
             EOS;
     }
      
@@ -316,6 +323,13 @@ function busquedaPeliculas($search)
     }
 
     return $html;
+}
+
+function listadoPelisActoresVistos($order, $ascdesc, $value, $limit=NULL){
+
+    $peliculas = Pelicula::peliculasPorActorDirectorId($order, $ascdesc, $value);
+
+    return getDivPeliculas($peliculas, $limit, 'actors', $value);
 }
 
 function listaPeliculas($order, $ascdesc, $limit=NULL, $table, $value)

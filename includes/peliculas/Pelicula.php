@@ -197,7 +197,7 @@ class Pelicula
     $app = App::getSingleton();
     $conn = $app->conexionBd();
 
-		$query = sprintf("SELECT p.* FROM peliculas p JOIN peliculas_generos v ON p.id = v.film_id WHERE v.genre_id = '%s' ORDER BY %s %s", $id,$order, $asds);
+		$query = sprintf("SELECT p.* FROM peliculas p JOIN peliculas_generos v ON p.id = v.film_id WHERE v.genre_id = '%s' ORDER BY %s %s", $id, $order, $asds);
 		if($limit) {
 		  $query = $query . ' LIMIT %d';
 		  $query = sprintf($query, $limit);
@@ -213,6 +213,25 @@ class Pelicula
 
 		return $result;
 	}
+
+  public static function peliculasPorActorDirectorId ($order, $ascdesc,$id)
+  {
+    $asds = $ascdesc ? 'ASC' : 'DESC';
+		$result = [];
+
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+    $query = sprintf("SELECT p.* FROM peliculas p JOIN peliculas_actores_directores pad ON p.id = pad.film_id WHERE pad.actor_director_id = %d ORDER BY %s %s" , $id, $order, $asds);
+		$rs = $conn->query($query);
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			  $result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating']);
+		  }
+		  $rs->free();
+		}
+
+    return $result;
+  }
 	
 	public static function ultimaPeliculaWatching($user, $limit=NULL)
 	{
@@ -322,24 +341,6 @@ class Pelicula
       }
       $rs->free();
     }
-
-    return $result;
-  }
-  
-	public static function peliculasPorActorDirectorId ($id)
-  {
-		$result = [];
-
-    $app = App::getSingleton();
-    $conn = $app->conexionBd();
-    $query = sprintf("SELECT p.* FROM peliculas p JOIN peliculas_actores_directores pad ON p.id = pad.film_id WHERE pad.actor_director_id = %d", $id);
-		$rs = $conn->query($query);
-		if ($rs) {
-		  while($fila = $rs->fetch_assoc()) {
-			  $result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating']);
-		  }
-		  $rs->free();
-		}
 
     return $result;
   }

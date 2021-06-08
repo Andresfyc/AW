@@ -71,6 +71,15 @@ function ordenar($aux,$table,$value){
 			}	
 			break;
 
+		case 'actors':
+			
+			if($aux==$value){
+				return listadoPelisActoresVistos('title', null, $value, null);
+			} else{
+				return listadoPelisActoresVistos($aux, null, $value, null);	 				
+			}
+			break;	
+
 		default:
 			if($aux==null){
 				return listaPeliculas('title', null,null, null,null);
@@ -95,11 +104,9 @@ function dropdown_ordenacion() {
 			$html.='<option value="4">Por duración</option>';
 		$html.='</select>';
 
-	//$html.='<input type="submit" value="Submit">';
 	$html.= '</form>';
-	
-	
-return $html;
+
+	return $html;
 }
 
 $tituloPagina = 'Películas';
