@@ -23,6 +23,7 @@ $href = '';
 	$actores = listaActoresDirectores($pelicula->actors(), 0);
 	$directores = listaActoresDirectores($pelicula->directors(), 1);
 	$reviews = listaReviews($pelicula->reviews());
+	$generos = listaGeneros($pelicula->genres());
 
 	$contenidoPrincipal = '';
 
@@ -62,6 +63,8 @@ $contenidoPrincipal.=<<<EOS
     <p> Fecha de estreno: {$pelicula->date_released()} </p>
     <p> Duración: {$pelicula->duration()} minutos </p>
     <p> País: {$pelicula->country()} </p>
+	<p> Géneros: </p>
+	$generos
     <p> Puntuación: {$pelicula->rating()}/5 </p>
     <p> Sinopsis: {$pelicula->plot()} </p>
     $peliculaLista

@@ -177,6 +177,25 @@ function listaPlataformas($plataformas,$peliculasPlataformas){
 
     return $html;
 }
+
+function listaGeneros($genres){
+    $html = '';
+    if (!empty($genres)) {
+        $html .= '<div class="div-generos-peli">';
+        foreach($genres as $genre) {
+            $text = $genre->name();
+            $table = 'genre';
+
+            $html.=<<<EOS
+                <div class="div-genero-peli">
+                <p><a href="./peliculas.php?table={$table}&value={$genre->id()}">$text</a></p>
+                </div>
+            EOS;
+        }
+        $html .= '</div>';
+    }
+    return $html;
+}
 function listaReviews($reviews)
 {
 	$app = Aplicacion::getSingleton();
