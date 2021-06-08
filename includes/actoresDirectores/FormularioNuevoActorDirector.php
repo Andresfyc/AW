@@ -90,9 +90,13 @@ class FormularioNuevoActorDirector extends Form
         }
 
         $birth_date = $datos['birth_date'] ?? null;
+		$fecha_actual = strtotime(date("Y-m-d"));
+		$fecha_entrada= strtotime($birth_date);
         if ( empty($birth_date) ) {
             $result['birth_date'] = "La fecha no puede quedar vacía";
-        }
+        }else if($fecha_entrada > $fecha_actual){
+			$result['birth_date'] ="La fecha no puede ser posterior a la actual.";
+		}
         $nationality = $datos['nationality'] ?? null;
         if ( empty($nationality)) {
             $result['nationality'] = "La nacionalidad no puede quedar vacía";
