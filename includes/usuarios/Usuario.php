@@ -10,9 +10,9 @@ class Usuario
 {
 
     public static function login($user, $password)
-    {
+    {	$password_hash=self::buscaPasswordUsu($user);
         $usuario = self::buscaUsuario($user);
-        if ($usuario && $usuario->compruebaPassword($password)) {
+        if ($usuario && $usuario->compruebaPassword($password,$password_hash)) {
             return $usuario;
         }
         return false;
@@ -38,7 +38,20 @@ class Usuario
         }
         return $result;
     }
-    
+    public static function buscaPasswordUsu($user){
+		$app = App::getSingleton();
+        $conn = $app->conexionBd();
+		$query = sprintf("SELECT password FROM usuarios U WHERE U.user = '%s'", $conn->real_escape_string($user));
+		$rs = $conn->query($query);
+		if($rs){
+			$fila = $rs->fetch_assoc();
+			$password=$fila['password'];
+		}else{
+			echo "Error al consultar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
+            exit();
+		}
+		return $password;
+	}
     public static function busqueda($search)
     {
 		$result = [];
@@ -381,9 +394,9 @@ class Usuario
         return $this->premiumValidity;
     }
 
-    public function compruebaPassword($password)
+    public function compruebaPassword($password,$password_hash)
     {
-        return password_verify($password, $this->password);
+        return password_verify($password, $password_hash);
     }
 
     public function cambiaPassword($nuevoPassword)
