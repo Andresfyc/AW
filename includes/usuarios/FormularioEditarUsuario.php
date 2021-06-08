@@ -73,13 +73,14 @@ class FormularioEditarUsuario extends Form
                 
                 <div class="active">
                 
-                 <input class="control" type="text" name="name" value="$name" />$errorName
+                 <input class="control" type="text" name="name" value="$name" />$errorName$errorPasswordComprobar
                 </div>
                 
                 <div>
                
-                  <input class="control" type="file" name="image" value="$image" />$errorImage
+                  <input class="control" type="file" name="image" value="$image" />$errorImage$errorPasswordComprobar
                 </div>
+                
                 
                 <div>
               
@@ -125,7 +126,7 @@ class FormularioEditarUsuario extends Form
 
             $passwordComprobar = $datos['passwordComprobar'] ?? null;
             if ( empty($passwordComprobar) || mb_strlen($passwordComprobar) < 5 ) {
-                $result['passwordComprobar'] = "El password tiene que tener una longitud de al menos 5 caracteres.";
+                $result['passwordComprobar'] = "Debe introducir la contraseña para realizar cualquier cambio";
             }
 
             $password = $datos['password'] ?? null;
