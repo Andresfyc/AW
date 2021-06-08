@@ -13,9 +13,9 @@ function mostrarSaludo() {
 		$notificacionesCompletadas = getNotificacionesCompletadas($app->user());
 		if ($notificacionesCompletadas) {
 			$numNotifs = count($notificacionesCompletadas);
-			echo "<a href='notificaciones.php?id?{$app->user()}'>Notificaciones ({$numNotifs})</a>";
+			echo "<a href='notificaciones.php?id={$app->user()}'>Notificaciones ({$numNotifs})</a>";
 		} else {
-			echo "<a href='notificaciones.php?id?{$app->user()}'>Notificaciones</a>";
+			echo "<a href='notificaciones.php?id={$app->user()}'>Notificaciones</a>";
 		}
 	} else {
 		echo "<img id=\"prof_pic\" src=\"img/usuarios/user_no_logged.png\" alt=\"user\" ><p> Usuario desconocido </p><a href='login.php?prevPage=$prevLink'>Login</a> <a href='registro.php'>Registro</a>";
@@ -27,6 +27,8 @@ function mostrarAmigos() {
 	$user = $app->user();
 	if ($app->usuarioLogueado()) {
 		echo listaAmigos($user, 7);	
+		echo "<a href='swappers.php?id={$user}'> Ver todos tus swappers</a>";
+		echo "<a href='reviews.php'> Ver reviews de tus swappers</a>";
 	} else {
 		echo "<p>Inicia sesión para ver la actividad de tus amigos</p>";
 	}

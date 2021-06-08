@@ -15,6 +15,7 @@
             <li><a href="nuevoActorDirector.php">Añadir Actor o Director</a></li>
             <li><a href="plataformas.php">Ver Plataformas</a></li>
             <li><a href="nuevaPlataforma.php">Añadir Plataforma</a></li>
+            <li><a href="reviews.php">Ver Reviews</a></li>
         </ul>
     </li>
     <li><a href="#">Suscripciones</a>

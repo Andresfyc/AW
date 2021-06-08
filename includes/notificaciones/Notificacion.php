@@ -103,6 +103,25 @@ class Notificacion
       return $result;
     }
 
+    public static function getNotificacionesPendientes($user)
+    {
+      $result = [];
+
+      $app = App::getSingleton();
+      $conn = $app->conexionBd();
+      $query = sprintf("SELECT * FROM notificaciones WHERE user_notify = '%s' AND review_id IS NULL ORDER BY date_created DESC", $user);
+      $rs = $conn->query($query);
+      $result = false;
+      if ($rs) {
+        while($fila = $rs->fetch_assoc()) {
+          $result[] = new Notificacion($fila['id'], $fila['user_review'], $fila['user_notify'], $fila['film_id'], $fila['date_created'], $fila['review_id']);
+        }
+        $rs->free();
+      }
+
+      return $result;
+    }
+
     public static function getNotificacion($user_notify, $user_review, $film_id)
     {
         $result = null;

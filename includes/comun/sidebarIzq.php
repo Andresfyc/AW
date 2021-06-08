@@ -5,19 +5,21 @@ use es\ucm\fdi\aw\Aplicacion;
 
 function mostrarActoresDirectores($actorDirector) {
 	$app = Aplicacion::getSingleton();
+	$ad = $actorDirector ? "directores" : "actores";
 	$user = $app->user();
 	if ($app->usuarioLogueado()) {
-		echo listaActoresDirectoresUser($user, 7, $actorDirector);			
+		echo listaActoresDirectoresUser($user, 7, $actorDirector);
+		echo "<a href='actoresDirectoresFavoritos.php?id={$user}&ad={$actorDirector}'> Ver tus {$ad} favoritos </a>";			
 	} else {
-		//TODO Cambiar para que aparezcan actores y directores en general
 		echo "<p>Inicia sesión para ver tus actores y directores</p>";
 	}
 }
 
 function mostrarMenuAdmin(){
     $app = Aplicacion::getSingleton();
-    if ($app->usuarioLogueado() && $app->esAdmin()) {
-        require("includes/comun/menuAdmin_utils.php");
+    if ($app->usuarioLogueado() && ($app->esAdmin() || $app->esGestor())) {
+        //require("includes/comun/menuAdmin_utils.php");
+		echo mostrarMenuPro();
     }
 }
 

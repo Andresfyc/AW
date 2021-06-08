@@ -16,8 +16,8 @@ function mostrarPlanes() {
         $html .= listaPlanes();
     }
     if ($app->usuarioLogueado() && ($app->esPremium())) {
-        $html .= "<a class='premium' ><i class='fa fa-star' ></i> Premium </a>";
-
+        $html = "<a class='premium' ><i class='fa fa-star' ></i> Premium </a>";
+        $html = "<p> Enhorabuena, tienes una sucripción premium hasta la fecha {$app->validezPremium()} </p>";
     }
     else{
         $html = "<h1>Planes</h1>";

@@ -76,7 +76,7 @@ function listaAmigos($user, $limit=NULL)
     foreach($usuarios as $usuario) {
         $peliculaWatching = $usuario->film();
         $watching = '';
-        $swapper='<p><a href="usuario.php?id='.$usuario->user().'"> Swapper: '.$usuario->user().' </a></p>';
+        $swapper='<p><a href="usuario.php?id='.$usuario->user().'">'.$usuario->user().' </a></p>';
         if ($peliculaWatching) {
             $watching .= '<p><a href="'.RUTA_APP.'pelicula.php?id='.$peliculaWatching->id().'"> Viendo: '.$peliculaWatching->title().' </a> </p>';
             $notificacion = getNotificacion($user, $usuario->user(), $peliculaWatching->id());
@@ -118,6 +118,58 @@ function listaAmigos($user, $limit=NULL)
 }
 
 
+function mostrarMenuPro()
+{
+	$app = Aplicacion::getSingleton();
+
+    $html = '<ul class="mAdmin">';
+
+    if ($app->esAdmin())
+    {
+        $html .= <<<EOS
+            <li><a href="#">Usuarios</a>
+                <ul>
+                    <li><a href="usuarios.php">Ver Usuarios</a></li>
+                    <li><a href="registro.php">Registrar Usuario</a></li>
+                </ul>
+            </li>
+        EOS;
+    }
+    if ($app->esAdmin() || $app->esGestor()) {
+        $html .= <<<EOS
+            <li><a href="#">Peliculas</a>
+                <ul>
+                    <li><a href="peliculas.php">Películas</a></li>
+                    <li><a href="nuevaPelicula.php">Añadir Pelicula</a></li>
+                    <li><a href="generos.php">Ver Géneros</a></li>
+                    <li><a href="nuevoGenero.php">Añadir Género</a></li>
+                    <li><a href="actoresDirectores.php">Ver Actores y Directores</a></li>
+                    <li><a href="nuevoActorDirector.php">Añadir Actor o Director</a></li>
+                    <li><a href="plataformas.php">Ver Plataformas</a></li>
+                    <li><a href="nuevaPlataforma.php">Añadir Plataforma</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Suscripciones</a>
+                <ul>
+                    <li><a href="premium.php">Ver Planes</a></li>
+                    <li><a href="nuevoPlan.php">Añadir Plan</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Eventos y Temas</a>
+                <ul>
+                    <li><a href="foro.php">Ver Eventos y Temas</a></li>
+                    <li><a href="nuevoEventoTema.php">Añadir Evento o Tema</a></li>
+                </ul>
+            </li>
+            </ul>
+            </div>
+        EOS;
+    }
+
+    return $html;
+}
+
+
 function listaActoresDirectoresUser($user = NULL, $limit = NULL, $actorDirector)
 {		
     $html = '<div>';
@@ -141,35 +193,133 @@ function listaActoresDirectoresUser($user = NULL, $limit = NULL, $actorDirector)
     return $html;
 }
 
-function listaReviewsUser($user = NULL)
+if(array_key_exists('eliminarNoti', $_POST)) {
+    $idNoti= $_POST['idNoti'];
+    $app = Aplicacion::getSingleton();
+    if ($app->usuarioLogueado()) {
+        eliminarNotificacionPorId($idNoti);
+        header('Refresh: 0');
+    }
+}
+
+function listaNotificacionesUser($user = NULL)
+{
+    $app = Aplicacion::getSingleton();
+    $RUTA_APP = RUTA_APP;
+
+    $notificaciones = Notificacion::getNotificacionesCompletadas($user);
+	$html = '<div>';
+	if($notificaciones !=null){
+        $html .= '<h3> Completadas: </h3>';
+        foreach($notificaciones as $notificacion) {
+			$pelicula = Pelicula::buscaPorId($notificacion->film_id());
+            $html .= <<<EOS
+                <div class="row-item">
+                <p>- <a href="{$RUTA_APP}usuario.php?id={$notificacion->user_review()}">{$notificacion->user_review()}</a> ha escrito una <a href="{$RUTA_APP}reviews.php?id={$notificacion->user_review()}&film={$notificacion->film_id()}"> review </a> para la película <a href="{$RUTA_APP}pelicula.php?id={$notificacion->film_id()}">{$pelicula->title()}</a></p>
+                </div>
+            EOS;
+			if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $notificacion->user_notify() == $app->user())) {
+                $html .= <<<EOS
+                    <form method="post">
+                        <input type="hidden" name="idNoti" value="{$notificacion->id()}" readonly/>
+                        <input type="submit" name="eliminarNoti"
+                                class="button" value="Marcar como leída" />
+                    </form>
+                EOS;
+            }
+        }
+    }
+
+    $notificaciones = Notificacion::getNotificacionesPendientes($user);
+	if($notificaciones !=null){
+        $html .= '<h3> Pendientes: </h3>';
+        foreach($notificaciones as $notificacion) {
+			$pelicula = Pelicula::buscaPorId($notificacion->film_id());
+            $html .= <<<EOS
+                <div class="row-item">
+                <p>- Se te notificará cuando <a href="{$RUTA_APP}usuario.php?id={$notificacion->user_review()}">{$notificacion->user_review()}</a> publique una review para la película <a href="{$RUTA_APP}pelicula.php?id={$notificacion->film_id()}">{$pelicula->title()}</a></p>
+                </div>
+            EOS;
+			if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $notificacion->user_notify() == $app->user())) {
+                $html .= <<<EOS
+                    <form method="post">
+                        <input type="hidden" name="idNoti" value="{$notificacion->id()}" readonly/>
+                        <input type="submit" name="eliminarNoti"
+                                class="button" value="Eliminar" />
+                    </form>
+                EOS;
+            }
+        }
+    }
+    $html .= '</div>';
+
+    return $html;
+}
+
+function listaReviewsUser($user = NULL, $film_id = NULL)
 {		
 	$app = Aplicacion::getSingleton();
 
-    $reviews = Review::buscaReviewsPorIdUser($user);
-    $prevLink = urlencode($_SERVER['REQUEST_URI']);
-	$html = '<div>';
-	if($reviews !=null){
-        
-        foreach($reviews as $review) {
-			$pelicula = Pelicula::buscaPorId($review->film_id());
-            $html .= '<div class="div-reviewsPeli">';
-            $html .= '<div>';
-			$html .= "<p><a href=\"./pelicula.php?id={$pelicula->id()}\">{$pelicula->title()}</a></p>";
-            $html .= "<p>Puntuación: {$review->stars()}/5</p>";
-            $html .= "<p>{$review->time_created()}</p>";
-            $html .= "<p>{$review->user()}</p><p>";
-			if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $review->user() == $app->user())) {
-                $html .= "<a href=\"./editarReview.php?id={$review->id()}&prevPage={$prevLink}\">Editar</a>";
-                $html .= "<a href=\"./eliminarReview.php?id={$review->id()}&prevPage={$prevLink}\"> Eliminar</a>";
-            }			
-            $html .= '</p></div>';
-            $html .= "<p>{$review->review()}</p>";
-            $html .= '</div>';
+    if ($user == null && $film_id == null) {
+        $users = Usuario::listaAmigos($app->user());
+        foreach ($users as $user) {
+            $reviews = Review::buscaReviewsPorIdUser($user->user());
+            $prevLink = urlencode($_SERVER['REQUEST_URI']);
+            $html = '<div>';
+            if($reviews !=null){
+                
+                foreach($reviews as $review) {
+                    $pelicula = Pelicula::buscaPorId($review->film_id());
+                    if ($film_id == NULL || $film_id == $pelicula->id()) {
+                        $html .= '<div class="div-reviewsPeli">';
+                        $html .= '<div>';
+                        $html .= "<p><a href=\"./pelicula.php?id={$pelicula->id()}\">{$pelicula->title()}</a></p>";
+                        $html .= "<p>Puntuación: {$review->stars()}/5</p>";
+                        $html .= "<p>{$review->time_created()}</p>";
+                        $html .= "<p>{$review->user()}</p><p>";
+                        if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $review->user() == $app->user())) {
+                            $html .= "<a href=\"./editarReview.php?id={$review->id()}&prevPage={$prevLink}\">Editar</a>";
+                            $html .= "<a href=\"./eliminarReview.php?id={$review->id()}&prevPage={$prevLink}\"> Eliminar</a>";
+                        }			
+                        $html .= '</p></div>';
+                        $html .= "<p>{$review->review()}</p>";
+                        $html .= '</div>';
+                    }
 
+                }
+                
+            }
+            $html .= '</div>';
         }
-        
+    } else {
+        $reviews = Review::buscaReviewsPorIdUser($user);
+        $prevLink = urlencode($_SERVER['REQUEST_URI']);
+        $html = '<div>';
+        if($reviews !=null){
+            
+            foreach($reviews as $review) {
+                $pelicula = Pelicula::buscaPorId($review->film_id());
+                if ($film_id == NULL || $film_id == $pelicula->id()) {
+                    $html .= '<div class="div-reviewsPeli">';
+                    $html .= '<div>';
+                    $html .= "<p><a href=\"./pelicula.php?id={$pelicula->id()}\">{$pelicula->title()}</a></p>";
+                    $html .= "<p>Puntuación: {$review->stars()}/5</p>";
+                    $html .= "<p>{$review->time_created()}</p>";
+                    $html .= "<p>{$review->user()}</p><p>";
+                    if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $review->user() == $app->user())) {
+                        $html .= "<a href=\"./editarReview.php?id={$review->id()}&prevPage={$prevLink}\">Editar</a>";
+                        $html .= "<a href=\"./eliminarReview.php?id={$review->id()}&prevPage={$prevLink}\"> Eliminar</a>";
+                    }			
+                    $html .= '</p></div>';
+                    $html .= "<p>{$review->review()}</p>";
+                    $html .= '</div>';
+                }
+
+            }
+            
+        }
+        $html .= '</div>';
     }
-    $html .= '</div>';
 
     return $html;
 }
@@ -259,4 +409,9 @@ function delAmigo($user, $amigo)
 function eliminarUsuarioPorUser($user)
 {
     return Usuario::borraPorUser($user);
+}
+
+function eliminarNotificacionPorId($id)
+{
+    return Notificacion::borraPorId($id);
 }

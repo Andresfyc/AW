@@ -2,20 +2,19 @@
 require_once __DIR__.'/includes/config.php';
 require_once __DIR__.'/includes/comun/usuarios_utils.php';
 
-$tituloPagina = 'Reviews';
-$contenidoPrincipal='<h1>Reviews</h1>';
+$tituloPagina = 'Notificaciones';
+$contenidoPrincipal='<h1>Notificaciones</h1>';
 
-function mostrarReviewsUser() {
+function mostrarNotificacionesUser() {
 
 	$userIn = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
-	$filmId = filter_input(INPUT_GET, 'film', FILTER_SANITIZE_STRING);
 	$html="";
-	$html .= listaReviewsUser($userIn, $filmId);
+	$html .= listaNotificacionesUser($userIn);
         
 	return $html;
 }
 
-$contenidoPrincipal.= mostrarReviewsUser();
+$contenidoPrincipal.= mostrarNotificacionesUser();
 
 
 require __DIR__ . '/includes/plantillas/plantilla.php';

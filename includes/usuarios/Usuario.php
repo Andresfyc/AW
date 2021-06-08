@@ -28,7 +28,7 @@ class Usuario
         if ($rs) {
             if ( $rs->num_rows == 1) {
                 $fila = $rs->fetch_assoc();
-                $usuario = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator'], $fila['premium']);
+                $usuario = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator'], $fila['premium'], $fila['premium_validity']);
                 $result = $usuario;
             }
             $rs->free();
@@ -52,7 +52,7 @@ class Usuario
 		$rs = $conn->query($query);
 		if ($rs) {
 		  while($fila = $rs->fetch_assoc()) {
-			$result[] = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator'],$fila['premium']);
+			$result[] = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator'], $fila['premium'], $fila['premium_validity']);
 		  }
 		  $rs->free();
 		}
@@ -68,7 +68,7 @@ class Usuario
             return false;
         }
         $image = $image == NULL ? "user_logged.png" : $image;
-        $usuario = new Usuario($user, self::hashPassword($password), $name, $image, $date_joined, $watching, $admin, $content_manager, $moderator, $premium);
+        $usuario = new Usuario($user, self::hashPassword($password), $name, $image, $date_joined, $watching, $admin, $content_manager, $moderator, $premium, null);
         return self::guarda($usuario);
     }
 
@@ -82,7 +82,7 @@ class Usuario
             $admin = $admin ?? $usuario->admin;
             $content_manager = $content_manager ??  $usuario->content_manager;
             $moderator = $moderator ?? $usuario->moderator;
-            $usuario = new Usuario($user, $password, $name, $image, null, null, $admin, $content_manager, $moderator, $usuario-> premium);
+            $usuario = new Usuario($user, $password, $name, $image, null, null, $admin, $content_manager, $moderator, $usuario->premium,$usuario->premiumValidity);
 
             return self::guarda($usuario);
         }
@@ -164,7 +164,7 @@ class Usuario
 		$rs = $conn->query($query);
 		if ($rs) {
 		  while($fila = $rs->fetch_assoc()) {
-			$result[] = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator'], $fila['premium']);
+			$result[] = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator'], $fila['premium'], $fila['premium_validity']);
 		  }
 		  $rs->free();
 		}
@@ -187,7 +187,7 @@ class Usuario
 		$rs = $conn->query($query);
 		if ($rs) {
 		  while($fila = $rs->fetch_assoc()) {
-			$result[] = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator'], $fila['premium']);
+			$result[] = new Usuario($fila['user'], $fila['password'], $fila['name'], $fila['image'], $fila['date_joined'], $fila['watching'], $fila['admin'], $fila['content_manager'], $fila['moderator'], $fila['premium'], $fila['premium_validity']);
 		  }
 		  $rs->free();
 		}
@@ -294,12 +294,14 @@ class Usuario
 	private $moderator;
 
     private $premium;
+
+    private $premiumValidity;
 	
 	private $film;
 
     private $completedNotifications;
 
-    private function __construct($user, $password, $name, $image, $date_joined, $watching, $admin, $content_manager, $moderator, $premium)
+    private function __construct($user, $password, $name, $image, $date_joined, $watching, $admin, $content_manager, $moderator, $premium, $premiumValidity)
     {
         $this->user= $user;
         $this->password = $password;
@@ -311,6 +313,7 @@ class Usuario
         $this->content_manager = $content_manager;
         $this->moderator = $moderator;
         $this->premium = $premium;
+        $this->premiumValidity = $premiumValidity;
 		$this->film = Pelicula::buscaPorId($this->watching);
         $this->completedNotifications = Notificacion::getNotificacionesCompletadas($this->user);
 
@@ -371,6 +374,11 @@ class Usuario
     public function premium()
     {
         return $this->premium;
+    }
+
+    public function premiumValidity()
+    {
+        return $this->premiumValidity;
     }
 
     public function compruebaPassword($password)

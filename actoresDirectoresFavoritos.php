@@ -2,20 +2,21 @@
 require_once __DIR__.'/includes/config.php';
 require_once __DIR__.'/includes/comun/usuarios_utils.php';
 
-$tituloPagina = 'Actores Favoritos';
-$contenidoPrincipal='<h1>Actores Favoritos</h1>';
+$tituloPagina = 'Actores/Directores Favoritos';
 
 function mostrarActoresDirectoresFavoritos() {
 	$userIn = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
 	$ad = filter_input(INPUT_GET, 'ad', FILTER_SANITIZE_STRING);
 
-	$html="";
+	$actorDirector = $ad ? "Directores" : "Actores";
+	
+	$html = '<h1>'.$actorDirector .' Favoritos </h1>';
 	$html .= listaActoresDirectoresUser($userIn, null, $ad);
         
 	return $html;
 }
 
-$contenidoPrincipal.= mostrarActoresDirectoresFavoritos();
+$contenidoPrincipal = mostrarActoresDirectoresFavoritos();
 
 
 require __DIR__ . '/includes/plantillas/plantilla.php';

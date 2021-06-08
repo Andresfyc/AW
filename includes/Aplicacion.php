@@ -147,6 +147,7 @@ class Aplicacion
 	  $_SESSION['esModerador'] = $usuario->moderator();
 	  $_SESSION['esPremium'] = $usuario->premium();
 	  $_SESSION['image'] = $usuario->image();
+	  $_SESSION['validezPremium'] = $usuario->premiumValidity();
     }
 
     public function logout()
@@ -161,6 +162,7 @@ class Aplicacion
       unset($_SESSION['esModerador']);
       unset($_SESSION['esPremium']);
       unset($_SESSION['image']);
+	  unset($_SESSION['validezPremium']);
   
   
       session_destroy();
@@ -213,6 +215,13 @@ class Aplicacion
     {
         $this->compruebaInstanciaInicializada();
         return $_SESSION['esPremium'];
+
+    }
+
+    public function validezPremium()
+    {
+        $this->compruebaInstanciaInicializada();
+        return $_SESSION['validezPremium'];
 
     }
 }
