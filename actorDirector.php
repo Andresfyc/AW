@@ -49,7 +49,7 @@ $tituloPagina = $actorDirector->name();
 $href = '';
 $contenidoPrincipal.=<<<EOS
 	<div class="pagina-pelicula">
-    <img id="imagen-actordirector" src="img/actores_directores/{$actorDirector->image()}" alt="pelicula" >
+    <img id="imagen-actordirector" src="img/actores_directores/{$actorDirector->image()}" alt="{$actorDirector->name()}" >
     <div>
 	<h3> {$adString}</h3>
     <p> Nombre: {$actorDirector->name()}</p>

@@ -9,7 +9,7 @@ function mostrarSaludo() {
 	$user = $app->user();
 	$prevLink = urlencode($_SERVER['REQUEST_URI']);
 	if ($app->usuarioLogueado()) {
-		echo "<img id=\"prof_pic\" src=\"img/usuarios/{$image}\" alt=\"user\" ><p>Bienvenido, " . $user . "</p><a href='usuario.php'>Perfil</a> <a href='logout.php'>Salir</a> ";
+		echo "<img id=\"prof_pic\" src=\"img/usuarios/{$image}\" alt=\"{$user}\" ><p>Bienvenido, " . $user . "</p><a href='usuario.php'>Perfil</a> <a href='logout.php'>Salir</a> ";
 		$notificacionesCompletadas = getNotificacionesCompletadas($app->user());
 		if ($notificacionesCompletadas) {
 			$numNotifs = count($notificacionesCompletadas);
@@ -18,7 +18,7 @@ function mostrarSaludo() {
 			echo "<a href='notificaciones.php?id={$app->user()}'>Notificaciones</a>";
 		}
 	} else {
-		echo "<img id=\"prof_pic\" src=\"img/usuarios/user_no_logged.png\" alt=\"user\" ><p> Usuario desconocido </p><a href='login.php?prevPage=$prevLink'>Login</a> <a href='registro.php'>Registro</a>";
+		echo "<img id=\"prof_pic\" src=\"img/usuarios/user_no_logged.png\" alt=\"Usuario no logueado\" ><p> Usuario desconocido </p><a href='login.php?prevPage=$prevLink'>Login</a> <a href='registro.php'>Registro</a>";
 	}
 }
 

@@ -23,7 +23,7 @@ function listaPelis_ActorDirector($id){
             $text = strlen($text) > 25 ? substr($text, 0, 25).'...' : $text;
             $html.=<<<EOS
                 <div class="div-actorDirectorPeli">
-                <img id="imagen-actorDirector" src="img/peliculas/{$pelicula->image()}" alt="imagen" >
+                <img id="imagen-actorDirector" src="img/peliculas/{$pelicula->image()}" alt="{$pelicula->title()}" >
                 <p><a href="./pelicula.php?id={$pelicula->id()}">{$text}</a></p>
             EOS;
             $html .= '</div>';
@@ -105,11 +105,11 @@ function getDivPeliculas($peliculas, $limit=NULL, $table, $value) {
             $html .=<<<EOS
                 <p><a href="./editarPelicula.php?id={$pelicula->id()}&prevPage={$prevLink}">Editar</a></p>
                 <p><a href="./eliminarPelicula.php?id={$pelicula->id()}&prevPage={$prevLink}">Eliminar</a></p>
-                <img id="film_pic_small" src="img/peliculas/{$pelicula->image()}" alt="imagen" >
+                <img id="film_pic_small" src="img/peliculas/{$pelicula->image()}" alt="{$pelicula->title()}" >
             EOS;
         } else {
             $html .=<<<EOS
-                <img id="film_pic" src="img/peliculas/{$pelicula->image()}" alt="imagen" >
+                <img id="film_pic" src="img/peliculas/{$pelicula->image()}" alt="{$pelicula->title()}" >
             EOS;
         }
         $text = $pelicula->title();
@@ -148,7 +148,7 @@ function listaActoresDirectores($actoresDirectores, $ad)
             $text = strlen($text) > 25 ? substr($text, 0, 25).'...' : $text;
             $html.=<<<EOS
                 <div class="div-actorDirectorPeli">
-                <img id="film_pic" src="img/actores_directores/{$actorDirector->image()}" alt="imagen" >
+                <img id="film_pic" src="img/actores_directores/{$actorDirector->image()}" alt="{$actorDirector->name()}" >
                 <p><a href="./actorDirector.php?id={$actorDirector->id()}">{$text}</a></p>
                 </div>
             EOS;
@@ -168,7 +168,7 @@ function listaPlataformas($plataformas,$peliculasPlataformas){
             $plataforma = Plataforma::buscaPorId($peliplata->platform_id());
             $html.=<<<EOS
                 <div class="div-plataformas-peli">
-                <a href={$peliplata->link()}><img id="platf_pic" src="img/plataformas/{$plataforma->image()}" alt="imagen" ></a>
+                <a href={$peliplata->link()}><img id="platf_pic" src="img/plataformas/{$plataforma->image()}" alt="{$plataforma->name()}" ></a>
                 </div>
             EOS;
         }

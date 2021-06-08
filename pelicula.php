@@ -56,7 +56,7 @@ $href = '';
 
 $contenidoPrincipal.=<<<EOS
     <div class="pagina-pelicula">
-    <img id="imagen-pelicula" src="img/peliculas/{$pelicula->image()}" alt="pelicula" >
+    <img id="imagen-pelicula" src="img/peliculas/{$pelicula->image()}" alt="{$pelicula->title()}" >
     <div>
     <p> Título: {$pelicula->title()}</p>
     <p> Fecha de estreno: {$pelicula->date_released()} </p>

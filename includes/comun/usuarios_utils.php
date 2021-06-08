@@ -46,7 +46,7 @@ function getDivUsuario($user, $isSelf) {
     if ($app->usuarioLogueado() || !$isSelf) {
         $html=<<<EOS
             <div class="div-perfil">
-            <img id="film_pic" src="img/usuarios/{$usuario->image()}" alt="user" >
+            <img id="film_pic" src="img/usuarios/{$usuario->image()}" alt="{$usuario->user()}" >
             <div>
             <p>Usuario: {$usuario->user()}</p>
             <p>Nombre completo: {$usuario->name()}</p>
@@ -100,7 +100,7 @@ function listaAmigos($user, $limit=NULL)
             <div class="div-usuarios">
             <div class="div-usuarios">
             <div class="usuarios">
-            <img id="prof_pic" src="img/usuarios/{$usuario->image()}" alt="user" >
+            <img id="prof_pic" src="img/usuarios/{$usuario->image()}" alt="{$usuario->user()}" >
             <div>
             $swapper
             <p>{$usuario->name()} </p>
@@ -177,16 +177,16 @@ function mostrarMenuPro()
 function listaActoresDirectoresUser($user = NULL, $limit = NULL, $actorDirector)
 {		
     $html = '<div>';
-    $actores = ActorDirector::buscaActoresDirectoresPorUser($user, $limit, $actorDirector);
-    foreach($actores as $actor) {
-        $href = RUTA_APP.'actorDirector.php?id=' . $actor->id();
-        $year = substr($actor->birth_date(), 0, 4);
+    $actoresDirectores = ActorDirector::buscaActoresDirectoresPorUser($user, $limit, $actorDirector);
+    foreach($actoresDirectores as $actorDirector) {
+        $href = RUTA_APP.'actorDirector.php?id=' . $actorDirector->id();
+        $year = substr($actorDirector->birth_date(), 0, 4);
 
         $html .=<<<EOS
             <div class="div-actoresDirectores">
-            <img id="prof_pic_long" src="img/actores_directores/{$actor->image()}" alt="actor/director" >
+            <img id="prof_pic_long" src="img/actores_directores/{$actorDirector->image()}" alt="{$actorDirector->name()}" >
             <div>
-            <p><a href="$href">{$actor->name()}</a></p>
+            <p><a href="$href">{$actorDirector->name()}</a></p>
             <p>{$year}</p>
             </div>
             </div>
