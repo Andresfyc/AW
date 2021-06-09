@@ -84,14 +84,14 @@ function listaAmigos($user, $limit=NULL)
             if ($notificacion) {
                 $watching.= '<form method="post">
                 <input type="hidden" name="notification_id" value="'.$notificacion->id().'" readonly/>
-                <input type="submit" name="no-notify" class="button-notif" value="No Notificar"/>
+                <input type="submit" name="no-notify" class="button-notif" value="No Notificarme"/>
                 </form>';
             } else {
                 $watching.= '<form method="post">
                 <input type="hidden" name="user-review" value="'.$usuario->user().'" readonly/>
                 <input type="hidden" name="user-notify" value="'.$user.'" readonly/>
                 <input type="hidden" name="peliculaWatching" value="'.$peliculaWatching->id().'" readonly/>
-                <input type="submit" name="notify" class="button-notif" value="Notificar"/>
+                <input type="submit" name="notify" class="button-notif" value="Notificarme"/>
                 </form>';
             }
         }

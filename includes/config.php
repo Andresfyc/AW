@@ -3,7 +3,7 @@
 /**
  * Parámetros de conexión a la BD
  */
-define('BD_HOST', 'localhost');
+define('BD_HOST', 'vm11.db.swarm.test');
 define('BD_NAME', 'film_swap_2');
 define('BD_USER', 'film_swap');
 define('BD_PASS', 'film_swap');
@@ -12,7 +12,7 @@ define('BD_PASS', 'film_swap');
  * Parámetros de configuración utilizados para generar las URLs y las rutas a ficheros en la aplicación
  */
 define('RAIZ_APP', __DIR__);
-define('RUTA_APP', '/FilmSwap3/');
+define('RUTA_APP', '/');
 define('RUTA_CSS', RUTA_APP.'/css');
 define('RUTA_JS', RUTA_APP.'/js');
 define('RUTA_IMG', RUTA_APP.'/img');
