@@ -72,10 +72,10 @@ class Usuario
         return self::guarda($usuario);
     }
 
-    public static function editar($user, $password, $passwordComprobar, $name, $image, $admin, $content_manager, $moderator, $esAdmin)
+    public static function editar($user, $password, $passwordComprobar, $name, $image, $admin, $content_manager, $moderator, $esAdmin, $isNotSelf=false)
     {
         $usuario = self::buscaUsuario($user);
-        if ($usuario && $usuario->compruebaPassword($passwordComprobar) || $esAdmin) {
+        if ($usuario && ($usuario->compruebaPassword($passwordComprobar) || ($esAdmin && $isNotSelf))) {
             $name = $name ?? $usuario->name;
             $image = strlen($image) < 1 ? $usuario->image : $image;
             $password = strlen($password) < 1 ? $usuario->password : self::hashPassword($password);

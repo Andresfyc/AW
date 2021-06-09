@@ -87,6 +87,8 @@ class FormularioEditarUsuario extends Form
                   
                 </div>
                 </div>
+                <div class="passwordComprobar" ><input  type="password" name="passwordComprobar" placeholder="Contraseña..."/> </div>
+                $errorPasswordComprobar
                      
                 EOF;
          }
@@ -108,8 +110,6 @@ class FormularioEditarUsuario extends Form
             $camposFormulario .= <<<EOF
 
              
-                 <div class="passwordComprobar" ><input  type="password" name="passwordComprobar" placeholder="Contraseña..."/> </div>
-                 $errorPasswordComprobar
                 <div><button type="submit" name="registro">Actualizar</button></div>   
             </div>
             
@@ -181,7 +181,7 @@ class FormularioEditarUsuario extends Form
                 if ($isSelf) {
                     $usuario = Usuario::editar($user, $password, $passwordComprobar, $name, $_FILES['image']['name'], $admin, $manager, $moderador, $app->esAdmin());
                 } else {
-                    $usuario = Usuario::editar($user, null, null, null, null, $admin, $manager, $moderador, $app->esAdmin());
+                    $usuario = Usuario::editar($user, null, null, null, null, $admin, $manager, $moderador, $app->esAdmin(), 1);
                 }
                 if ( ! $usuario  ) {
                     $result[] = "El usuario ya existe";
