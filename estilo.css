@@ -897,8 +897,7 @@ a > .fa-bell{
 /************** Editar *******************/
 
 #formEditar .tabs {
-    position:absolute;
-    top:55%;
+    position:relative;
     left:50%;
     transform:translate(-50%,-50%);
     width:500px;
@@ -911,6 +910,7 @@ a > .fa-bell{
     padding-right: 20px;
     padding-left: 20px;
     padding-top: 20px;
+    margin-top: 25%;
 }
 
 #formEditar .tabs .tab-header {
@@ -983,11 +983,9 @@ a > .fa-bell{
     transition:all 500ms ease-in-out;
 }
 
-#formEditar .checkboxes{
 
-}
 
-#formEditar .passwordComprobar > input[type=password]{
+#formEditar .comprobar > input[type=password]{
     width: 90%;
     height: 20px;
     display: flex;
