@@ -1064,15 +1064,18 @@ a > .fa-bell{
 
 
 
-#noti > .badge {
-    position: absolute;
-    top: 142px;
-    right: 80px;
-    padding: 2px 6px;
+.fa-bell > .badge {
+    position: relative;
+    top: -10px;
+    right: 6px;
+    padding: 3px 6px;
     border-radius: 50%;
     background: red;
     color: white;
+    font-size: small;
 }
+
+
 
 
 /*************   Filtros       ***********/
