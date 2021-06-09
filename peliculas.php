@@ -21,13 +21,6 @@ function mostrarPeliculas() {
 	$ascdesc = $ascdesc ?? 'asc';
 	$value = $value ?? null;
 
-	$app = Aplicacion::getSingleton();
-	$html = "<h1>Películas</h1>";	
-	$prevLink = urlencode($_SERVER['REQUEST_URI']);
-	if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
-		$html .= '<a href="'.RUTA_APP.'nuevaPelicula.php?prevPage='.$prevLink.'">Añadir película</a>';
-	}
-
 	if(isset($_POST['desplegable1'])){
 		$tipoorden= $_POST['desplegable1'];
 
@@ -145,14 +138,14 @@ function dropdown_ordenacion() {
 				$html.='<option value="0"></option>';
 			}
 			if ($dropdown1 == 1) {
-				$html.='<option value="1" selected>Por orden alfabético (Ascendiente)</option>';
+				$html.='<option value="1" selected>Por orden alfabético (De A a Z)</option>';
 			} else {
-				$html.='<option value="1">Por orden alfabético (Ascendiente)</option>';
+				$html.='<option value="1">Por orden alfabético (De A a Z)</option>';
 			}
 			if ($dropdown1 == 2) {
-				$html.='<option value="2" selected>Por orden alfabético (Descendiente)</option>';
+				$html.='<option value="2" selected>Por orden alfabético (De Z a A)</option>';
 			} else {
-				$html.='<option value="2">Por orden alfabético (Descendiente)</option>';
+				$html.='<option value="2">Por orden alfabético (De Z a A)</option>';
 			}
 			if ($dropdown1 == 3) {
 				$html.='<option value="3" selected>Por fecha de estreno (Más antigua a más reciente)</option>';
@@ -165,14 +158,14 @@ function dropdown_ordenacion() {
 				$html.='<option value="4">Por fecha de estreno (Más reciente a más antigua)</option>';
 			}
 			if ($dropdown1 == 5) {
-				$html.='<option value="5" selected>Por valoración (Descendiente)</option>';
+				$html.='<option value="5" selected>Por valoración (De mayor a menor)</option>';
 			} else {
-				$html.='<option value="5">Por valoración (Descendiente)</option>';
+				$html.='<option value="5">Por valoración (De mayor a menor)</option>';
 			}
 			if ($dropdown1 == 6) {
-				$html.='<option value="6" selected>Por valoración (Ascendiente)</option>';
+				$html.='<option value="6" selected>Por valoración (De menor a mayor)</option>';
 			} else {
-				$html.='<option value="6">Por valoración (Ascendiente)</option>';
+				$html.='<option value="6">Por valoración (De menor a mayor)</option>';
 			}
 			if ($dropdown1 == 7) {
 				$html.='<option value="7" selected>Por duración (De mayor a menor)</option>';
@@ -270,8 +263,14 @@ function dropdown_filtro2() {
 
 $tituloPagina = 'Películas';
 
+$app = Aplicacion::getSingleton();
+$contenidoPrincipal = "<h1>Películas</h1>";	
+$prevLink = urlencode($_SERVER['REQUEST_URI']);
+if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
+	$contenidoPrincipal .= '<p><a href="'.RUTA_APP.'nuevaPelicula.php?prevPage='.$prevLink.'">Añadir película</a></p>';
+}
 
-$contenidoPrincipal= dropdown_ordenacion();
+$contenidoPrincipal.= dropdown_ordenacion();
 $contenidoPrincipal.= dropdown_filtro1();
 $contenidoPrincipal.= dropdown_filtro2();
 $contenidoPrincipal.=mostrarPeliculas();

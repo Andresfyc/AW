@@ -35,9 +35,9 @@ class Suscripcion
     {
         $app = App::getSingleton();
         $conn = $app->conexionBd();
-        $query=sprintf(" INSERT INTO planes(meses, precio) VALUES (%d,%d)"
+        $query=sprintf(" INSERT INTO planes(meses, precio) VALUES (%d,%g)"
             , $plan->meses
-            , $conn->real_escape_string($plan->precio));
+            , $plan->precio);
         if ( $conn->query($query) ) {
             $plan->id = $conn->insert_id;
         } else {
@@ -77,9 +77,6 @@ class Suscripcion
 
     public static function guarda($plan)
     {
-
-        echo "BD- Guardar";
-
         if ($plan->id !== null) {
             return self::actualiza($plan);
         }

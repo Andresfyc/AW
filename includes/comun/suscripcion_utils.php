@@ -42,9 +42,9 @@ function getDivPlanes($planes)
 function listadoPlanes()
 {
 	$app = Aplicacion::getSingleton();
-    $html = '<a href="'.RUTA_APP.'nuevoPlan.php">Añadir plan</a>';
-    $planes = Suscripcion::listaPlanes();
     $prevLink = urlencode($_SERVER['REQUEST_URI']);
+    $html = '<a href="'.RUTA_APP.'nuevoPlan.php?prevPage='.$prevLink.'">Añadir plan</a>';
+    $planes = Suscripcion::listaPlanes();
     foreach($planes as $plan) {
     
         $html .= '<div class="row-item">';

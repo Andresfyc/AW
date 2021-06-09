@@ -51,6 +51,8 @@ class FormularioNuevaPelicula extends Form
         $duration = $datos['duration'] ?? '';
         $country = $datos['country'] ?? '';
         $plot = $datos['plot'] ?? '';
+        $link = $datos['link'] ?? '';
+        $price = $datos['price'] ?? '';
         $genres = $datos['genres'] ?? '';
         $actors = $datos['actors'] ?? '';
         $directors = $datos['directors'] ?? '';
@@ -65,6 +67,8 @@ class FormularioNuevaPelicula extends Form
         $errorDuration = self::createMensajeError($errores, 'duration', 'span', array('class' => 'error'));
         $errorCountry = self::createMensajeError($errores, 'country', 'span', array('class' => 'error'));
         $errorPlot = self::createMensajeError($errores, 'plot', 'span', array('class' => 'error'));
+        $errorLink = self::createMensajeError($errores, 'link', 'span', array('class' => 'error'));
+        $errorPrice = self::createMensajeError($errores, 'price', 'span', array('class' => 'error'));
 
 
         $camposFormulario = <<<EOF
@@ -128,10 +132,10 @@ class FormularioNuevaPelicula extends Form
                     <div><a href="{$RUTA_APP}nuevoActorDirector.php?ad=1&{$prevLink}">Añadir Director</a> </div></div>
           
                     <div class="col-25"><label>Link:</label></div>
-                    <div class="col-75"><input class="control" type="text" name="country" value="$country" placeholder="Link Película (Opcional)"/>$errorCountry</div>
+                    <div class="col-75"><input class="control" type="text" name="link" value="$link" placeholder="Link Película (Opcional)"/>$errorLink</div>
                 
                     <div class="col-25"><label>Precio:</label></div>
-                    <div class="col-75"><input class="control" type="text" name="country" value="$country" placeholder="Precio Película (Opcional)"/>$errorCountry</div>
+                    <div class="col-75"><input class="control" type="text" name="price" value="$price" placeholder="Precio Película (Opcional)"/>$errorPrice</div>
 
                     <div><button type="submit" name="editar">Confirmar</button></div>
                 </div>

@@ -12,8 +12,6 @@ $plan = buscaMesesPorId($idPlan);
 
 $tituloPagina = 'Eliminar Plan';
 
-$precio= substr($plan->precio(), 0, 4);
-
 $prev = urldecode($prevPage);
 if(array_key_exists('cancelar', $_POST)) {
     header('Location: '.$prev);
@@ -28,7 +26,7 @@ else if(array_key_exists('eliminar', $_POST)) {
 
 $contenidoPrincipal = <<<EOS
     <h1>Eliminar Plan</h1>
-    <p> ¿Quiere eliminar definitivamente el plan "{$plan->meses()} de {$precio} Euros"?</p>
+    <p> ¿Quiere eliminar definitivamente el plan {$plan->meses()} meses de {$plan->precio()} Euros?</p>
     <form method="post">
         <input type="submit" name="cancelar"
                 class="button" value="Cancelar" />

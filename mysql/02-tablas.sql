@@ -216,7 +216,7 @@ CREATE TABLE `usuarios` (
   `admin` tinyint(4) NOT NULL DEFAULT 0,
   `content_manager` tinyint(4) NOT NULL DEFAULT 0,
   `moderator` tinyint(4) NOT NULL DEFAULT 0,
-  `premium` tinyint(1) NOT NULL,
+  `premium` tinyint(1) NOT NULL DEFAULT 0,
   `premium_validity` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='La columna ''watching'' hará la función de estado del usuario. En caso de que esté viendo una película, el id de esta aparecerá en este campo. En caso de no estar viendo nada, este campo estará en NULL';
 
