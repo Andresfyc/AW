@@ -24,8 +24,6 @@ class FormularioNuevaPelicula extends Form
         return $html;
     }
 
-    //TODO Resumir en actorsDirectors()
-
     protected function actors()
     {
         $html = '';

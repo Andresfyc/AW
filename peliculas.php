@@ -181,6 +181,8 @@ function dropdown_ordenacion() {
 			}
 			if ($dropdown1 == 8) {
 				$html.='<option value="8" selected>Por duración (De menor a mayor)</option>';
+			} else {
+				$html.='<option value="8">Por duración (De menor a mayor)</option>';
 			}
 		$html.='</select>';
 

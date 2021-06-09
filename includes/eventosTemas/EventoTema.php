@@ -31,7 +31,7 @@ class EventoTema
   }
   
   public static function inserta($eventoTema)
-  { //TODO Intentar hacer sin if else
+  {
     $result = false;
 
     $app = App::getSingleton();
@@ -76,7 +76,7 @@ class EventoTema
   }
 
   public static function actualiza($eventoTema)
-  { //TODO Intentar hacer sin if else
+  {
     $result = false;
 
     $app = App::getSingleton();

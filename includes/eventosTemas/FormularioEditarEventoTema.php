@@ -37,7 +37,6 @@ class FormularioEditarEventoTema extends Form
         $errorTime = self::createMensajeError($errores, 'time', 'span', array('class' => 'error'));
 
 
-        //TODO Añadir lo de la imagen
         $camposFormulario = <<<EOF
         <fieldset>
         <div class="grupo-editar">
@@ -57,7 +56,7 @@ class FormularioEditarEventoTema extends Form
                <div class="col-75"> <input class="control" type="date" name="date" value="$date" />$errorDate</div>
            
                 <div class="col-25"><label>Hora:</label> </div>
-                <div class="col-75"><input class="control" type="time" name="time" value="$time" />$errorTime</div>
+                <div class="col-75"><input class="control" type="time" name="time" min="00:00" max="23:59" value="$time" />$errorTime</div>
             
             <div><button type="submit" name="editar">Confirmar</button></div>
             </div>

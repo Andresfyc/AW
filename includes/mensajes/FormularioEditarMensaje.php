@@ -31,7 +31,6 @@ class FormularioEditarMensaje extends Form
     $errorText = self::createMensajeError($errores, 'text', 'span', array('class' => 'error'));
 
 
-    //TODO Añadir lo de la imagen
     $camposFormulario = <<<EOF
       <fieldset>
         <div class="grupo-editar">

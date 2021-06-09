@@ -53,7 +53,7 @@ function listaEventos() {
         $editarEliminar = '';
         $prevLink = urlencode($_SERVER['REQUEST_URI']);
         if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin() || $app->esModerador())) {
-            $editarEliminar .= '<p><a href="'.RUTA_APP.'editarEventoTema.php?id='.$evento->id().'$prevPage='.$prevLink.'">Editar</a> <a href="'.RUTA_APP.'eliminarEventoTema.php?id='.$evento->id().'&name='.$evento->name().'&prevPage='.$prevLink.'">Eliminar</a></p>';
+            $editarEliminar .= '<p><a href="'.RUTA_APP.'editarEventoTema.php?id='.$evento->id().'&prevPage='.$prevLink.'">Editar</a> <a href="'.RUTA_APP.'eliminarEventoTema.php?id='.$evento->id().'&name='.$evento->name().'&prevPage='.$prevLink.'">Eliminar</a></p>';
         }
 
         $html.=<<<EOS

@@ -10,16 +10,15 @@ function mostrarPlanes() {
     $app = Aplicacion::getSingleton();
     $prevLink = urlencode($_SERVER['REQUEST_URI']);
 
+    $html = '';
     if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
-        $html = "<h1>Planes</h1>";
+        $html .= "<h1>Planes</h1>";
         $html .= '<a href="'.RUTA_APP.'nuevoPlan.php?prevPage='.$prevLink.'">Añadir Plan</a>';
         $html .= listaPlanes();
     }
-    if ($app->usuarioLogueado() && ($app->esPremium())) {
-        $html = "<a class='premium' ><i class='fa fa-star' ></i> Premium </a>";
-        $html = "<p> Enhorabuena, tienes una sucripción premium hasta la fecha {$app->validezPremium()} </p>";
-    }
-    else{
+    if ($app->usuarioLogueado() && $app->esPremium()) {
+        $html .= "<p> Enhorabuena, tienes una sucripción premium hasta la fecha {$app->validezPremium()} </p>";
+    }else{
         $html = "<h1>Planes</h1>";
         $html .= listaPlanes();
     }
