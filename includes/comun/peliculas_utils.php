@@ -146,7 +146,7 @@ function getDivPeliculas($peliculas, $limit=NULL, $table, $value, $order=null, $
         EOS;
     }
 
-    if ($limit != NULL && count($peliculas) > 1) {
+    if ($limit != NULL && count($peliculas) > 0) {
         $html .=<<<EOS
             <div class="div-pelicula-last">
             <p><a href="./peliculas.php?table={$table}&value={$value}&order={$order}&ascdesc={$ascdesc}">Ver todas</a></p>
