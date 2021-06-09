@@ -22,7 +22,6 @@ function mostrarPlanes() {
         $html = "<h1>Planes</h1>";
         $html .= listaPlanes();
     }
-//    $html .= listaPlanes();
 
     return $html;
 }

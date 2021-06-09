@@ -57,9 +57,9 @@ if ($app->usuarioLogueado()) {
 
 $comprarVer = '';
 if ($pelicula->link() && $pelicula->price()){
-	if ($app->esPremium() || (isPeliculaCompradaPorUsuario($app->user(), $pelicula->id()))) {
+	if ($app->usuarioLogueado() && ($app->esPremium() || isPeliculaCompradaPorUsuario($app->user(), $pelicula->id()))) {
 		$comprarVer .= '<a class="comprar-peli" href="visualizador.php?id='.$pelicula->id().'"><i class="fa fa-television" ></i> Ver Película </a>';
-	} else if ($app->usuarioLogueado()) {
+	} else {
 		$comprarVer .= '<a class="comprar-peli" href="carrito.php?id='.$pelicula->id().'&tipo=pelicula"><i class="fa fa-paypal" ></i> Comprar ('.$pelicula->price().') </a>';
 	}
 }
