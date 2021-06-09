@@ -83,20 +83,22 @@ class FormularioEditarUsuario extends Form
                 
                 
                 <div>
-              
-                  <input  type="password" name="passwordComprobar" placeholder="Contraseña actual"/>$errorPasswordComprobar
+                  
+                  
                   <input  type="password" name="password" placeholder="Contraseña nueva"/>$errorPassword
                   <input  type="password" name="password2" placeholder="Repetir Contraseña"/>$errorPassword2
+                  
                 </div>
                 
-               
-                
               </div>
-               <div><button type="submit" name="registro">Actualizar</button></div>   
+                 <div class="passwordComprobar" ><input  type="password" name="passwordComprobar" placeholder="Contraseña..."/> </div>
+                 $errorPasswordComprobar
+                <div><button type="submit" name="registro">Actualizar</button></div>   
             </div>
             
                 
             </div>
+               
     EOF;
         return $camposFormulario;
     }

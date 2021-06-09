@@ -903,11 +903,14 @@ a > .fa-bell{
     transform:translate(-50%,-50%);
     width:500px;
     height:250px;
-    padding:50px 20px;
     border-color: #666666; /**/
     border-width: 0.5px;
     background-color: #373737; /**/
     overflow:hidden;
+    padding-bottom: 80px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
 }
 
 #formEditar .tabs .tab-header {
@@ -940,7 +943,7 @@ a > .fa-bell{
 
 #formEditar .tabs .tab-content {
     position:relative;
-    height:100%;
+    height:90%;
     overflow:hidden;
 }
 
@@ -978,6 +981,16 @@ a > .fa-bell{
     left:198px;
     top:80px;
     transition:all 500ms ease-in-out;
+}
+
+#formEditar .passwordComprobar > input[type=password]{
+    width: 90%;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin-bottom: 10px;
 }
 
 
