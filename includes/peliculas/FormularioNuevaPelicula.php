@@ -89,7 +89,7 @@ class FormularioNuevaPelicula extends Form
                    <div class="col-75"> <input class="control" type="text" name="duration" value="$duration" placeholder="En minutos..."/>$errorDuration</div>
                
                      <div class="col-25"><label>País:</label> </div>
-                   <div class="col-75"> <input class="control" type="text" name="country" value="$country" />$errorCountry</div>
+                   <div class="col-75"> <input class="control" type="text" name="country" value="$country" placeholder="País..."/>$errorCountry</div>
                 
                      <div class="col-25"><label>Trama:</label></div>
                    <div class="col-75"> <textarea class="control" type="text" name="plot" value="$plot" placeholder="Trama..."/>$plot</textarea>$errorPlot</div>
@@ -128,6 +128,13 @@ class FormularioNuevaPelicula extends Form
                     </select>
                
                     <div><a href="{$RUTA_APP}nuevoActorDirector.php?ad=1&{$prevLink}">Añadir Director</a> </div></div>
+          
+                    <div class="col-25"><label>Link:</label></div>
+                    <div class="col-75"><input class="control" type="text" name="country" value="$country" placeholder="Link Película (Opcional)"/>$errorCountry</div>
+                
+                    <div class="col-25"><label>Precio:</label></div>
+                    <div class="col-75"><input class="control" type="text" name="country" value="$country" placeholder="Precio Película (Opcional)"/>$errorCountry</div>
+
                     <div><button type="submit" name="editar">Confirmar</button></div>
                 </div>
             </fieldset>
@@ -154,17 +161,35 @@ class FormularioNuevaPelicula extends Form
         }
 
         $duration = $datos['duration'] ?? null;
-        if ( empty($duration) || $duration < 0 ) {
+        if (!is_numeric($duration)) {
+            $result['duration'] = "La duración debe ser un número";
+        } else if ( empty($duration) || $duration < 0 ) {
             $result['duration'] = "La película debe tener una duración positiva";
         }
+
         $country = $datos['country'] ?? null;
         if ( empty($country)) {
             $result['country'] = "El país no puede quedar vacío";
         }
+
         $plot = $datos['plot'] ?? null;
         if ( empty($plot)) {
             $result['plot'] = "La película debe tener una trama";
         }
+
+        $link = $datos['link'] ?? null;
+        $price = $datos['price'] ?? null;
+        if (empty($link) && !empty($price)) {
+            $result['link'] = "Has añadido el precio, pero no el link. Añádelo";
+        } else if (!empty($link) && empty($price)) {
+            $result['price'] = "Has añadido el link, pero no el precio. Añádelo";
+        } else if (!empty($link) && !empty($price)) {
+            if (!is_numeric($price)) {
+                $result['price'] = "El precio debe ser un número";
+            }else if ( $price < 2 ) {
+                $result['price'] = "El precio debe ser mayor que 0";
+            }
+        }   
 
         $image = $datos['image'] ?? null;
         $dir_subida = './img/peliculas/';
@@ -183,7 +208,7 @@ class FormularioNuevaPelicula extends Form
 
         if (count($result) === 0) {
             if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin()))
-                $pelicula = Pelicula::crea($title, $_FILES['image']['name'], $date_released, $duration, $country, $plot);
+                $pelicula = Pelicula::crea($title, $_FILES['image']['name'], $date_released, $duration, $country, $plot, null, null);
 
                 Pelicula::actualizarGeneros($pelicula, $genres);
 

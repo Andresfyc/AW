@@ -13,7 +13,7 @@ if($actorDirector->actor_director()){
 	$adString="Director";
 }
 
-$peliculas = listaPelis_ActorDirector($id);
+$peliculas = listaPelis_ActorDirector("id", "desc", $id);
 
 if(array_key_exists('addActorDirectorFav', $_POST)) {
     addActorDirectorFav($id, $app->user());

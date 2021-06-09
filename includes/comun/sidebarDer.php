@@ -27,8 +27,8 @@ function mostrarAmigos() {
 	$user = $app->user();
 	if ($app->usuarioLogueado()) {
 		echo listaAmigos($user, 7);	
-		echo "<a href='swappers.php?id={$user}'> Ver todos tus swappers</a>";
-		echo "<a href='reviews.php'> Ver reviews de tus swappers</a>";
+		echo "<p><a href='swappers.php?id={$user}'> Ver todos tus swappers</a></p>";
+		echo "<p><a href='reviews.php'> Ver reviews de tus swappers</a></p>";
 	} else {
 		echo "<p>Inicia sesión para ver la actividad de tus amigos</p>";
 	}

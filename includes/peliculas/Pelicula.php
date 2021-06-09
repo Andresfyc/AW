@@ -12,12 +12,14 @@ use es\ucm\fdi\aw\reviews\Review;
 class Pelicula
 {
 
-  public static function crea($title, $image=NULL, $date_released, $duration, $country, $plot)
+  public static function crea($title, $image=NULL, $date_released, $duration, $country, $plot, $link, $price)
   {
     $image = $image == NULL ? "film_default.jpg" : $image;
-    $pelicula = new Pelicula(null, $title, $image ,$date_released, $duration, $country, $plot, null);
+    $pelicula = new Pelicula(null, $title, $image ,$date_released, $duration, $country, $plot, null, $link, $price);
     return self::guarda($pelicula);
   }
+
+  
 
   public static function buscaPelicula($pelicula)
   {
@@ -29,7 +31,7 @@ class Pelicula
       if ($rs) {
           if ( $rs->num_rows == 1) {
               $fila = $rs->fetch_assoc();
-              $pelicula = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating']);
+              $pelicula = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating'], $fila['link'], $fila['price']);
               $result = $pelicula;
           }
           $rs->free();
@@ -49,7 +51,7 @@ class Pelicula
     $rs = $conn->query($query);
     if ($rs && $rs->num_rows == 1) {
       while($fila = $rs->fetch_assoc()) {
-        $result = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating']);
+        $result = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating'], $fila['link'], $fila['price']);
       }
       $rs->free();
     }
@@ -62,13 +64,26 @@ class Pelicula
 
     $app = App::getSingleton();
     $conn = $app->conexionBd();
-    $query = sprintf("INSERT INTO peliculas (title, image, date_released, duration,country,plot) VALUES('%s', '%s','%s', %d, '%s','%s')"
-    , $conn->real_escape_string($pelicula->title)
-    , $conn->real_escape_string($pelicula->image)
-    , $conn->real_escape_string($pelicula->date_released)
-    , $pelicula->duration
-    , $conn->real_escape_string($pelicula->country)
-    , $conn->real_escape_string($pelicula->plot));
+
+    if (!$pelicula->link || $pelicula->price) {
+      $query = sprintf("INSERT INTO peliculas (title, image, date_released, duration,country,plot) VALUES('%s', '%s','%s', %d, '%s','%s')"
+      , $conn->real_escape_string($pelicula->title)
+      , $conn->real_escape_string($pelicula->image)
+      , $conn->real_escape_string($pelicula->date_released)
+      , $pelicula->duration
+      , $conn->real_escape_string($pelicula->country)
+      , $conn->real_escape_string($pelicula->plot));
+    } else {
+      $query = sprintf("INSERT INTO peliculas (title, image, date_released, duration,country,plot,link,price) VALUES('%s', '%s','%s', %d, '%s','%s','%s',%g)"
+      , $conn->real_escape_string($pelicula->title)
+      , $conn->real_escape_string($pelicula->image)
+      , $conn->real_escape_string($pelicula->date_released)
+      , $pelicula->duration
+      , $conn->real_escape_string($pelicula->country)
+      , $conn->real_escape_string($pelicula->plot)
+      , $conn->real_escape_string($pelicula->link)
+      , $pelicula->price);
+    }
     $result = $conn->query($query);
     if ($result) {
       $pelicula->id = $conn->insert_id;
@@ -79,19 +94,49 @@ class Pelicula
 
     return $result;
   }
+  
+  public static function addPeliculaComprada($user, $id)
+  {
+    $result = false;
+
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+
+    $query = sprintf("INSERT INTO usuarios_peliculas_compradas (user, film_id) VALUES('%s', %d)"
+    , $conn->real_escape_string($user)
+    , $id);
+    $result = $conn->query($query);
+    if (!$result) {
+      error_log($conn->error);  
+    }
+  }
 
   public static function actualiza($pelicula)
   {
     $app = App::getSingleton();
     $conn = $app->conexionBd();
-    $query = sprintf("UPDATE peliculas P SET title = '%s', image='%s', date_released='%s', duration=%d, country='%s', plot='%s' WHERE P.id=%d"
-    , $conn->real_escape_string($pelicula->title)
-    , $conn->real_escape_string($pelicula->image)
-    , $conn->real_escape_string($pelicula->date_released)
-    , $pelicula->duration
-    , $conn->real_escape_string($pelicula->country)
-    , $conn->real_escape_string($pelicula->plot)
-        , $pelicula->id);
+
+    if (!$pelicula->link || !$pelicula->price) {
+      $query = sprintf("UPDATE peliculas P SET title = '%s', image='%s', date_released='%s', duration=%d, country='%s', plot='%s', link=null, price=null WHERE P.id=%d"
+      , $conn->real_escape_string($pelicula->title)
+      , $conn->real_escape_string($pelicula->image)
+      , $conn->real_escape_string($pelicula->date_released)
+      , $pelicula->duration
+      , $conn->real_escape_string($pelicula->country)
+      , $conn->real_escape_string($pelicula->plot)
+          , $pelicula->id);
+    } else {
+      $query = sprintf("UPDATE peliculas P SET title = '%s', image='%s', date_released='%s', duration=%d, country='%s', plot='%s', link='%s', price=%g WHERE P.id=%d"
+      , $conn->real_escape_string($pelicula->title)
+      , $conn->real_escape_string($pelicula->image)
+      , $conn->real_escape_string($pelicula->date_released)
+      , $pelicula->duration
+      , $conn->real_escape_string($pelicula->country)
+      , $conn->real_escape_string($pelicula->plot)
+      , $conn->real_escape_string($pelicula->link)
+      , $pelicula->price
+          , $pelicula->id);
+    }
     if (!$conn->query($query)) {
       error_log($conn->error);
     } else if ($conn->affected_rows != 1) {
@@ -101,12 +146,12 @@ class Pelicula
     return $pelicula;
   }
 
-  public static function editar($id, $title, $image, $date_released, $duration, $country, $plot)
+  public static function editar($id, $title, $image, $date_released, $duration, $country, $plot, $link, $price)
   {
       $pelicula = self::buscaPorId($id);
       $image = strlen($image) < 1 ? $pelicula->image : $image;
 
-      $pelicula = new Pelicula($id, $title, $image ,$date_released, $duration, $country, $plot, null);
+      $pelicula = new Pelicula($id, $title, $image ,$date_released, $duration, $country, $plot, null, $link, $price);
       
       return self::guarda($pelicula);
   }
@@ -158,7 +203,7 @@ class Pelicula
 		$rs = $conn->query($query);
 		if ($rs) {
 		  while($fila = $rs->fetch_assoc()) {
-			$result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating']);
+			$result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating'], $fila['link'], $fila['price']);
 		  }
 		  $rs->free();
 		}
@@ -181,7 +226,30 @@ class Pelicula
 		$rs = $conn->query($query);
 		if ($rs) {
 		  while($fila = $rs->fetch_assoc()) {
-			$result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating']);
+			$result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating'], $fila['link'], $fila['price']);
+		  }
+		  $rs->free();
+		}
+
+		return $result;
+	}	
+	
+	public static function listaPeliculasCompradas($order, $ascdesc,$user, $limit=NULL)
+	{
+    $asds = $ascdesc ? 'ASC' : 'DESC';
+	$result = [];
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+		$query = sprintf("SELECT p.* FROM peliculas p JOIN usuarios_peliculas_compradas v ON p.id = v.film_id WHERE v.user = '%s'  ORDER BY %s %s", $user,$order, $asds);
+		if($limit) {
+		  $query = $query . ' LIMIT %d';
+		  $query = sprintf($query, $limit);
+		}
+
+		$rs = $conn->query($query);
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			$result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating'], $fila['link'], $fila['price']);
 		  }
 		  $rs->free();
 		}
@@ -206,7 +274,7 @@ class Pelicula
 		$rs = $conn->query($query);
 		if ($rs) {
 		  while($fila = $rs->fetch_assoc()) {
-			$result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating']);
+			$result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating'], $fila['link'], $fila['price']);
 		  }
 		  $rs->free();
 		}
@@ -225,7 +293,7 @@ class Pelicula
 		$rs = $conn->query($query);
 		if ($rs) {
 		  while($fila = $rs->fetch_assoc()) {
-			  $result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating']);
+			  $result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating'], $fila['link'], $fila['price']);
 		  }
 		  $rs->free();
 		}
@@ -248,7 +316,7 @@ class Pelicula
 		$rs = $conn->query($query);
 		if ($rs) {
 		  while($fila = $rs->fetch_assoc()) {
-			$result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating']);
+			$result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating'], $fila['link'], $fila['price']);
 		  }
 		  $rs->free();
 		}
@@ -337,7 +405,7 @@ class Pelicula
     $rs = $conn->query($query);
     if ($rs) {
       while($fila = $rs->fetch_assoc()) {
-      $result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating']);
+      $result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating'], $fila['link'], $fila['price']);
       }
       $rs->free();
     }
@@ -397,6 +465,15 @@ class Pelicula
     return $rs->num_rows;
   }
 
+  public static function isPeliculaCompradaPorUsuario($user, $id) 
+  {
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+    $query = sprintf("SELECT * FROM usuarios_peliculas_compradas WHERE film_id = %d and user = '%s'", $id, $user);
+    $rs = $conn->query($query);
+    return $rs->num_rows;
+  }
+
   private $id;
 
   private $title;
@@ -413,6 +490,10 @@ class Pelicula
 
   private $rating;
 
+  private $link;
+
+  private $price;
+
   private $genres;
 
   private $actors;
@@ -425,7 +506,7 @@ class Pelicula
 
   private $peliculasPlataformas;
 
-  private function __construct($id, $title, $image, $date_released, $duration, $country, $plot, $rating)
+  private function __construct($id, $title, $image, $date_released, $duration, $country, $plot, $rating, $link, $price)
   {   
     $this->id= $id;
     $this->title = $title;
@@ -435,6 +516,8 @@ class Pelicula
     $this->country = $country;
     $this->plot = $plot;
     $this->rating = $rating;
+    $this->link = $link;
+    $this->price = $price;
     $this->genres = Genero::buscaPorPeliId($id);
     $this->actors = ActorDirector::buscaActorDirectorPorPeliId($id,0);
     $this->directors = ActorDirector::buscaActorDirectorPorPeliId($id,1);
@@ -483,6 +566,16 @@ class Pelicula
   public function rating()
   {
       return $this->rating;
+  }
+
+  public function link()
+  {
+      return $this->link;
+  }
+
+  public function price()
+  {
+      return $this->price;
   }
 
   public function genres()

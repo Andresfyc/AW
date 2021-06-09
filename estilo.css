@@ -421,12 +421,19 @@ figure:hover > figcaption {
     padding: 5px;
 }
 
-.pagina-pelicula {
+.div-pelicula-imagen {
     display: flex;
+    flex-direction: column;
 }
 
-#imagen-pelicula {
-    margin: 20px;
+.comprar-peli {
+    padding: 15px 20px;
+    text-align: center;
+    background-color: #373737;
+}
+
+.pagina-pelicula {
+    display: flex;
 }
 
 .pagina-pelicula > div {
@@ -999,4 +1006,9 @@ a > .fa-bell{
     padding: 5px 20px;
     border-radius: 5px;
     width: 220px;
+}
+
+.video {
+    height: 500px;
+    width: 100%;
 }

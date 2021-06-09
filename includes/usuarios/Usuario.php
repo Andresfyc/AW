@@ -10,9 +10,9 @@ class Usuario
 {
 
     public static function login($user, $password)
-    {	$password_hash=self::buscaPasswordUsu($user);
+    {
         $usuario = self::buscaUsuario($user);
-        if ($usuario && $usuario->compruebaPassword($password,$password_hash)) {
+        if ($usuario && $usuario->compruebaPassword($password)) {
             return $usuario;
         }
         return false;
@@ -38,20 +38,7 @@ class Usuario
         }
         return $result;
     }
-    public static function buscaPasswordUsu($user){
-		$app = App::getSingleton();
-        $conn = $app->conexionBd();
-		$query = sprintf("SELECT password FROM usuarios U WHERE U.user = '%s'", $conn->real_escape_string($user));
-		$rs = $conn->query($query);
-		if($rs){
-			$fila = $rs->fetch_assoc();
-			$password=$fila['password'];
-		}else{
-			echo "Error al consultar en la BD: (" . $conn->errno . ") " . utf8_encode($conn->error);
-            exit();
-		}
-		return $password;
-	}
+    
     public static function busqueda($search)
     {
 		$result = [];
@@ -259,7 +246,7 @@ class Usuario
         $app = App::getSingleton();
         $conn = $app->conexionBd();
 
-        $query = sprintf("UPDATE usuarios SET premium_validity = DATE_ADD(NOW(), INTERVAL %d *30 DAY) , premium = 1  WHERE `user` = '%s' "
+        $query = sprintf("UPDATE usuarios SET premium_validity = DATE_ADD(NOW(), INTERVAL %d *1 MONTH) , premium = 1  WHERE `user` = '%s' "
             , $meses
             , $user);
         $result = $conn->query($query);
@@ -394,9 +381,9 @@ class Usuario
         return $this->premiumValidity;
     }
 
-    public function compruebaPassword($password,$password_hash)
+    public function compruebaPassword($password)
     {
-        return password_verify($password, $password_hash);
+        return password_verify($password, $this->password);
     }
 
     public function cambiaPassword($nuevoPassword)

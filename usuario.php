@@ -45,6 +45,7 @@ if (strlen($userIn) < 1) {
 
 $perfilInicial = mostrarPerfil($user, $isSelf);
 $peliculasVer = mostrarPeliculasVer($user, 7);
+$peliculasCompradas = mostrarPeliculasCompradas($user, 7);
 
 
 $tituloPagina = 'Usuario';
@@ -52,6 +53,7 @@ $tituloPagina = 'Usuario';
 $contenidoPrincipal =<<<EOS
     $perfilInicial
 	$peliculasVer
+    $peliculasCompradas
 EOS;
 
 require __DIR__ . '/includes/plantillas/plantilla.php';

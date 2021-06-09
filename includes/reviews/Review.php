@@ -136,6 +136,7 @@ class Review
 
       return $result;
   }
+
    public static function buscaReviewsPorIdUser($id)
   {
       $result = [];
@@ -154,6 +155,22 @@ class Review
       }
 
       return $result;
+  }
+
+   public static function getReviewPorUserPelicula($user, $id)
+  {
+    $result = null;
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+    $query = sprintf("SELECT * FROM reviews WHERE user = '%s' AND film_id = %d", $user, $id);
+    $rs = $conn->query($query);
+    if ($rs && $rs->num_rows == 1) {
+      while($fila = $rs->fetch_assoc()) {
+        $result = new Review($fila['id'], $fila['user'], $fila['film_id'], $fila['review'], $fila['stars'], $fila['time_created']);
+      }
+      $rs->free();
+    }
+    return $result;
   }
 
 

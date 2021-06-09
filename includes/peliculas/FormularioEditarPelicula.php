@@ -106,6 +106,8 @@ class FormularioEditarPelicula extends Form
     $duration = $datos['duration'] ?? $this->pelicula->duration();
     $country = $datos['country'] ?? $this->pelicula->country();
     $plot = $datos['plot'] ?? $this->pelicula->plot();
+    $link = $datos['link'] ?? $this->pelicula->link();
+    $price = $datos['price'] ?? $this->pelicula->price();
     $prevPage = $datos['prevPage'] ?? $this->prevPage;
     $genres = $datos['genres'] ?? $this->pelicula->genres();
     $actors = $datos['actors'] ?? $this->pelicula->actors();
@@ -120,6 +122,8 @@ class FormularioEditarPelicula extends Form
     $errorDuration = self::createMensajeError($errores, 'duration', 'span', array('class' => 'error'));
     $errorCountry = self::createMensajeError($errores, 'country', 'span', array('class' => 'error'));
     $errorPlot = self::createMensajeError($errores, 'plot', 'span', array('class' => 'error'));
+    $errorLink = self::createMensajeError($errores, 'link', 'span', array('class' => 'error'));
+    $errorPrice = self::createMensajeError($errores, 'price', 'span', array('class' => 'error'));
 
 
     $camposFormulario = <<<EOF
@@ -141,6 +145,12 @@ class FormularioEditarPelicula extends Form
             
                 <div class="col-25"><label>Duración:</label> </div>
                 <div class="col-75"><input class="control" type="text" name="duration" value="$duration" />$errorDuration</div>
+          
+                <div class="col-25"><label>País:</label></div>
+                 <div class="col-75"><input class="control" type="text" name="country" value="$country"/>$errorCountry</div>
+           
+                <div class="col-25"><label>Trama:</label></div>
+                <div class="col-75"><textarea class="control" type="text" name="plot" value="$plot" />$plot</textarea>$errorPlot </div>
           
                 <div class="col-25"><label>País:</label></div>
                  <div class="col-75"><input class="control" type="text" name="country" value="$country"/>$errorCountry</div>
@@ -191,6 +201,13 @@ class FormularioEditarPelicula extends Form
     $camposFormulario .= <<<EOF
                 </select>
                  <div> <a href="{$RUTA_APP}nuevoActorDirector.php?ad=1&prevPage={$prevLink}">Añadir Director</a></div></div>
+          
+                <div class="col-25"><label>Link (Opcional):</label></div>
+                <div class="col-75"><input class="control" type="text" name="link" value="$link" placeholder="Link Película (Opcional)"/>$errorLink</div>
+            
+                <div class="col-25"><label>Precio (Opcional):</label></div>
+                <div class="col-75"><input class="control" type="text" name="price" value="$price" placeholder="Precio Película (Opcional)"/>$errorPrice</div>
+
                 <div><button type="submit" name="editar">Confirmar</button></div>
                 </div>
     </fieldset>
@@ -220,7 +237,9 @@ class FormularioEditarPelicula extends Form
     }
 
     $duration = $datos['duration'] ?? null;
-    if ( empty($duration) || $duration < 0 ) {
+    if (!is_numeric($duration)) {
+        $result['duration'] = "La duración debe ser un número";
+    } else if ( empty($duration) || $duration < 0 ) {
         $result['duration'] = "La película debe tener una duración positiva";
     }
 
@@ -232,6 +251,20 @@ class FormularioEditarPelicula extends Form
     $plot = $datos['plot'] ?? null;
     if ( empty($plot)) {
         $result['plot'] = "La película debe tener una trama";
+    }
+
+    $link = $datos['link'] ?? null;
+    $price = $datos['price'] ?? null;
+    if (empty($link) && !empty($price)) {
+        $result['link'] = "Has añadido el precio, pero no el link. Añádelo";
+    } else if (!empty($link) && empty($price)) {
+        $result['price'] = "Has añadido el link, pero no el precio. Añádelo";
+    } else if (!empty($link) && !empty($price)) {
+        if (!is_numeric($price)) {
+            $result['price'] = "El precio debe ser un número";
+        }else if ( $price < 2 ) {
+            $result['price'] = "El precio debe ser mayor que 0";
+        }
     }
 
     $image = $datos['image'] ?? null;
@@ -251,7 +284,7 @@ class FormularioEditarPelicula extends Form
 
     if (count($result) === 0) {
         if ($app->usuarioLogueado() && ($app->esGestor() || $app->esAdmin())) {
-            $pelicula = Pelicula::editar($id, $title, $_FILES['image']['name'], $date_released, $duration, $country, $plot);
+            $pelicula = Pelicula::editar($id, $title, $_FILES['image']['name'], $date_released, $duration, $country, $plot, $link, $price);
 
             Pelicula::actualizarGeneros($pelicula, $genres);
 

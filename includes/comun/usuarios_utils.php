@@ -366,7 +366,11 @@ function busquedaUsuarios($search)
 
 function addNotificacion($user_notify, $user_review, $film_id)
 {
-    Notificacion::crea($user_review, $user_notify, $film_id);
+    $notificacion = Notificacion::crea($user_review, $user_notify, $film_id);
+    $review = Review::getReviewPorUserPelicula($user_review, $film_id);
+    if ($review) {
+        Notificacion::addReview($notificacion->id(), $review->id());
+    }
 }
 
 function delNotificacion($id)

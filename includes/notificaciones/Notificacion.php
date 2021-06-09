@@ -140,6 +140,25 @@ class Notificacion
         }
         return $result;
     }
+
+    public static function addReview($id, $review_id)
+    {
+      $result = false;
+  
+      $app = App::getSingleton();
+      $conn = $app->conexionBd();
+      $query=sprintf("UPDATE notificaciones SET review_id = %d WHERE id=%d"
+      , $review_id
+          , $id);
+      $result = $conn->query($query);
+      if (!$result) {
+        error_log($conn->error);
+      } else if ($conn->affected_rows != 1) {
+        error_log("Se han actualizado '$conn->affected_rows' !");
+      }
+  
+      return $result;
+    }
   
   
     private $id;

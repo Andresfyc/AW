@@ -2,8 +2,6 @@
 
 use es\ucm\fdi\aw\Aplicacion;
 use es\ucm\fdi\aw\suscripcion\Suscripcion;
-use es\ucm\fdi\aw\usuarios\Usuario;
-
 
 
 function getDivPlanes($planes)
@@ -30,7 +28,7 @@ function getDivPlanes($planes)
         $html .= <<<EOS
             <h1>$textMeses Meses</h1>
             <h3>$textPrecio <i class="fa fa-eur"></i></h3>
-            <a class="empezar" href="carrito.php?id={$plan->id()}"><i class="fa fa-paypal" ></i> Empezar </a>
+            <a class="empezar" href="carrito.php?id={$plan->id()}&tipo=plan"><i class="fa fa-paypal" ></i> Empezar </a>
             </div>
             
            EOS;
@@ -71,7 +69,6 @@ function listaPlanes()
 function buscaMesesPorId($id)
 {
     $plan = Suscripcion::buscaPorId($id);
-    pagarPaypal($plan);
     return $plan;
 }
 
@@ -81,13 +78,14 @@ function eliminarPlanPorId($id)
 }
 
 
-function pagarPaypal($plan)
+function pagarPaypalPlan($plan)
 {
     $app = Aplicacion::getSingleton();
     $total = $plan->precio();
     $meses = $plan->meses();
     $user = $app->user();
     $productId = $plan->id();
+    $RUTA_APP = RUTA_APP;
 
     $html = '<div id="paypal-button"></div>';
 
@@ -128,12 +126,7 @@ function pagarPaypal($plan)
         onAuthorize: function(data, actions) {
           return actions.payment.execute().then(function() {
             // Show a confirmation message to the buyer
-          
-        EOS;
-        Usuario::acPremium($meses, $user);
-
-        $html .= <<<EOS
-            window.location="/FilmSwap3/verificador.php?paymentID="+data.paymentID+"&payerID="+data.payerID+"&token="+data.paymentToken+"&pid=$productId";
+            window.location="{$RUTA_APP}verificador.php?paymentID="+data.paymentID+"&payerID="+data.payerID+"&token="+data.paymentToken+"&pid={$productId}&meses={$meses}&user={$user}";
             }); 
              } 
          }, "#paypal-button"); 

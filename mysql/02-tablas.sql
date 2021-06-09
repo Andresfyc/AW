@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-06-2021 a las 13:41:52
--- Versión del servidor: 10.4.19-MariaDB
--- Versión de PHP: 8.0.6
+-- Tiempo de generación: 09-06-2021 a las 05:50:07
+-- Versión del servidor: 10.4.17-MariaDB
+-- Versión de PHP: 7.4.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -119,7 +119,9 @@ CREATE TABLE `peliculas` (
   `duration` int(11) NOT NULL,
   `country` varchar(45) DEFAULT NULL,
   `plot` longtext NOT NULL,
-  `rating` decimal(10,2) DEFAULT 0.00
+  `rating` decimal(10,2) DEFAULT 0.00,
+  `link` varchar(150) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -228,6 +230,18 @@ CREATE TABLE `usuarios_actores_directores` (
   `id` int(11) NOT NULL,
   `user` varchar(45) NOT NULL,
   `actor_director_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios_peliculas_compradas`
+--
+
+CREATE TABLE `usuarios_peliculas_compradas` (
+  `id` int(11) NOT NULL,
+  `user` varchar(25) NOT NULL,
+  `film_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -384,6 +398,14 @@ ALTER TABLE `usuarios_actores_directores`
   ADD KEY `fk_usuarios_actores_directores_idx` (`actor_director_id`);
 
 --
+-- Indices de la tabla `usuarios_peliculas_compradas`
+--
+ALTER TABLE `usuarios_peliculas_compradas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_usuarios_peliculas_compradas` (`film_id`),
+  ADD KEY `fk_peliculas_compradas_usuarios` (`user`);
+
+--
 -- Indices de la tabla `usuarios_peliculas_ver`
 --
 ALTER TABLE `usuarios_peliculas_ver`
@@ -490,6 +512,12 @@ ALTER TABLE `usuarios_actores_directores`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `usuarios_peliculas_compradas`
+--
+ALTER TABLE `usuarios_peliculas_compradas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `usuarios_peliculas_ver`
 --
 ALTER TABLE `usuarios_peliculas_ver`
@@ -568,6 +596,13 @@ ALTER TABLE `usuarios`
 ALTER TABLE `usuarios_actores_directores`
   ADD CONSTRAINT `fk_actores_directores_usuarios` FOREIGN KEY (`user`) REFERENCES `usuarios` (`user`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_usuarios_actores_directores` FOREIGN KEY (`actor_director_id`) REFERENCES `actores_directores` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `usuarios_peliculas_compradas`
+--
+ALTER TABLE `usuarios_peliculas_compradas`
+  ADD CONSTRAINT `fk_peliculas_compradas_usuarios` FOREIGN KEY (`user`) REFERENCES `usuarios` (`user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_usuarios_peliculas_compradas` FOREIGN KEY (`film_id`) REFERENCES `peliculas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usuarios_peliculas_ver`

@@ -12,8 +12,8 @@ use es\ucm\fdi\aw\generos\Genero;
  * Funciones de apoyo
  */
 
-function listaPelis_ActorDirector($id){
-    $peliculas = Pelicula::peliculasPorActorDirectorId($id);
+function listaPelis_ActorDirector($order, $ascdesc, $id){
+    $peliculas = Pelicula::peliculasPorActorDirectorId($order, $ascdesc, $id);
     $html = '';
     if (!empty($peliculas)) {
         $html= "<h3> Películas: </h3>";
@@ -85,6 +85,17 @@ function mostrarPeliculasVer($user, $limit=NULL) {
     $html=<<<EOS
         <h3> Ver más tarde: </h3>
         $peliculasVer
+    EOS;
+
+    return $html;
+}
+
+function mostrarPeliculasCompradas($user, $limit=NULL) {
+    $peliculasCompradas= listaPeliculasCompradas('title',null,$user, $limit);
+
+    $html=<<<EOS
+        <h3> Peliculas compradas: </h3>
+        $peliculasCompradas
     EOS;
 
     return $html;
@@ -188,18 +199,15 @@ function listaPlataformas($plataformas,$peliculasPlataformas){
 function listaGeneros($genres){
     $html = '';
     if (!empty($genres)) {
-        $html .= '<div class="div-generos-peli">';
+        $html .= '|';
         foreach($genres as $genre) {
             $text = $genre->name();
             $table = 'genre';
 
             $html.=<<<EOS
-                <div class="div-genero-peli">
-                <p><a href="./peliculas.php?table={$table}&value={$genre->id()}">$text</a></p>
-                </div>
+                <a href="./peliculas.php?table={$table}&value={$genre->id()}"> $text </a> |
             EOS;
         }
-        $html .= '</div>';
     }
     return $html;
 }
@@ -325,6 +333,64 @@ function busquedaPeliculas($search)
     return $html;
 }
 
+function pagarPaypalPelicula($pelicula)
+{
+    $app = Aplicacion::getSingleton();
+    $total = $pelicula->price();
+    $user = $app->user();
+    $productId = $pelicula->id();
+    $RUTA_APP = RUTA_APP;
+
+    $html = '<div id="paypal-button"></div>';
+
+
+        $html .= <<<EOS
+        
+        <script>
+            paypal.Button.render({
+            // Configure environment
+        env: 'sandbox',
+        client: {
+        sandbox: 'ARQl_tpu0jLSamyry95i9aHyXWF3O6byxfEfrUq_KGHVHNp9othxvOYoPSQcDXOm2sDHwrJWH450V405',
+        production: 'demo_production_client_id'
+        },
+        // Customize button (optional)
+        locale: 'es_ES',
+        style: {
+            size: 'small',
+            color: 'gold',
+            shape: 'pill',
+        },
+
+           // Enable Pay Now checkout flow (optional)
+        commit: true,
+
+        // Set up a payment
+        payment: function(data, actions) {
+          return actions.payment.create({
+            transactions: [{
+              amount: {
+                total: '$total',
+                currency: 'EUR'
+              },
+            }]
+          });
+        },
+        // Execute the payment
+        onAuthorize: function(data, actions) {
+          return actions.payment.execute().then(function() {
+            // Show a confirmation message to the buyer
+            window.location="{$RUTA_APP}verificador.php?paymentID="+data.paymentID+"&payerID="+data.payerID+"&token="+data.paymentToken+"&pid={$productId}&user={$user}";
+            }); 
+             } 
+         }, "#paypal-button"); 
+      </script> 
+    EOS;
+
+        return $html;
+
+}
+
 function listadoPelisActoresVistos($order, $ascdesc, $value, $limit=NULL){
 
     $peliculas = Pelicula::peliculasPorActorDirectorId($order, $ascdesc, $value);
@@ -342,6 +408,13 @@ function listaPeliculas($order, $ascdesc, $limit=NULL, $table, $value)
 function listaPeliculasVer($order, $ascdesc, $user, $limit=NULL)
 {
     $peliculas = Pelicula::listaPeliculasVer($order, $ascdesc ,$user, $limit);
+
+    return getDivPeliculas($peliculas, $limit, 'ver_tarde' ,$user);
+}
+
+function listaPeliculasCompradas($order, $ascdesc, $user, $limit=NULL)
+{
+    $peliculas = Pelicula::listaPeliculasCompradas($order, $ascdesc ,$user, $limit);
 
     return getDivPeliculas($peliculas, $limit, 'ver_tarde' ,$user);
 }
@@ -457,3 +530,7 @@ function eliminarPlataformaPorId($id)
     return Plataforma::borraPorId($id);
 }
 
+function isPeliculaCompradaPorUsuario($user, $id)
+{
+    return Pelicula::isPeliculaCompradaPorUsuario($user,$id);
+}
