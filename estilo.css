@@ -1018,11 +1018,11 @@ a > .fa-bell{
 
 .listaGeneral{
     display: inline-flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     flex-direction: row;
     align-content: center;
-    width: 65%;
+    width: 90%;
 }
 
 .listaGeneral .listaFormEliminar > input[type=submit]{

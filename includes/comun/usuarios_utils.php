@@ -267,10 +267,11 @@ function listaReviewsUser($user = NULL, $film_id = NULL)
 
     if ($user == null && $film_id == null) {
         $users = Usuario::listaAmigos($app->user());
+        $html = '';
         foreach ($users as $user) {
             $reviews = Review::buscaReviewsPorIdUser($user->user());
             $prevLink = urlencode($_SERVER['REQUEST_URI']);
-            $html = '<div>';
+            $html .= '<div>';
             if($reviews !=null){
                 
                 foreach($reviews as $review) {
