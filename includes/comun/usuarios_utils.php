@@ -224,7 +224,7 @@ function listaNotificacionesUser($user = NULL)
             EOS;
 			if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $notificacion->user_notify() == $app->user())) {
                 $html .= <<<EOS
-                    <form method="post">
+                    <form class="listaFormEditar" method="post">
                         <input type="hidden" name="idNoti" value="{$notificacion->id()}" readonly/>
                         <input type="submit" name="eliminarNoti" class="button" value="Marcar como leída" />
                     </form>
@@ -247,7 +247,7 @@ function listaNotificacionesUser($user = NULL)
             EOS;
 			if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $notificacion->user_notify() == $app->user())) {
                 $html .= <<<EOS
-                    <form class="listaForm" method="post">
+                    <form class="listaFormEliminar" method="post">
                         <input type="hidden" name="idNoti" value="{$notificacion->id()}" readonly/>
                         <input type="submit" name="eliminarNoti" class="button" value="Eliminar" />
                     </form>

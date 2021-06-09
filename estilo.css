@@ -1025,7 +1025,7 @@ a > .fa-bell{
     width: 65%;
 }
 
-.listaGeneral .listaForm > input[type=submit]{
+.listaGeneral .listaFormEliminar > input[type=submit]{
     background-color: #CD6155  ;
     color: white;
     border: 1px solid #373737;
@@ -1038,16 +1038,37 @@ a > .fa-bell{
 
 }
 
-.listaGeneral .listaForm > input[type=submit]:hover {
+.listaGeneral .listaFormEliminar > input[type=submit]:hover {
     background-color: #C70039;
     color: white;
 }
 
-a > .badge {
+.listaGeneral .listaFormEditar > input[type=submit]{
+    background-color: #52BE80  ;
+    color: white;
+    border: 1px solid #373737;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    margin: 5px;
+    align-content: center;
+
+}
+
+.listaGeneral .listaFormEditar > input[type=submit]:hover {
+    background-color: #1DB954;
+    color: white;
+}
+
+
+
+
+#noti > .badge {
     position: absolute;
-    top: -10px;
-    right: -10px;
-    padding: 5px 10px;
+    top: 142px;
+    right: 80px;
+    padding: 2px 6px;
     border-radius: 50%;
     background: red;
     color: white;

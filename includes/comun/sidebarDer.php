@@ -19,7 +19,7 @@ function mostrarSaludo() {
 		$notificacionesCompletadas = getNotificacionesCompletadas($app->user());
 		if ($notificacionesCompletadas) {
 			$numNotifs = count($notificacionesCompletadas);
-			echo "<a href='notificaciones.php?id={$app->user()}'><i class='fa fa-bell' ></i><span class='badge'>{$numNotifs}</span></a>";
+			echo "<a id='noti' href='notificaciones.php?id={$app->user()}'><i class='fa fa-bell' ></i><span class='badge'>{$numNotifs}</span></a>";
 		} else {
 			echo "<a href='notificaciones.php?id={$app->user()}'><i class='fa fa-bell' ></i></a>";
 		}
