@@ -151,12 +151,6 @@ class FormularioEditarPelicula extends Form
            
                 <div class="col-25"><label>Trama:</label></div>
                 <div class="col-75"><textarea class="control" type="text" name="plot" value="$plot" />$plot</textarea>$errorPlot </div>
-          
-                <div class="col-25"><label>País:</label></div>
-                 <div class="col-75"><input class="control" type="text" name="country" value="$country"/>$errorCountry</div>
-           
-                <div class="col-25"><label>Trama:</label></div>
-                <div class="col-75"><textarea class="control" type="text" name="plot" value="$plot" />$plot</textarea>$errorPlot </div>
            
                <div class="col-25"> <label>Plataformas:</label></div>
                <div class="col-75"> <ul>

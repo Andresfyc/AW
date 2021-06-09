@@ -121,6 +121,7 @@ function listaAmigos($user, $limit=NULL)
 function mostrarMenuPro()
 {
 	$app = Aplicacion::getSingleton();
+    $prevLink = urlencode($_SERVER['REQUEST_URI']);
 
     $html = '<ul class="mAdmin">';
 
@@ -140,13 +141,13 @@ function mostrarMenuPro()
             <li><a href="#">Peliculas</a>
                 <ul>
                     <li><a href="peliculas.php">Películas</a></li>
-                    <li><a href="nuevaPelicula.php">Añadir Pelicula</a></li>
+                    <li><a href="nuevaPelicula.php?prevPage={$prevLink}">Añadir Pelicula</a></li>
                     <li><a href="generos.php">Ver Géneros</a></li>
-                    <li><a href="nuevoGenero.php">Añadir Género</a></li>
+                    <li><a href="nuevoGenero.php?prevPage={$prevLink}">Añadir Género</a></li>
                     <li><a href="actoresDirectores.php">Ver Actores y Directores</a></li>
-                    <li><a href="nuevoActorDirector.php">Añadir Actor o Director</a></li>
+                    <li><a href="nuevoActorDirector.php?prevPage={$prevLink}">Añadir Actor o Director</a></li>
                     <li><a href="plataformas.php">Ver Plataformas</a></li>
-                    <li><a href="nuevaPlataforma.php">Añadir Plataforma</a></li>
+                    <li><a href="nuevaPlataforma.php?prevPage={$prevLink}">Añadir Plataforma</a></li>
                 </ul>
             </li>
             <li><a href="#">Suscripciones</a>
