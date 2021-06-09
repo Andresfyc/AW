@@ -42,64 +42,85 @@ class FormularioEditarUsuario extends Form
 
 
         $camposFormulario = <<<EOF
-        
-            $htmlErroresGlobales
+                      
+             $htmlErroresGlobales
             
                 <input class="control" type="hidden" name="user" value="$user"  readonly/>$errorUser
                 <input class="control" type="hidden" name="prevPage" value="$prevPage" readonly/>
                 <input class="control" type="hidden" name="isSelf" value="$isSelf" readonly/>
+        EOF;
+         if ($isSelf) {
+                 $camposFormulario .= <<<EOF
 
-            <div id="formEditar">
-
+                <div id="formEditar">
                     <div class="tabs">
                     
                     
-              <div class="tab-header">
+                <div class="tab-header">
                 
-              <h2>{$this->usuario->name()}</h2>
-                <div class="active">
-                  <i class="fa fa-id-card-o"></i> Nombre
-                </div>
-                <div>
-                  <i class="fa fa-picture-o"></i> Imagen
-                </div>
-                <div>
-                  <i class="fa fa-key"></i> Password
-                </div>
-                
-              </div>
-              <div class="tab-indicator"></div>
-              <div class="tab-content">
-                
-                <div class="active">
-                
-                 <input class="control" type="text" name="name" value="$name" />$errorName$errorPasswordComprobar
-                </div>
-                
-                <div>
-               
-                  <input class="control" type="file" name="image" value="$image" />$errorImage$errorPasswordComprobar
-                </div>
-                
-                
-                <div>
-                  
-                  
-                  <input  type="password" name="password" placeholder="Contraseña nueva"/>$errorPassword
-                  <input  type="password" name="password2" placeholder="Repetir Contraseña"/>$errorPassword2
+                    <h2>{$this->usuario->name()}</h2>
+                    <div class="active">
+                      <i class="fa fa-id-card-o"></i> Nombre
+                    </div>
+                    <div>
+                      <i class="fa fa-picture-o"></i> Imagen
+                    </div>
+                    <div>
+                      <i class="fa fa-key"></i> Password
+                    </div>
+                    
+                     </div>
+                    <div class="tab-indicator"></div>
+                    <div class="tab-content">
+                    
+                    <div class="active">
+                     <input class="control" type="text" name="name" value="$name" />$errorName$errorPasswordComprobar
+                        </div>
+                    
+                        <div>
+                      <input class="control" type="file" name="image" value="$image" />$errorImage$errorPasswordComprobar
+                        </div>
+                   
+                        <div>
+                      <input  type="password" name="password" placeholder="Contraseña nueva"/>$errorPassword
+                      <input  type="password" name="password2" placeholder="Repetir Contraseña"/>$errorPassword2
                   
                 </div>
+                </div>
+                     
+                EOF;
+         }
+
+            if ($app->esAdmin()) {
+            $adminCheck = $this->usuario->admin() ? "checked" : "";
+            $moderatorCheck = $this->usuario->moderator() ? "checked" : "";
+            $managerCheck = $this->usuario->content_manager() ? "checked" : "";
+            $camposFormulario .= <<<EOF
+                        <div class="checkboxes">
+                            <label><input type="checkbox" name="manager" value="1" {$managerCheck}>Cont. Manager</label>
+                            <label><input type="checkbox" name="moderador" value="1" {$moderatorCheck}>Moderador </label>
+                            <label><input type="checkbox" name="admin" value="1" {$adminCheck}>Admin </label>
+                        </div>
                 
-              </div>
+            EOF;
+            }
+
+            $camposFormulario .= <<<EOF
+
+             
                  <div class="passwordComprobar" ><input  type="password" name="passwordComprobar" placeholder="Contraseña..."/> </div>
                  $errorPasswordComprobar
                 <div><button type="submit" name="registro">Actualizar</button></div>   
             </div>
             
-                
-            </div>
+             
+          </div>
+      
                
     EOF;
+
+
+
         return $camposFormulario;
     }
 

@@ -907,7 +907,7 @@ a > .fa-bell{
     border-width: 0.5px;
     background-color: #373737; /**/
     overflow:hidden;
-    padding-bottom: 80px;
+    padding-bottom: 90px;
     padding-right: 20px;
     padding-left: 20px;
     padding-top: 20px;
@@ -981,6 +981,10 @@ a > .fa-bell{
     left:198px;
     top:80px;
     transition:all 500ms ease-in-out;
+}
+
+#formEditar .checkboxes{
+
 }
 
 #formEditar .passwordComprobar > input[type=password]{
