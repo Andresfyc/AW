@@ -359,7 +359,7 @@ class Pelicula
     $app = App::getSingleton();
     $conn = $app->conexionBd();
 
-		$query = sprintf("SELECT p.* FROM peliculas p JOIN usuarios_peliculas_vistas v ON p.id = v.film_id WHERE v.user = '%s'  ORDER BY v.rating DESC, v.id DESC", $user);
+		$query = sprintf("SELECT p.* FROM peliculas p JOIN usuarios_peliculas_vistas v ON p.id = v.film_id WHERE v.user = '%s' AND v.rating NOT LIKE '0' ORDER BY v.rating DESC, v.id DESC", $user);
 		if($limit) {
 		  $query = $query . ' LIMIT %d';
 		  $query = sprintf($query, $limit);

@@ -50,30 +50,27 @@ function mostrarPortadaPeliculas($limit=NULL) {
     $aux = "";
     $aux2 = "";
 
-	 if($app->usuarioLogueado() && $peliculasWatched!=null){
-        foreach($peliculasLiked as $peli1){
-            if ($peli1->genres()) {
-                /*foreach($peli1->genres() as $genre){
-                    $aux = listaPeliculasGen2('rating', null, $genre->id(), $limit);   
-                }*/
-                $aux = listaPeliculasGen2('rating', 'DESC', $peli1->genres(), $limit);
+	 if($app->usuarioLogueado()){
+        if ($peliculasLiked) {
+            foreach($peliculasLiked as $peli1){
+                if ($peli1->genres()) {
+                    $aux = listaPeliculasGen2('rating', 'DESC', $peli1->genres(), $limit);
+                }
             }
+            $html .= "<h3> Porque te ha gustado {$peli1->title()}</h3>{$aux}";
         }
-        foreach($peliculasWatched as $peli2){
-            if ($peli2->genres()) {
-                $aux3 = listaPeliculasGen2('rating', 'DESC', $peli2->genres(), $limit);
+        if ($peliculasWatched) {
+            foreach($peliculasWatched as $peli2){
+                if ($peli2->genres()) {
+                    $aux3 = listaPeliculasGen2('rating', 'DESC', $peli2->genres(), $limit);
+                }
             }
+            $html .= "<h3> Porque has visto {$peli2->title()}</h3>{$aux3}";
         }
         $aux2 = listadoPelisActoresDirectores2('title',null,$actoresDirectores,$limit);
-        if($aux!=null && $aux2!=null)
-            $html .=<<<EOS
-                <h3> Porque te ha gustado {$peli1->title()}</h3>
-                 $aux
-                 <h3> Porque has visto {$peli2->title()}</h3>
-                  $aux3
-                 <h3> Peliculas de tus actores y directores favoritos</h3>
-                 $aux2
-            EOS;
+        if($aux2!=null) {
+            $html .="<h3> Peliculas de tus actores y directores favoritos</h3>{$aux2}";
+        }
     }
      
     $html.=<<<EOS
