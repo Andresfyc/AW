@@ -142,6 +142,7 @@ class Aplicacion
       $_SESSION['login'] = true;
       $_SESSION['user'] = $usuario->user();
       $_SESSION['name'] = $usuario->name();
+      $_SESSION['watching'] = $usuario->watching();
 	  $_SESSION['esAdmin'] = $usuario->admin();
 	  $_SESSION['esGestor'] = $usuario->content_manager();
 	  $_SESSION['esModerador'] = $usuario->moderator();
@@ -157,6 +158,7 @@ class Aplicacion
       unset($_SESSION['login']);
       unset($_SESSION['user']);
       unset($_SESSION['name']);
+      unset($_SESSION['watching']);
       unset($_SESSION['esAdmin']);
       unset($_SESSION['esGestor']);
       unset($_SESSION['esModerador']);
@@ -191,6 +193,12 @@ class Aplicacion
     {
       $this->compruebaInstanciaInicializada();
       return $_SESSION['image'] ?? '';
+    }
+  
+    public function watching()
+    {
+      $this->compruebaInstanciaInicializada();
+      return $_SESSION['watching'] ?? '';
     }
   
     public function esAdmin()

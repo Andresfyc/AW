@@ -248,7 +248,7 @@ class Usuario
 
         $query = sprintf("UPDATE usuarios SET premium_validity = DATE_ADD(NOW(), INTERVAL %d *1 MONTH) , premium = 1  WHERE `user` = '%s' "
             , $meses
-            , $user);
+            , $conn->real_escape_string($user));
         $result = $conn->query($query);
         if (!$result) {
             error_log($conn->error);
@@ -256,6 +256,31 @@ class Usuario
 
         return $result;
     }
+
+
+    public static function setWatching($user, $id=NULL)
+    {
+        $result = false;
+
+        $app = App::getSingleton();
+        $conn = $app->conexionBd();
+
+        if($id){
+            $query = sprintf("UPDATE usuarios SET watching = %d  WHERE user = '%s' "
+                , $id
+                , $conn->real_escape_string($user));
+        } else {
+            $query = sprintf("UPDATE usuarios SET watching = null  WHERE user = '%s' "
+                , $conn->real_escape_string($user));
+        }
+        $result = $conn->query($query);
+        if (!$result) {
+            error_log($conn->error);
+        }
+
+        return $result;
+    }
+
 
     public static function borraPorUser($user)
     {

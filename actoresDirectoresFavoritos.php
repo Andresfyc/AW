@@ -6,7 +6,7 @@ $tituloPagina = 'Actores/Directores Favoritos';
 
 function mostrarActoresDirectoresFavoritos() {
 	$userIn = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
-	$ad = filter_input(INPUT_GET, 'ad', FILTER_SANITIZE_STRING);
+	$ad = filter_input(INPUT_GET, 'ad', FILTER_SANITIZE_NUMBER_INT);
 
 	$actorDirector = $ad ? "Directores" : "Actores";
 	

@@ -50,12 +50,16 @@ function mostrarPortadaPeliculas($limit=NULL) {
 
 	 if($app->usuarioLogueado() && $pelicula!=null){
         foreach($pelicula as $peli){
-           foreach($peli->genres() as $genre){
-			   $aux = listaPeliculasGen('rating', null, $genre->id(), $limit);   
-			}
-            foreach($peli->actors() as $actor){
-                $aux2 = listadoPelisActoresVistos('title',null,$actor->id(),$limit);   
-             }
+            if ($peli->genres()) {
+                foreach($peli->genres() as $genre){
+                    $aux = listaPeliculasGen('rating', null, $genre->id(), $limit);   
+                }
+            }
+            if ($peli->actors()){
+                foreach($peli->actors() as $actor){
+                    $aux2 = listadoPelisActoresVistos('title',null,$actor->id(),$limit);   
+                }
+            }
         }
         if($aux!=null && $aux2!=null)
             $html .=<<<EOS
@@ -391,7 +395,13 @@ function pagarPaypalPelicula($pelicula)
 
 }
 
-function listadoPelisActoresVistos($order, $ascdesc, $value, $limit=NULL){
+function getTodasPeliculas($order, $ascdesc, $limit=NULL)
+{
+    return Pelicula::listaPeliculas($order, $ascdesc, $limit);
+}
+
+function listadoPelisActoresVistos($order, $ascdesc, $value, $limit=NULL)
+{
 
     $peliculas = Pelicula::peliculasPorActorDirectorId($order, $ascdesc, $value);
 

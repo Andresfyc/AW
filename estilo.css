@@ -217,7 +217,7 @@ button {
 
 #topSide {
     width: auto;
-    height: 135px;
+    height: auto;
     padding: 15px;
     text-align: center;
 }
@@ -818,7 +818,7 @@ figure:hover > figcaption {
 /****** Menu Admin ******/
 
 .menuAdmin{
-    margin-top: 20px;
+    
 }
 
 ul.mAdmin,

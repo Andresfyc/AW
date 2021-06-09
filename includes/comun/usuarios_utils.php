@@ -364,6 +364,14 @@ function busquedaUsuarios($search)
     return $html;
 }
 
+function marcarViendoPelicula($id=NULL)
+{
+	$app = Aplicacion::getSingleton();
+
+    Usuario::setWatching($app->user(), $id);
+    $app->login(Usuario::buscaUsuario($app->user()));
+}
+
 function addNotificacion($user_notify, $user_review, $film_id)
 {
     $notificacion = Notificacion::crea($user_review, $user_notify, $film_id);
