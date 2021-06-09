@@ -37,9 +37,10 @@ function mostrarPortadaPeliculas($limit=NULL) {
 	
 	$user = $app->user();
 	
-    $ultimasPeliculasEstrenadas = listaPeliculas('date_released', 0, $limit, 'peliculas', 'date_released');
-    $listaUltimasPeliculasAnadidas = listaPeliculas('id', 0, $limit, 'peliculas', 'id');
-	$pelicula = Pelicula::ultimaPeliculaWatching($user, $limit);
+    $ultimasPeliculasEstrenadas = listaPeliculas('date_released', 'desc', $limit, 'peliculas', 'date_released');
+    $listaUltimasPeliculasAnadidas = listaPeliculas('id', 'desc', $limit, 'peliculas', 'id');
+	$peliculasLiked = Pelicula::ultimaPeliculaWatchedMejorRating($user, 1);
+	$peliculasWatched = Pelicula::ultimaPeliculaWatched($user, 1);
 
     $html=<<<EOS
         <h1>Página principal</h1>
@@ -48,23 +49,37 @@ function mostrarPortadaPeliculas($limit=NULL) {
     $aux = "";
     $aux2 = "";
 
-	 if($app->usuarioLogueado() && $pelicula!=null){
-        foreach($pelicula as $peli){
-            if ($peli->genres()) {
-                foreach($peli->genres() as $genre){
+	 if($app->usuarioLogueado() && $peliculasWatched!=null){
+        foreach($peliculasLiked as $peli1){
+            if ($peli1->genres()) {
+                foreach($peli1->genres() as $genre){
                     $aux = listaPeliculasGen('rating', null, $genre->id(), $limit);   
                 }
             }
-            if ($peli->actors()){
-                foreach($peli->actors() as $actor){
-                    $aux2 = listadoPelisActoresVistos('title',null,$actor->id(),$limit);   
+            if ($peli1->actors()){
+                foreach($peli1->actors() as $actor){
+                    $aux2 = listadoPelisActoresDirectores('title',null,$actor->id(),$limit);   
+                }
+            }
+        }
+        foreach($peliculasWatched as $peli2){
+            if ($peli2->genres()) {
+                foreach($peli2->genres() as $genre){
+                    $aux3 = listaPeliculasGen('rating', null, $genre->id(), $limit);   
+                }
+            }
+            if ($peli2->actors()){
+                foreach($peli2->actors() as $actor){
+                    $aux2 = listadoPelisActoresDirectores('title',null,$actor->id(),$limit);   
                 }
             }
         }
         if($aux!=null && $aux2!=null)
             $html .=<<<EOS
-                <h3> Porque has visto {$peli->title()}</h3>
+                <h3> Porque te ha gustado {$peli1->title()}</h3>
                  $aux
+                 <h3> Porque has visto {$peli2->title()}</h3>
+                  $aux3
                  <h3> Peliculas de actores y directores que has visto</h3>
                  $aux2
             EOS;
@@ -400,7 +415,7 @@ function getTodasPeliculas($order, $ascdesc, $limit=NULL)
     return Pelicula::listaPeliculas($order, $ascdesc, $limit);
 }
 
-function listadoPelisActoresVistos($order, $ascdesc, $value, $limit=NULL)
+function listadoPelisActoresDirectores($order, $ascdesc, $value, $limit=NULL)
 {
 
     $peliculas = Pelicula::peliculasPorActorDirectorId($order, $ascdesc, $value);
@@ -543,4 +558,19 @@ function eliminarPlataformaPorId($id)
 function isPeliculaCompradaPorUsuario($user, $id)
 {
     return Pelicula::isPeliculaCompradaPorUsuario($user,$id);
+}
+
+function generos()
+{
+    return Genero::listaGeneros();
+}
+
+function actores()
+{
+    return ActorDirector::actoresDirectores(0);
+}
+
+function directores()
+{
+    return ActorDirector::actoresDirectores(1);
 }

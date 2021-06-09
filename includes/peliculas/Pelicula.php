@@ -189,12 +189,12 @@ class Pelicula
 	
 	public static function listaPeliculas($order, $ascdesc, $limit=NULL)
 	{
-    $asds = $ascdesc ? 'ASC' : 'DESC';
+    $ascdesc = $ascdesc ?? 'ASC';
 		$result = [];
 
     $app = App::getSingleton();
     $conn = $app->conexionBd();
-		$query = sprintf("SELECT * FROM peliculas ORDER BY %s %s", $order, $asds);
+		$query = sprintf("SELECT * FROM peliculas ORDER BY %s %s", $order, $ascdesc);
 		if($limit) {
 		  $query = $query . ' LIMIT %d';
 		  $query = sprintf($query, $limit);
@@ -213,11 +213,11 @@ class Pelicula
 	
 	public static function listaPeliculasVer($order, $ascdesc,$user, $limit=NULL)
 	{
-    $asds = $ascdesc ? 'ASC' : 'DESC';
+    $ascdesc = $ascdesc ?? 'ASC';
 	$result = [];
     $app = App::getSingleton();
     $conn = $app->conexionBd();
-		$query = sprintf("SELECT p.* FROM peliculas p JOIN usuarios_peliculas_ver v ON p.id = v.film_id WHERE v.user = '%s'  ORDER BY %s %s", $user,$order, $asds);
+		$query = sprintf("SELECT p.* FROM peliculas p JOIN usuarios_peliculas_ver v ON p.id = v.film_id WHERE v.user = '%s'  ORDER BY %s %s", $user,$order, $ascdesc);
 		if($limit) {
 		  $query = $query . ' LIMIT %d';
 		  $query = sprintf($query, $limit);
@@ -236,11 +236,11 @@ class Pelicula
 	
 	public static function listaPeliculasCompradas($order, $ascdesc,$user, $limit=NULL)
 	{
-    $asds = $ascdesc ? 'ASC' : 'DESC';
+    $ascdesc = $ascdesc ?? 'ASC';
 	$result = [];
     $app = App::getSingleton();
     $conn = $app->conexionBd();
-		$query = sprintf("SELECT p.* FROM peliculas p JOIN usuarios_peliculas_compradas v ON p.id = v.film_id WHERE v.user = '%s'  ORDER BY %s %s", $user,$order, $asds);
+		$query = sprintf("SELECT p.* FROM peliculas p JOIN usuarios_peliculas_compradas v ON p.id = v.film_id WHERE v.user = '%s'  ORDER BY %s %s", $user,$order, $ascdesc);
 		if($limit) {
 		  $query = $query . ' LIMIT %d';
 		  $query = sprintf($query, $limit);
@@ -259,13 +259,13 @@ class Pelicula
 	
 	public static function listaPeliculasGen($order, $ascdesc, $id, $limit=NULL)
 	{
-		$asds = $ascdesc ? 'ASC' : 'DESC';
+    $ascdesc = $ascdesc ?? 'ASC';
 
 	  $result = [];
     $app = App::getSingleton();
     $conn = $app->conexionBd();
 
-		$query = sprintf("SELECT p.* FROM peliculas p JOIN peliculas_generos v ON p.id = v.film_id WHERE v.genre_id = '%s' ORDER BY %s %s", $id, $order, $asds);
+		$query = sprintf("SELECT p.* FROM peliculas p JOIN peliculas_generos v ON p.id = v.film_id WHERE v.genre_id = '%s' ORDER BY %s %s", $id, $order, $ascdesc);
 		if($limit) {
 		  $query = $query . ' LIMIT %d';
 		  $query = sprintf($query, $limit);
@@ -284,12 +284,12 @@ class Pelicula
 
   public static function peliculasPorActorDirectorId ($order, $ascdesc,$id)
   {
-    $asds = $ascdesc ? 'ASC' : 'DESC';
+    $ascdesc = $ascdesc ?? 'ASC';
 		$result = [];
 
     $app = App::getSingleton();
     $conn = $app->conexionBd();
-    $query = sprintf("SELECT p.* FROM peliculas p JOIN peliculas_actores_directores pad ON p.id = pad.film_id WHERE pad.actor_director_id = %d ORDER BY %s %s" , $id, $order, $asds);
+    $query = sprintf("SELECT p.* FROM peliculas p JOIN peliculas_actores_directores pad ON p.id = pad.film_id WHERE pad.actor_director_id = %d ORDER BY %s %s" , $id, $order, $ascdesc);
 		$rs = $conn->query($query);
 		if ($rs) {
 		  while($fila = $rs->fetch_assoc()) {
@@ -301,14 +301,37 @@ class Pelicula
     return $result;
   }
 	
-	public static function ultimaPeliculaWatching($user, $limit=NULL)
+	public static function ultimaPeliculaWatchedMejorRating($user, $limit=NULL)
 	{
 
 	$result = [];
     $app = App::getSingleton();
     $conn = $app->conexionBd();
 
-		$query = sprintf("SELECT p.* FROM usuarios u JOIN peliculas p ON u.watching = p.id WHERE u.user = '%s'", $user);
+		$query = sprintf("SELECT p.* FROM peliculas p JOIN usuarios_peliculas_vistas v ON p.id = v.film_id WHERE v.user = '%s'  ORDER BY v.rating DESC, v.id DESC", $user);
+		if($limit) {
+		  $query = $query . ' LIMIT %d';
+		  $query = sprintf($query, $limit);
+		}
+		$rs = $conn->query($query);
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			$result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating'], $fila['link'], $fila['price']);
+		  }
+		  $rs->free();
+		}
+
+		return $result;
+	}
+	
+	public static function ultimaPeliculaWatched($user, $limit=NULL)
+	{
+
+	$result = [];
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+
+		$query = sprintf("SELECT p.* FROM peliculas p JOIN usuarios_peliculas_vistas v ON p.id = v.film_id WHERE v.user = '%s'  ORDER BY v.id DESC", $user);
 		if($limit) {
 		  $query = $query . ' LIMIT %d';
 		  $query = sprintf($query, $limit);
