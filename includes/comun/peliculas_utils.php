@@ -98,6 +98,7 @@ function mostrarPortadaPeliculas($limit=NULL) {
 	
     return $html;
 }
+
 function mostrarPeliculasVer($user, $limit=NULL) {
     $peliculasVer= listaPeliculasVer('title',null,$user, $limit);
 

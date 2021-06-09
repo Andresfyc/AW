@@ -218,17 +218,18 @@ function listaNotificacionesUser($user = NULL)
         foreach($notificaciones as $notificacion) {
 			$pelicula = Pelicula::buscaPorId($notificacion->film_id());
             $html .= <<<EOS
-                <div class="row-item">
+                <div class="listaGeneral">
                 <p>- <a href="{$RUTA_APP}usuario.php?id={$notificacion->user_review()}">{$notificacion->user_review()}</a> ha escrito una <a href="{$RUTA_APP}reviews.php?id={$notificacion->user_review()}&film={$notificacion->film_id()}"> review </a> para la película <a href="{$RUTA_APP}pelicula.php?id={$notificacion->film_id()}">{$pelicula->title()}</a></p>
-                </div>
+               
             EOS;
 			if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $notificacion->user_notify() == $app->user())) {
                 $html .= <<<EOS
                     <form method="post">
                         <input type="hidden" name="idNoti" value="{$notificacion->id()}" readonly/>
-                        <input type="submit" name="eliminarNoti"
-                                class="button" value="Marcar como leída" />
+                        <input type="submit" name="eliminarNoti" class="button" value="Marcar como leída" />
                     </form>
+
+                 </div>
                 EOS;
             }
         }
@@ -240,17 +241,17 @@ function listaNotificacionesUser($user = NULL)
         foreach($notificaciones as $notificacion) {
 			$pelicula = Pelicula::buscaPorId($notificacion->film_id());
             $html .= <<<EOS
-                <div class="row-item">
+                <div class="listaGeneral">
                 <p>- Se te notificará cuando <a href="{$RUTA_APP}usuario.php?id={$notificacion->user_review()}">{$notificacion->user_review()}</a> publique una review para la película <a href="{$RUTA_APP}pelicula.php?id={$notificacion->film_id()}">{$pelicula->title()}</a></p>
-                </div>
+                
             EOS;
 			if ($app->usuarioLogueado() && ($app->esModerador() || $app->esAdmin() || $notificacion->user_notify() == $app->user())) {
                 $html .= <<<EOS
-                    <form method="post">
+                    <form class="listaForm" method="post">
                         <input type="hidden" name="idNoti" value="{$notificacion->id()}" readonly/>
-                        <input type="submit" name="eliminarNoti"
-                                class="button" value="Eliminar" />
+                        <input type="submit" name="eliminarNoti" class="button" value="Eliminar" />
                     </form>
+                </div>
                 EOS;
             }
         }

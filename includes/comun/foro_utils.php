@@ -7,6 +7,7 @@ use es\ucm\fdi\aw\eventosTemas\EventoTema;
  * Funciones de apoyo
  */
 
+
 function listaMensajes($id) {
 	$app = Aplicacion::getSingleton();
     $html = '';

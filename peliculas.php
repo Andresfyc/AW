@@ -110,8 +110,8 @@ function ordenar($order, $ascdesc, $table,$value){
 			return listadoPelisActoresDirectores($order, $ascdesc, $value, null);	
 			break;	
 		case 'director':
-			return listadoPelisActoresDirectores($order, $ascdesc, $value, null);	
-			break;	
+			return listadoPelisActoresDirectores($order, $ascdesc, $value, null);
+			break;
 
 		default:
 			if($order==null){
@@ -132,10 +132,10 @@ function dropdown_ordenacion() {
 	$dropdown1 = $dropdown1 ?? 0;
 	echo $dropdown1;
 
-    $html='<form action="" method="post" id ="myForm">';
-		$html.='<select name="desplegable1" onChange="this.form.submit()";>';
+    $html='<form class="filtros" action=""  method="post" id ="myForm">';
+		$html.='<select name="desplegable1"  onChange="this.form.submit()";>';
 			if ($dropdown1 == 0) {
-				$html.='<option value="0" selected></option>';
+				$html.='<option value="0"   selected>Ordenar por...</option>';
 			} else {
 				$html.='<option value="0"></option>';
 			}
@@ -188,10 +188,10 @@ function dropdown_filtro1() {
 	$dropdown2 = filter_input(INPUT_GET, 'dropdown2', FILTER_SANITIZE_NUMBER_INT);
 	$dropdown2 = $dropdown2 ?? 0;
 
-    $html='<form action="" method="post" id ="myForm">';
+    $html='<form class="filtros" action="" method="post" id ="myForm">';
 		$html.='<select name="desplegable2" onChange="this.form.submit()";>';
 			if ($dropdown2 == 0) {
-				$html.='<option value="0" selected></option>';
+				$html.='<option value="0" selected>Filtrar por...</option>';
 			} else {
 				$html.='<option value="0"></option>';
 			}
@@ -236,7 +236,7 @@ function dropdown_filtro2() {
 				break;
 		}
 
-		$html='<form action="" method="post" id ="myForm">';
+		$html='<form class="filtros" action="" method="post" id ="myForm">';
 		$html.='<select name="desplegable3" onChange="this.form.submit()";>';
 		$html.='<option value="0" selected></option>';
 		foreach($data as $dato) {
@@ -257,6 +257,8 @@ function dropdown_filtro2() {
 }
 
 $tituloPagina = 'Películas';
+
+
 $contenidoPrincipal= dropdown_ordenacion();
 $contenidoPrincipal.= dropdown_filtro1();
 $contenidoPrincipal.= dropdown_filtro2();

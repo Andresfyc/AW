@@ -14,6 +14,7 @@ class Mensaje
     return self::guarda($mensaje);
   }
 
+
   public static function buscaPorId($id)
   {
     $result = null;

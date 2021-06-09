@@ -11,7 +11,7 @@ $tituloPagina = 'Login';
 
 $contenidoPrincipal = <<<EOS
 
-$htmlFormLogin
+        $htmlFormLogin
 EOS;
 
 require __DIR__.'/includes/plantillas/plantilla.php';
