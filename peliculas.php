@@ -10,6 +10,12 @@ function mostrarPeliculas() {
 	$value = filter_input(INPUT_GET, 'value', FILTER_SANITIZE_STRING);
 	$order = filter_input(INPUT_GET, 'order', FILTER_SANITIZE_STRING);
 	$ascdesc = filter_input(INPUT_GET, 'ascdesc', FILTER_SANITIZE_STRING);
+	$dropdown1 = filter_input(INPUT_GET, 'dropdown1', FILTER_SANITIZE_NUMBER_INT);
+	$dropdown1 = $dropdown1 ?? 0;
+	$dropdown2 = filter_input(INPUT_GET, 'dropdown2', FILTER_SANITIZE_NUMBER_INT);
+	$dropdown2 = $dropdown2 ?? 0;
+	$dropdown3 = filter_input(INPUT_GET, 'dropdown3', FILTER_SANITIZE_NUMBER_INT);
+	$dropdown3 = $dropdown3 ?? 0;
 
 	$order = $order ?? 'title';
 	$ascdesc = $ascdesc ?? 'asc';
@@ -59,7 +65,7 @@ function mostrarPeliculas() {
 				$ascdescD='asc';
 				break;
 		}
-		header("Location: peliculas.php?table={$table}&value={$value}&order={$orderD}&ascdesc={$ascdescD}&dropdown1={$tipoorden}");
+		header("Location: peliculas.php?table={$table}&value={$value}&order={$orderD}&ascdesc={$ascdescD}&dropdown1={$tipoorden}&dropdown2={$dropdown2}&dropdown3={$dropdown3}");
 	}
 	
 
@@ -130,12 +136,11 @@ function ordenar($order, $ascdesc, $table,$value){
 function dropdown_ordenacion() {
 	$dropdown1 = filter_input(INPUT_GET, 'dropdown1', FILTER_SANITIZE_NUMBER_INT);
 	$dropdown1 = $dropdown1 ?? 0;
-	echo $dropdown1;
 
     $html='<form class="filtros" action=""  method="post" id ="myForm">';
 		$html.='<select name="desplegable1"  onChange="this.form.submit()";>';
 			if ($dropdown1 == 0) {
-				$html.='<option value="0"   selected>Ordenar por...</option>';
+				$html.='<option value="0" selected>Ordenar por...</option>';
 			} else {
 				$html.='<option value="0"></option>';
 			}
@@ -234,16 +239,21 @@ function dropdown_filtro2() {
 			case 'director':
 				$data = directores();
 				break;
+			default:
+				$data = null;
+				break;
 		}
 
 		$html='<form class="filtros" action="" method="post" id ="myForm">';
 		$html.='<select name="desplegable3" onChange="this.form.submit()";>';
-		$html.='<option value="0" selected></option>';
-		foreach($data as $dato) {
-			if ($dropdown3 == $dato->id()) {
-				$html.='<option value="'.$dato->id().'" selected>'.$dato->name().'</option>';
-			} else {
-				$html.='<option value="'.$dato->id().'">'.$dato->name().'</option>';
+		$html.='<option value="0" selected>Selecciona para filtrar...</option>';
+		if ($data) {
+			foreach($data as $dato) {
+				if ($dropdown3 == $dato->id()) {
+					$html.='<option value="'.$dato->id().'" selected>'.$dato->name().'</option>';
+				} else {
+					$html.='<option value="'.$dato->id().'">'.$dato->name().'</option>';
+				}
 			}
 		}
 		$html.='</select>';

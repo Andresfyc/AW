@@ -281,6 +281,34 @@ class Pelicula
 
 		return $result;
 	}
+	
+	public static function listaPeliculasGen2($order, $ascdesc, $genres, $limit=NULL)
+	{
+    $ascdesc = $ascdesc ?? 'ASC';
+
+	  $result = [];
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+
+		$query = "SELECT DISTINCT p.* FROM peliculas p JOIN peliculas_generos v ON p.id = v.film_id WHERE "; 
+    foreach($genres as $genre) {
+      $query .= sprintf(" v.genre_id = %d OR ", $genre->id());
+    } 
+    $query .= sprintf(" 1=0 ORDER BY %s %s ", $order, $ascdesc);
+		if($limit) {
+		  $query = $query . ' LIMIT %d';
+		  $query = sprintf($query, $limit);
+		}
+		$rs = $conn->query($query);
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			$result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating'], $fila['link'], $fila['price']);
+		  }
+		  $rs->free();
+		}
+
+		return $result;
+	}
 
   public static function peliculasPorActorDirectorId ($order, $ascdesc,$id)
   {
@@ -290,6 +318,29 @@ class Pelicula
     $app = App::getSingleton();
     $conn = $app->conexionBd();
     $query = sprintf("SELECT p.* FROM peliculas p JOIN peliculas_actores_directores pad ON p.id = pad.film_id WHERE pad.actor_director_id = %d ORDER BY %s %s" , $id, $order, $ascdesc);
+		$rs = $conn->query($query);
+		if ($rs) {
+		  while($fila = $rs->fetch_assoc()) {
+			  $result[] = new Pelicula($fila['id'], $fila['title'], $fila['image'], $fila['date_released'], $fila['duration'], $fila['country'], $fila['plot'], $fila['rating'], $fila['link'], $fila['price']);
+		  }
+		  $rs->free();
+		}
+
+    return $result;
+  }
+
+  public static function peliculasPorActorDirectorId2 ($order, $ascdesc, $ads)
+  {
+    $ascdesc = $ascdesc ?? 'ASC';
+		$result = [];
+
+    $app = App::getSingleton();
+    $conn = $app->conexionBd();
+    $query = "SELECT DISTINCT p.* FROM peliculas p JOIN peliculas_actores_directores pad ON p.id = pad.film_id WHERE ";
+    foreach ($ads as $ad){
+      $query .= sprintf("pad.actor_director_id = %d OR ", $ad->id());
+    }
+    $query .= sprintf("1=0 ORDER BY %s %s" , $order, $ascdesc);
 		$rs = $conn->query($query);
 		if ($rs) {
 		  while($fila = $rs->fetch_assoc()) {

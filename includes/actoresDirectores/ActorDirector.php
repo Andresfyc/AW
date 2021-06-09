@@ -142,20 +142,21 @@ class ActorDirector
   return $result;
   }
 	
-	public static function buscaActoresDirectoresPorUser($user, $limit=NULL, $actorDirector)
+	public static function buscaActoresDirectoresPorUser($user, $limit=NULL, $actorDirector=NULL)
 	{
 		$result = [];
 
     $app = App::getSingleton();
     $conn = $app->conexionBd();
 		$query = sprintf("SELECT actores_directores.* FROM usuarios join usuarios_actores_directores ON usuarios.user = usuarios_actores_directores.user 
-		join actores_directores ON usuarios_actores_directores.actor_director_id = actores_directores.id where usuarios.user= '%s' AND 
-		actores_directores.actor_director= '%d'", $user, $actorDirector);
+		join actores_directores ON usuarios_actores_directores.actor_director_id = actores_directores.id where usuarios.user= '%s'", $user);
+    if (strlen($actorDirector) > 0) {
+      $query .= sprintf(" AND actores_directores.actor_director= %d", $actorDirector);
+    } 		
 		if($limit) {
 		  $query = $query . ' LIMIT %d';
 		  $query = sprintf($query, $limit);
 		}
-
 		$rs = $conn->query($query);
 		if ($rs) {
 		  while($fila = $rs->fetch_assoc()) {

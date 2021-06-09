@@ -8,13 +8,14 @@ function mostrarSaludo() {
 	$app = Aplicacion::getSingleton();
 	$image = $app->image();
 	$user = $app->user();
+	$RUTA_APP = RUTA_APP;
 	$prevLink = urlencode($_SERVER['REQUEST_URI']);
 	if ($app->usuarioLogueado()) {
 		if (strlen($app->watching() < 1)){
-			echo "<img id=\"prof_pic\" src=\"img/usuarios/{$image}\" alt=\"{$user}\" ><p>" . $user . ": <a href='watching.php?prevPage={$prevLink}'> ¿Estás viendo alguna película? </a></p><a href='usuario.php'><i class='fa fa-user' ></i></a> <a href='logout.php'><i class='fa fa-sign-out' ></i></a> ";
+			echo "<img id=\"prof_pic\" src=\"img/usuarios/{$image}\" alt=\"{$user}\" ><p>" . $user . ": <a href='watching.php?prevPage={$prevLink}'> ¿Estás viendo alguna película? </a></p><a href='usuario.php'><i class='fa fa-user' ></i></a> <a href='{$RUTA_APP}logout.php'><i class='fa fa-sign-out' ></i></a> ";
 		} else {
 			$titulo = Pelicula::buscaPorId($app->watching())->title();
-			echo "<img id=\"prof_pic\" src=\"img/usuarios/{$image}\" alt=\"{$user}\" ><p>" . $user . ": <a href='watching.php?id={$app->watching()}&prevPage={$prevLink}'> Viendo ". $titulo ." </a></p><a href='usuario.php'><i class='fa fa-user' ></i></a> <a href='logout.php'><i class='fa fa-sign-out' ></i></a> ";
+			echo "<img id=\"prof_pic\" src=\"img/usuarios/{$image}\" alt=\"{$user}\" ><p>" . $user . ": <a href='watching.php?id={$app->watching()}&prevPage={$prevLink}'> Viendo ". $titulo ." </a></p><a href='usuario.php'><i class='fa fa-user' ></i></a> <a href='{$RUTA_APP}logout.php'><i class='fa fa-sign-out' ></i></a> ";
 		}
 		$notificacionesCompletadas = getNotificacionesCompletadas($app->user());
 		if ($notificacionesCompletadas) {

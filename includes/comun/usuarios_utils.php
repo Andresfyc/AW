@@ -174,7 +174,7 @@ function mostrarMenuPro()
 }
 
 
-function listaActoresDirectoresUser($user = NULL, $limit = NULL, $actorDirector)
+function listaActoresDirectoresUser($user = NULL, $limit = NULL, $actorDirector = NULL)
 {		
     $html = '<div>';
     $actoresDirectores = ActorDirector::buscaActoresDirectoresPorUser($user, $limit, $actorDirector);

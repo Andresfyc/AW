@@ -37,10 +37,11 @@ function mostrarPortadaPeliculas($limit=NULL) {
 	
 	$user = $app->user();
 	
-    $ultimasPeliculasEstrenadas = listaPeliculas('date_released', 'desc', $limit, 'peliculas', 'date_released');
-    $listaUltimasPeliculasAnadidas = listaPeliculas('id', 'desc', $limit, 'peliculas', 'id');
+    $ultimasPeliculasEstrenadas = listaPeliculas('date_released', 'desc', $limit, null, null);
+    $listaUltimasPeliculasAnadidas = listaPeliculas('id', 'desc', $limit, null, null);
 	$peliculasLiked = Pelicula::ultimaPeliculaWatchedMejorRating($user, 1);
 	$peliculasWatched = Pelicula::ultimaPeliculaWatched($user, 1);
+    $actoresDirectores = ActorDirector::buscaActoresDirectoresPorUser($user);
 
     $html=<<<EOS
         <h1>Página principal</h1>
@@ -52,35 +53,25 @@ function mostrarPortadaPeliculas($limit=NULL) {
 	 if($app->usuarioLogueado() && $peliculasWatched!=null){
         foreach($peliculasLiked as $peli1){
             if ($peli1->genres()) {
-                foreach($peli1->genres() as $genre){
-                    $aux = listaPeliculasGen('rating', null, $genre->id(), $limit);   
-                }
-            }
-            if ($peli1->actors()){
-                foreach($peli1->actors() as $actor){
-                    $aux2 = listadoPelisActoresDirectores('title',null,$actor->id(),$limit);   
-                }
+                /*foreach($peli1->genres() as $genre){
+                    $aux = listaPeliculasGen2('rating', null, $genre->id(), $limit);   
+                }*/
+                $aux = listaPeliculasGen2('rating', 'DESC', $peli1->genres(), $limit);
             }
         }
         foreach($peliculasWatched as $peli2){
             if ($peli2->genres()) {
-                foreach($peli2->genres() as $genre){
-                    $aux3 = listaPeliculasGen('rating', null, $genre->id(), $limit);   
-                }
-            }
-            if ($peli2->actors()){
-                foreach($peli2->actors() as $actor){
-                    $aux2 = listadoPelisActoresDirectores('title',null,$actor->id(),$limit);   
-                }
+                $aux3 = listaPeliculasGen2('rating', 'DESC', $peli2->genres(), $limit);
             }
         }
+        $aux2 = listadoPelisActoresDirectores2('title',null,$actoresDirectores,$limit);
         if($aux!=null && $aux2!=null)
             $html .=<<<EOS
                 <h3> Porque te ha gustado {$peli1->title()}</h3>
                  $aux
                  <h3> Porque has visto {$peli2->title()}</h3>
                   $aux3
-                 <h3> Peliculas de actores y directores que has visto</h3>
+                 <h3> Peliculas de tus actores y directores favoritos</h3>
                  $aux2
             EOS;
     }
@@ -133,7 +124,7 @@ function mostrarPeliculasGen($id, $limit=NULL) {
 }
 
 
-function getDivPeliculas($peliculas, $limit=NULL, $table, $value) {
+function getDivPeliculas($peliculas, $limit=NULL, $table, $value, $order=null, $ascdesc=null) {
 	$app = Aplicacion::getSingleton();
     $html = '<div class="div-peliculas">';
     $prevLink = urlencode($_SERVER['REQUEST_URI']);
@@ -161,7 +152,7 @@ function getDivPeliculas($peliculas, $limit=NULL, $table, $value) {
     if ($limit != NULL && count($peliculas) > 1) {
         $html .=<<<EOS
             <div class="div-pelicula-last">
-            <p><a href="./peliculas.php?table={$table}&value={$value}">Ver todas</a></p>
+            <p><a href="./peliculas.php?table={$table}&value={$value}&order={$order}&ascdesc={$ascdesc}">Ver todas</a></p>
             </div>
         EOS;
     }
@@ -421,35 +412,50 @@ function listadoPelisActoresDirectores($order, $ascdesc, $value, $limit=NULL)
 
     $peliculas = Pelicula::peliculasPorActorDirectorId($order, $ascdesc, $value);
 
-    return getDivPeliculas($peliculas, $limit, 'actors', $value);
+    return getDivPeliculas($peliculas, $limit, 'actor', $value, $order, $ascdesc);
+}
+
+function listadoPelisActoresDirectores2($order, $ascdesc, $ads, $limit=NULL)
+{
+
+    $peliculas = Pelicula::peliculasPorActorDirectorId2($order, $ascdesc, $ads);
+
+    return getDivPeliculas($peliculas, $limit, null, null, $order, $ascdesc);
 }
 
 function listaPeliculas($order, $ascdesc, $limit=NULL, $table, $value)
 {
     $peliculas = Pelicula::listaPeliculas($order, $ascdesc, $limit);
 
-    return getDivPeliculas($peliculas, $limit, $table, $value);
+    return getDivPeliculas($peliculas, $limit, $table, $value, $order, $ascdesc);
 }
 
 function listaPeliculasVer($order, $ascdesc, $user, $limit=NULL)
 {
     $peliculas = Pelicula::listaPeliculasVer($order, $ascdesc ,$user, $limit);
 
-    return getDivPeliculas($peliculas, $limit, 'ver_tarde' ,$user);
+    return getDivPeliculas($peliculas, $limit, 'ver_tarde' ,$user, $order, $ascdesc);
 }
 
 function listaPeliculasCompradas($order, $ascdesc, $user, $limit=NULL)
 {
     $peliculas = Pelicula::listaPeliculasCompradas($order, $ascdesc ,$user, $limit);
 
-    return getDivPeliculas($peliculas, $limit, 'ver_tarde' ,$user);
+    return getDivPeliculas($peliculas, $limit, 'ver_tarde' ,$user, $order, $ascdesc);
 }
 
 function listaPeliculasGen($order, $ascdesc, $id, $limit=NULL)
 {
     $peliculas = Pelicula::listaPeliculasGen($order, $ascdesc, $id, $limit);
 	
-    return getDivPeliculas($peliculas, $limit, 'genre', $id);
+    return getDivPeliculas($peliculas, $limit, 'genre', $id, $order, $ascdesc);
+}
+
+function listaPeliculasGen2($order, $ascdesc, $genres, $limit=NULL)
+{
+    $peliculas = Pelicula::listaPeliculasGen2($order, $ascdesc, $genres, $limit);
+	
+    return getDivPeliculas($peliculas, $limit, null, null, $order, $ascdesc);
 }
 
 function buscaPeliculaPorId($id)
